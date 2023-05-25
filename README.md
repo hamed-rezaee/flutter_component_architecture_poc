@@ -1,2 +1,2 @@
 ![Diagram](diagram.png)
-![Diagram](deriv_architecture.png.png)
+![Diagram](deriv_architecture.png)
