@@ -2,9 +2,9 @@ import 'package:dart_clean_architecture/domain_layer.dart';
 
 class BaseModel {}
 
-abstract class BaseDataStore<M extends BaseModel> {}
+abstract class BaseDataSource<M extends BaseModel> {}
 
-class DataStore implements BaseDataStore {}
+class DataSource implements BaseDataSource {}
 
 abstract class BaseMapper<E extends BaseEntity, M extends BaseModel> {}
 

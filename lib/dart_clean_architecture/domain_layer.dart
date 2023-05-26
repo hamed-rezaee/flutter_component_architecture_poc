@@ -4,9 +4,9 @@ class BaseEntity {}
 
 abstract class BaseRepository<E extends BaseEntity, M extends BaseModel> {
   final BaseMapper mapper;
-  final BaseDataStore dataStore;
+  final BaseDataSource dataSource;
 
-  BaseRepository(this.mapper, this.dataStore);
+  BaseRepository(this.mapper, this.dataSource);
 }
 
 abstract class BaseService {
