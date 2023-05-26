@@ -66,7 +66,7 @@ In summary, presented architecture follows a layered architecture where the data
 
 ### Diagram Overview
 
-![Diagram](deriv_architecture.png)
+![Diagram](deriv_architecture.drawio.png)
 
 ### Class Relations
 
