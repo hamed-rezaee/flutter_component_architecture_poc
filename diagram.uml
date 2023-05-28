@@ -1,0 +1,81 @@
+@startuml
+!theme plain
+
+set namespaceSeparator ::
+
+left to right direction
+
+abstract class "DataLayer::BaseModel" {
+}
+
+class "DataLayer::Mapper" {
+}
+
+"DomainLayer::BaseMapper" <|-- "DataLayer::Mapper"
+
+class "DataLayer::DataSource" {
+}
+
+"DomainLayer::BaseDataSource" <|-- "DataLayer::DataSource"
+
+class "DataLayer::Repository" {
+  +BaseDataSource<BaseModel> dataSource
+  +BaseMapper<BaseEntity, BaseModel> mapper
+}
+
+"DataLayer::Repository" o-- "DomainLayer::BaseDataSource<BaseModel>"
+"DataLayer::Repository" o-- "DomainLayer::BaseMapper<BaseEntity, BaseModel>"
+"DomainLayer::BaseRepository" <|-- "DataLayer::Repository"
+
+abstract class "DomainLayer::BaseEntity" {
+}
+
+abstract class "DomainLayer::BaseMapper" {
+}
+
+abstract class "DomainLayer::BaseDataSource" {
+}
+
+abstract class "DomainLayer::BaseRepository" {
+  +BaseMapper<BaseEntity, BaseModel> mapper
+  +BaseDataSource<BaseModel> dataSource
+}
+
+"DomainLayer::BaseRepository" o-- "DomainLayer::BaseMapper<BaseEntity, BaseModel>"
+"DomainLayer::BaseRepository" o-- "DomainLayer::BaseDataSource<BaseModel>"
+
+abstract class "DomainLayer::BaseService" {
+  +BaseRepository<BaseEntity, BaseModel> repository
+}
+
+"DomainLayer::BaseService" o-- "DomainLayer::BaseRepository<BaseEntity, BaseModel>"
+
+class "PresentationLayer::Service" {
+  +BaseRepository<BaseEntity, BaseModel> repository
+}
+
+"PresentationLayer::Service" o-- "DomainLayer::BaseRepository<BaseEntity, BaseModel>"
+"DomainLayer::BaseService" <|-- "PresentationLayer::Service"
+
+class "PresentationLayer::ExtendedBloc" {
+}
+
+"PresentationLayer::Bloc" <|-- "PresentationLayer::ExtendedBloc"
+
+class "PresentationLayer::Bloc" {
+  +BaseService service
+}
+
+"PresentationLayer::Bloc" o-- "DomainLayer::BaseService"
+
+class "PresentationLayer::Widget" {
+}
+
+class "PresentationLayer::Page" {
+  +ExtendedBloc bloc
+  +Widget widget
+}
+
+"PresentationLayer::Page" o-- "PresentationLayer::ExtendedBloc"
+"PresentationLayer::Page" o-- "PresentationLayer::Widget"
+@enduml

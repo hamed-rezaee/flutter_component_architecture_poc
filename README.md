@@ -66,4 +66,5 @@ In summary, presented architecture follows a layered architecture where the data
 
 ### Overview Diagram
 
-![Diagram](architecture.drawio.png)
+![Architecture](architecture.drawio.png)
+![Diagram](diagram.png)
