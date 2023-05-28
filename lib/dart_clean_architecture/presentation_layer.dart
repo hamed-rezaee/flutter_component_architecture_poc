@@ -3,7 +3,8 @@ import 'package:dart_clean_architecture/dart_clean_architecture/domain_layer.dar
 
 class Service implements BaseService {
   @override
-  BaseRepository get repository => throw UnimplementedError();
+  BaseRepository<BaseEntity, BaseModel> get repository =>
+      throw UnimplementedError();
 }
 
 class ExtendedBloc extends Bloc implements StateListener {
@@ -14,16 +15,16 @@ class ExtendedBloc extends Bloc implements StateListener {
 }
 
 class Bloc {
-  final BaseService service;
-
   Bloc(this.service);
+
+  final BaseService service;
 }
 
 class Widget {}
 
 class Page {
+  Page(this.bloc, this.widget);
+
   final ExtendedBloc bloc;
   final Widget widget;
-
-  Page(this.bloc, this.widget);
 }

@@ -1,15 +1,15 @@
 import 'package:dart_clean_architecture/dart_clean_architecture/domain_layer.dart';
 
-abstract class BaseModel {}
+class Model implements BaseModel {}
 
-class Mapper implements BaseMapper {}
+class Mapper implements BaseMapper<BaseEntity, BaseModel> {}
 
-class DataSource implements BaseDataSource {}
+class DataSource implements BaseDataSource<BaseModel> {}
 
-class Repository implements BaseRepository {
+class Repository implements BaseRepository<BaseEntity, BaseModel> {
   @override
-  BaseDataSource<BaseModel> get dataSource => throw UnimplementedError();
+  DataSource get dataSource => throw UnimplementedError();
 
   @override
-  BaseMapper<BaseEntity, BaseModel> get mapper => throw UnimplementedError();
+  Mapper get mapper => throw UnimplementedError();
 }

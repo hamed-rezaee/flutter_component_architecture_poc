@@ -1,11 +1,39 @@
 @startuml
-!theme plain
 
-set namespaceSeparator ::
+!theme plain
 
 left to right direction
 
-abstract class "DataLayer::BaseModel" {
+set namespaceSeparator ::
+
+abstract class "BlocManager::BaseStateListener" {
+}
+
+class "BlocManager::StateListener" {
+  +void onState()
+}
+
+class "PresentationLayer::ExtendedBloc" {
+  +void onState()
+}
+
+abstract class "DomainLayer::BaseEntity" {
+}
+
+class "DomainLayer::Entity" {
+}
+
+"DomainLayer::BaseEntity" <|-- "DomainLayer::Entity"
+
+abstract class "DomainLayer::BaseModel" {
+}
+
+class "DataLayer::Model" {
+}
+
+"DomainLayer::BaseModel" <|-- "DataLayer::Model"
+
+abstract class "DomainLayer::BaseMapper" {
 }
 
 class "DataLayer::Mapper" {
@@ -13,54 +41,35 @@ class "DataLayer::Mapper" {
 
 "DomainLayer::BaseMapper" <|-- "DataLayer::Mapper"
 
+abstract class "DomainLayer::BaseDataSource" {
+}
+
 class "DataLayer::DataSource" {
 }
 
 "DomainLayer::BaseDataSource" <|-- "DataLayer::DataSource"
-
-class "DataLayer::Repository" {
-  +BaseDataSource<BaseModel> dataSource
-  +BaseMapper<BaseEntity, BaseModel> mapper
-}
-
-"DataLayer::Repository" o-- "DomainLayer::BaseDataSource<BaseModel>"
-"DataLayer::Repository" o-- "DomainLayer::BaseMapper<BaseEntity, BaseModel>"
-"DomainLayer::BaseRepository" <|-- "DataLayer::Repository"
-
-abstract class "DomainLayer::BaseEntity" {
-}
-
-abstract class "DomainLayer::BaseMapper" {
-}
-
-abstract class "DomainLayer::BaseDataSource" {
-}
 
 abstract class "DomainLayer::BaseRepository" {
   +BaseMapper<BaseEntity, BaseModel> mapper
   +BaseDataSource<BaseModel> dataSource
 }
 
-"DomainLayer::BaseRepository" o-- "DomainLayer::BaseMapper<BaseEntity, BaseModel>"
-"DomainLayer::BaseRepository" o-- "DomainLayer::BaseDataSource<BaseModel>"
+class "DataLayer::Repository" {
+  +DataSource dataSource
+  +Mapper mapper
+}
+
+"DomainLayer::BaseRepository" <|-- "DataLayer::Repository"
 
 abstract class "DomainLayer::BaseService" {
   +BaseRepository<BaseEntity, BaseModel> repository
 }
 
-"DomainLayer::BaseService" o-- "DomainLayer::BaseRepository<BaseEntity, BaseModel>"
-
 class "PresentationLayer::Service" {
   +BaseRepository<BaseEntity, BaseModel> repository
 }
 
-"PresentationLayer::Service" o-- "DomainLayer::BaseRepository<BaseEntity, BaseModel>"
 "DomainLayer::BaseService" <|-- "PresentationLayer::Service"
-
-class "PresentationLayer::ExtendedBloc" {
-}
-
-"PresentationLayer::Bloc" <|-- "PresentationLayer::ExtendedBloc"
 
 class "PresentationLayer::Bloc" {
   +BaseService service
@@ -78,4 +87,12 @@ class "PresentationLayer::Page" {
 
 "PresentationLayer::Page" o-- "PresentationLayer::ExtendedBloc"
 "PresentationLayer::Page" o-- "PresentationLayer::Widget"
+
+"DomainLayer::BaseRepository" o-- "DomainLayer::BaseMapper<BaseEntity, BaseModel>"
+"DomainLayer::BaseRepository" o-- "DomainLayer::BaseDataSource<BaseModel>"
+"PresentationLayer::Service" o-- "DomainLayer::BaseRepository<BaseEntity, BaseModel>"
+"DataLayer::Repository" o-- "DataLayer::DataSource"
+"DataLayer::Repository" o-- "DataLayer::Mapper"
+"BlocManager::StateListener" <|-- "PresentationLayer::ExtendedBloc"
+
 @enduml
