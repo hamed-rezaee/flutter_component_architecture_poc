@@ -1,3 +1,4 @@
+import 'package:dart_clean_architecture/dart_clean_architecture/bloc_manager.dart';
 import 'package:dart_clean_architecture/dart_clean_architecture/domain_layer.dart';
 
 class Service implements BaseService {
@@ -5,8 +6,11 @@ class Service implements BaseService {
   BaseRepository get repository => throw UnimplementedError();
 }
 
-class ExtendedBloc extends Bloc {
+class ExtendedBloc extends Bloc implements StateListener {
   ExtendedBloc(super.service);
+
+  @override
+  void onState() {}
 }
 
 class Bloc {
