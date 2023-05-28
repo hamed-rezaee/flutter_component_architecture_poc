@@ -1,14 +1,11 @@
 name: dart_clean_architecture
-description: A sample command-line application.
+description: A proposal for Flutter app architecture based on Clean architecture.
+
 version: 1.0.0
-# repository: https://github.com/my_org/my_repo
 
 environment:
-  sdk: '>=2.19.6 <3.0.0'
-
-# dependencies:
-#   path: ^1.8.0
+  sdk: ">=2.19.6 <3.0.0"
 
 dev_dependencies:
-  lints: ^2.0.0
+  lints: ^1.0.0
   test: ^1.21.0

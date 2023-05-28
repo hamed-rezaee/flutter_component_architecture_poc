@@ -64,6 +64,6 @@ This class represents a page in the presentation layer. It typically brings toge
 
 In summary, presented architecture follows a layered architecture where the data layer handles data retrieval and persistence, the domain layer contains the business logic and entities, and the presentation layer focuses on UI components and user interactions. The relationships between the classes allow for separation of concerns and maintainability of the codebase.
 
-### Diagram Overview
+### Overview Diagram
 
-![Diagram](deriv_architecture.drawio.png)
+![Diagram](architecture.drawio.png)
