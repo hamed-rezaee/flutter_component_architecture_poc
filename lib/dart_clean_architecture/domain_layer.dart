@@ -1,6 +1,10 @@
-import 'package:dart_clean_architecture/data_layer.dart';
+import 'package:dart_clean_architecture/dart_clean_architecture/data_layer.dart';
 
-class BaseEntity {}
+abstract class BaseEntity {}
+
+abstract class BaseMapper<E extends BaseEntity, M extends BaseModel> {}
+
+abstract class BaseDataSource<M extends BaseModel> {}
 
 abstract class BaseRepository<E extends BaseEntity, M extends BaseModel> {
   final BaseMapper mapper;
@@ -14,5 +18,3 @@ abstract class BaseService {
 
   BaseService(this.repository);
 }
-
-class Service implements BaseService {}

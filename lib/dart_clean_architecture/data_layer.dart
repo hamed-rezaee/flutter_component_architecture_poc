@@ -1,13 +1,15 @@
-import 'package:dart_clean_architecture/domain_layer.dart';
+import 'package:dart_clean_architecture/dart_clean_architecture/domain_layer.dart';
 
-class BaseModel {}
+abstract class BaseModel {}
 
-abstract class BaseDataSource<M extends BaseModel> {}
+class Mapper implements BaseMapper {}
 
 class DataSource implements BaseDataSource {}
 
-abstract class BaseMapper<E extends BaseEntity, M extends BaseModel> {}
+class Repository implements BaseRepository {
+  @override
+  BaseDataSource<BaseModel> get dataSource => throw UnimplementedError();
 
-class Repository implements BaseRepository {}
-
-class Mapper implements BaseMapper {}
+  @override
+  BaseMapper<BaseEntity, BaseModel> get mapper => throw UnimplementedError();
+}

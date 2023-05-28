@@ -1,4 +1,13 @@
-import 'package:dart_clean_architecture/domain_layer.dart';
+import 'package:dart_clean_architecture/dart_clean_architecture/domain_layer.dart';
+
+class Service implements BaseService {
+  @override
+  BaseRepository get repository => throw UnimplementedError();
+}
+
+class ExtendedBloc extends Bloc {
+  ExtendedBloc(super.service);
+}
 
 class Bloc {
   final BaseService service;
@@ -9,7 +18,7 @@ class Bloc {
 class Widget {}
 
 class Page {
-  final Bloc bloc;
+  final ExtendedBloc bloc;
   final Widget widget;
 
   Page(this.bloc, this.widget);
