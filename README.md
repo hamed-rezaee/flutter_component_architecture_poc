@@ -2,47 +2,66 @@
 
 This architecture follows a clean architecture pattern and consists of three main layers: the presentation layer, the domain layer, and the data layer. Each layer has its own set of classes and responsibilities, which are briefly described below.
 
-## Presentation Layer
+The architecture is divided into three main layers: the data layer, domain layer, and presentation layer. Each layer has its own set of responsibilities and interacts with the other layers through well-defined interfaces.
 
-The presentation layer is responsible for handling the user interface and user interactions. It consists of the following classes:
+### Data Layer
 
-- `Service`: Implements the `BaseService` interface from the domain layer and acts as a bridge between the presentation layer and the domain layer.
-- `ExtendedBloc`: Extends the `Bloc` class and implements the `StateListener` interface. Handles the presentation logic for a specific feature or screen.
-- `Bloc`: Base class for business logic components. Provides an interface for interacting with the underlying data and business logic.
-- `Widget`: Represents a user interface component in the application.
-- `Page`: Combines a `Bloc` instance with a `Widget` instance to represent a specific screen or page in the application.
+The data layer is responsible for handling data retrieval and storage. It consists of the following components:
 
-## Domain Layer
+- **Model**: The `Model` class represents the data model used in the application. It implements the `BaseModel` interface defined in the domain layer.
 
-The domain layer contains the core business logic and entities of the application. It consists of the following classes:
+- **Mapper**: The `Mapper` class is responsible for mapping between the entities in the domain layer and the models in the data layer. It implements the `BaseMapper` interface, which defines the mapping behavior.
 
-- `BaseEntity`: Abstract class serving as the base class for all domain entities.
-- `BaseMapper`: Abstract class defining the mapping between domain entities and data models.
-- `BaseDataSource`: Abstract class representing a data source for retrieving and manipulating data models.
-- `BaseRepository`: Abstract class acting as an intermediary between the domain layer and the data layer.
-- `BaseService`: Abstract class serving as a base service interface in the domain layer.
+- **DataSource**: The `DataSource` class provides the actual data retrieval and storage implementation. It interacts with external data sources such as databases, APIs, or local storage. It implements the `BaseDataSource` interface, which defines the data source operations.
 
-## Data Layer
+- **Repository**: The `Repository` class acts as a bridge between the data layer and the domain layer. It implements the `BaseRepository` interface and encapsulates the data retrieval logic using the `DataSource` and `Mapper` components. The repository is responsible for fetching data from the data source and mapping it to domain entities.
 
-The data layer is responsible for data persistence and retrieval. It consists of the following classes:
+### Domain Layer
 
-- `BaseModel`: Abstract class representing the data models used in the data layer.
-- `Mapper`: Implements the `BaseMapper` interface from the domain layer. Provides the implementation for converting between domain entities and data models.
-- `DataSource`: Implements the `BaseDataSource` interface from the domain layer. Represents a concrete data source implementation.
-- `Repository`: Implements the `BaseRepository` interface from the domain layer. Provides the data access methods required by the domain layer.
+The domain layer contains the business logic of the application and defines the core entities and interactions. It consists of the following components:
 
-## Bloc Manager
+- **BaseModel**: The `BaseModel` class defines the base model interface, which represents the data model used in the application.
 
-The `Bloc Manager` is a separate module or package that provides classes related to managing business logic components and their states. It consists of the following class:
+- **BaseEntity**: The `BaseEntity` class defines the base entity interface, which represents the domain entities used in the application.
 
-- `BaseStateListener`: Abstract class defining the contract for a state listener.
-- `StateListener`: Concrete implementation of a state listener.
+- **BaseMapper**: The `BaseMapper` class defines the base mapper interface, which specifies the mapping behavior between domain entities and data models.
 
-To use this architecture, you can create your own implementations of the various abstract classes based on your specific application requirements. You can extend the base classes provided in each layer and implement the necessary methods and logic.
+- **BaseDataSource**: The `BaseDataSource` class defines the base data source interface, which declares the data retrieval and storage operations.
 
-Please note that some classes in the provided code are incomplete and throw `UnimplementedError`. You will need to complete those classes by providing the necessary implementations for the abstract methods and properties.
+- **BaseRepository**: The `BaseRepository` class defines the base repository interface, which encapsulates the data retrieval logic and provides an abstraction for accessing data from the data source. It depends on the `BaseMapper` and `BaseDataSource` interfaces.
 
-Overall, this architecture aims to separate concerns and maintain a clear separation of layers, allowing for easier maintenance, testing, and scalability of the application.
+- **BaseService**: The `BaseService` class defines the base service interface, which encapsulates the business logic operations. It depends on the `BaseRepository` interface.
+
+### Presentation Layer
+
+The presentation layer is responsible for displaying the user interface and handling user interactions. It consists of the following components:
+
+- **Entity**: The `Entity` class represents the domain entity used in the presentation layer. It implements the `BaseEntity` interface.
+
+- **Service**: The `Service` class implements the `BaseService` interface and provides the implementation of the business logic operations. It depends on the `BaseRepository` interface.
+
+- **ExtendedBloc**: The `ExtendedBloc` class extends the `Bloc` class and implements the `StateListener` interface. It represents a specific type of business logic component in the presentation layer. It interacts with the `Service` and handles state changes. It implements the `onState()` method defined in the `StateListener` interface.
+
+- **Bloc**: The `Bloc` class represents a general business logic component in the presentation layer. It interacts with the `Service` and encapsulates the business logic operations.
+
+- **Widget**: The `Widget` class represents a UI component in the presentation layer.
+
+- **Page**: The `Page` class represents a screen or page in the application. It combines a `Bloc` and a `Widget` to bind the business logic and the UI together.
+
+## Usage
+
+To use this architecture in your application, you can follow these steps:
+
+1. Define your domain entities by implementing the `BaseEntity` interface.
+2. Create data models by extending the `BaseModel` class and defining the necessary properties.
+3. Implement the `BaseMapper` interface to define the mapping behavior between your domain entities and data models.
+4. Implement the `BaseDataSource` interface to provide the data retrieval and storage implementation.
+5. Implement the `BaseRepository` interface by extending the `BaseRepository` class and providing the necessary `Mapper` and `DataSource` instances.
+6. Implement the `BaseService` interface by extending the `BaseService` class and providing the necessary `Repository` instance.
+7. Create your UI components (`Widget` classes) and business logic components (`Bloc` classes) based on your application requirements.
+8. Combine the business logic and UI components using the `Page` class to create screens or pages in your application.
+
+Ensure that you properly define dependencies between the layers and use interfaces to enable loose coupling and easier testing.
 
 ### Overview Diagram
 
