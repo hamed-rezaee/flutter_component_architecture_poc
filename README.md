@@ -66,4 +66,7 @@ Ensure that you properly define dependencies between the layers and use interfac
 ### Overview Diagram
 
 ![Architecture](architecture.drawio.png)
+
+### UML Diagram
+
 ![Diagram](diagram.png)
