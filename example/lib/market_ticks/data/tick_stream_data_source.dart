@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:web_socket_channel/io.dart';
@@ -12,11 +13,16 @@ class TickStreamDataSource extends BaseDataSource {
 
     channel.sink.add(json.encode(<String, dynamic>{'ticks': symbol}));
 
-    return channel.stream
-        .map<Map<String, dynamic>>((dynamic event) => json.decode(event))
-        .where(
-          (Map<String, dynamic> event) =>
-              event['msg_type'] == 'tick' && event['tick']['symbol'] == symbol,
-        );
+    return channel.stream.transform(
+      StreamTransformer<dynamic, Map<String, dynamic>>.fromHandlers(
+        handleData: (dynamic event, EventSink<Map<String, dynamic>> sink) {
+          final Map<String, dynamic> data = json.decode(event);
+
+          if (data['msg_type'] == 'tick' && data['tick']['symbol'] == symbol) {
+            sink.add(data['tick']);
+          }
+        },
+      ),
+    );
   }
 }
