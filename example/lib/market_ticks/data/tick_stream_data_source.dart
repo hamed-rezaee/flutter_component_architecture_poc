@@ -12,13 +12,11 @@ class TickStreamDataSource extends BaseDataSource {
 
     channel.sink.add(json.encode(<String, dynamic>{'ticks': symbol}));
 
-    return channel.stream.where(
-      (dynamic event) {
-        final Map<String, dynamic> eventMap = json.decode(event);
-
-        return eventMap['msg_type'] == 'tick' &&
-            eventMap['tick']['symbol'] == symbol;
-      },
-    ).map((dynamic event) => json.decode(event)['tick']);
+    return channel.stream
+        .map<Map<String, dynamic>>((dynamic event) => json.decode(event))
+        .where(
+          (Map<String, dynamic> event) =>
+              event['msg_type'] == 'tick' && event['tick']['symbol'] == symbol,
+        );
   }
 }

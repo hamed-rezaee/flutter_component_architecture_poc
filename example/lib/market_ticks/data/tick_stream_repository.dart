@@ -10,6 +10,6 @@ class TickStreamRepoistory extends BaseRepository {
   Stream<TickStreamEntity> getTickStream(String symbol) =>
       (dataSource as TickStreamDataSource).getTickStream(symbol).map(
             (Map<String, dynamic> event) => (mapper as TickStreamMapper)
-                .toEntity(TickStreamModel.fromJson(event)),
+                .toEntity(TickStreamModel.fromJson(event['tick'])),
           );
 }
