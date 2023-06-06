@@ -1,7 +1,8 @@
-import 'package:example/market_ticks/presentation/tick_steam_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'extended_tick_stream_cubit.dart';
+import 'tick_steam_widget.dart';
 import 'tick_stream_cubit.dart';
 
 class TickStreamPage extends StatelessWidget {
@@ -9,9 +10,9 @@ class TickStreamPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<TickSteamCubit>().getTickStream('R_100');
+    context.read<ExtendedTickStreamCubit>().getTickStream('R_100');
 
-    return BlocBuilder<TickSteamCubit, TickStreamState>(
+    return BlocBuilder<ExtendedTickStreamCubit, TickStreamState>(
       builder: (BuildContext context, TickStreamState state) {
         if (state is TickStreamInitialState) {
           return const Center(child: Text('Initial State'));

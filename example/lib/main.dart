@@ -1,16 +1,16 @@
-import 'package:example/market_ticks/data/tick_stream_mapper.dart';
-import 'package:example/market_ticks/data/tick_stream_repository.dart';
-import 'package:example/market_ticks/presentation/tick_stream_page.dart';
-import 'package:example/market_ticks/presentation/tick_stream_cubit.dart';
-import 'package:example/market_ticks/presentation/tick_stream_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'market_ticks/data/tick_stream_data_source.dart';
+import 'market_ticks/data/tick_stream_mapper.dart';
+import 'market_ticks/data/tick_stream_repository.dart';
+import 'market_ticks/presentation/extended_tick_stream_cubit.dart';
+import 'market_ticks/presentation/tick_stream_page.dart';
+import 'market_ticks/presentation/tick_stream_service.dart';
 
 void main() => runApp(
-      BlocProvider<TickSteamCubit>(
-        create: (BuildContext context) => TickSteamCubit(
+      BlocProvider<ExtendedTickStreamCubit>(
+        create: (BuildContext context) => ExtendedTickStreamCubit(
           TickStreamService(
             TickStreamRepoistory(TickStreamMapper(), TickStreamDataSource()),
           ),
