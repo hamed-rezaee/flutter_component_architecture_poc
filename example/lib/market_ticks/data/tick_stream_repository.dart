@@ -5,18 +5,11 @@ import 'tick_stream_mapper.dart';
 import 'tick_stream_model.dart';
 
 class TickStreamRepoistory extends BaseRepository {
-  TickStreamRepoistory(TickStreamMapper mapper, TickStreamDataSource dataSource)
-      : super(mapper, dataSource);
-
-  @override
-  TickStreamMapper get mapper => TickStreamMapper();
-
-  @override
-  TickStreamDataSource get dataSource => TickStreamDataSource();
+  TickStreamRepoistory(super.mapper, super.dataSource);
 
   Stream<TickStreamEntity> getTickStream(String symbol) =>
-      dataSource.getTickStream(symbol).map(
-            (Map<String, dynamic> event) =>
-                mapper.toEntity(TickStreamModel.fromJson(event)),
+      (dataSource as TickStreamDataSource).getTickStream(symbol).map(
+            (Map<String, dynamic> event) => (mapper as TickStreamMapper)
+                .toEntity(TickStreamModel.fromJson(event)),
           );
 }

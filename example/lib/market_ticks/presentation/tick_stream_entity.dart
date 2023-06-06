@@ -18,8 +18,4 @@ class TickStreamEntity extends BaseEntity {
   final int pipSize;
   final double quote;
   final String symbol;
-
-  @override
-  String toString() =>
-      'TickStreamEntity(ask: $ask, bid: $bid, epoch: $epoch, id: $id, pipSize: $pipSize, quote: $quote, symbol: $symbol)';
 }
