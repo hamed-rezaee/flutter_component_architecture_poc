@@ -67,6 +67,10 @@ Ensure that you properly define dependencies between the layers and use interfac
 
 ![Architecture](architecture.drawio.png)
 
+### Generic Domain Diagram
+
+![Architecture Generic Domain](architecture_generic_domain.drawio.png)
+
 ### UML Diagram
 
 ![Diagram](diagram.png)
