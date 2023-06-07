@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'extended_tick_stream_cubit.dart';
-import 'tick_steam_widget.dart';
 import 'tick_stream_cubit.dart';
+import 'tick_stream_cubit_extended.dart';
+import 'tick_stream_widget.dart';
 
 class TickStreamPage extends StatelessWidget {
   const TickStreamPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    context.read<ExtendedTickStreamCubit>().getTickStream('R_100');
+    context.read<TickStreamCubitExtended>().getTickStream('R_100');
 
-    return BlocBuilder<ExtendedTickStreamCubit, TickStreamState>(
+    return BlocBuilder<TickStreamCubitExtended, TickStreamState>(
       builder: (BuildContext context, TickStreamState state) {
         if (state is TickStreamInitialState) {
           return const Center(child: Text('Initial State'));
