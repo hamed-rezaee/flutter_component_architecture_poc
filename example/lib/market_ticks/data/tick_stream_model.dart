@@ -1,4 +1,4 @@
-import '../domain/base_model.dart';
+import '../../core/generic_domain/base_model.dart';
 
 class TickStreamModel extends BaseModel {
   TickStreamModel({

@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:isolate';
 
-import '../domain/base_repository.dart';
+import '../../core/generic_domain/base_repository.dart';
 import '../presentation/tick_stream_entity.dart';
 import 'tick_stream_data_source.dart';
 import 'tick_stream_mapper.dart';

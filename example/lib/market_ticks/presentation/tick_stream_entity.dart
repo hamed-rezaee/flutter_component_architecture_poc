@@ -1,4 +1,4 @@
-import '../domain/base_entity.dart';
+import '../../core/generic_domain/base_entity.dart';
 
 class TickStreamEntity extends BaseEntity {
   TickStreamEntity({
