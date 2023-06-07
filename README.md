@@ -67,6 +67,9 @@ Ensure that you properly define dependencies between the layers and use interfac
 
 ![Architecture](architecture.drawio.png)
 
+Since `Domain` layer is independent of other layers and all classes in `Domain` layer are interfaces, we can move `Domain` layer to `Core` module and use it as a dependency in other modules.
+By doing this, features don't need to implement `Domain` layer interfaces and can use them directly.
+
 ### Generic Domain Diagram
 
 ![Architecture Generic Domain](architecture_generic_domain.drawio.png)
