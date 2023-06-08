@@ -1,5 +1,4 @@
 @startuml
-
 !theme aws-orange
 !theme plain
 
@@ -7,45 +6,49 @@ set namespaceSeparator ::
 
 left to right direction
 
-abstract class "State Listeners::ConnectivityStateListener" {
-  +void onConnectivityChanged()
+abstract class "Core::Contracts::Data::BaseModel" {
 }
 
-abstract class "Domain::BaseRepository" {
+abstract class "Core::Contracts::Domain::BaseRepository" {
   +BaseMapper<BaseEntity, BaseModel> mapper
   +BaseDataSource dataSource
 }
 
-"Domain::BaseRepository" o-- "Domain::Base Mapper::BaseMapper<BaseEntity, BaseModel>"
-"Domain::BaseRepository" o-- "Domain::BaseDataSource"
+"Core::Contracts::Domain::BaseRepository" o-- "Core::Contracts::Domain::BaseMapper<BaseEntity, BaseModel>"
+"Core::Contracts::Domain::BaseRepository" o-- "Core::Contracts::Domain::BaseDataSource"
 
-abstract class "Domain::Base Mapper::BaseMapper" {
+abstract class "Core::Contracts::Domain::BaseMapper" {
   +M toModel()
   +E toEntity()
 }
 
-abstract class "Domain::BaseModel" {
-}
-
-abstract class "Domain::::BaseService" {
+abstract class "Core::Contracts::Domain::BaseService" {
   +BaseRepository repository
 }
 
-"Domain::::BaseService" o-- "Domain::BaseRepository"
+"Core::Contracts::Domain::BaseService" o-- "Core::Contracts::Domain::BaseRepository"
 
-abstract class "Domain::BaseDataSource" {
+abstract class "Core::Contracts::Domain::BaseDataSource" {
 }
 
-abstract class "Domain::BaseEntity" {
+abstract class "Core::Contracts::Presentation::BaseEntity" {
 }
 
-class "data::TickStreamRepoistory" {
+abstract class "Core::State Listeners::StateListener" {
+  +void onChanged()
+}
+
+class "Market Ticks::Data::TickStreamRepoistory" {
+  +TickStreamMapper mapper
+  +BaseTickStreamDataSource dataSource
   +Stream<TickStreamEntity> getTickStream()
 }
 
-"Domain::BaseRepository" <|-- "data::TickStreamRepoistory"
+"Market Ticks::Data::TickStreamRepoistory" o-- "Market Ticks::Domain::TickStreamMapper"
+"Market Ticks::Data::TickStreamRepoistory" o-- "Market Ticks::Domain::BaseTickStreamDataSource"
+"Market Ticks::Domain::BaseTickStreamRepository" <|-- "Market Ticks::Data::TickStreamRepoistory"
 
-class "data::TickStreamModel" {
+class "Market Ticks::Data::TickStreamModel" {
   +double ask
   +double bid
   +int epoch
@@ -55,41 +58,65 @@ class "data::TickStreamModel" {
   +String symbol
 }
 
-"Domain::BaseModel" <|-- "data::TickStreamModel"
+"Core::Contracts::Data::BaseModel" <|-- "Market Ticks::Data::TickStreamModel"
 
-class "data::TickStreamMapper" {
+class "Market Ticks::Data::TickStreamDataSource" {
+  +Stream<TickStreamModel> getTickStream()
+}
+
+"Market Ticks::Domain::BaseTickStreamDataSource" <|-- "Market Ticks::Data::TickStreamDataSource"
+
+abstract class "Market Ticks::Domain::BaseTickStreamService" {
+  +BaseTickStreamRepository repository
+  +Stream<TickStreamEntity> getTickStream()
+}
+
+"Market Ticks::Domain::BaseTickStreamService" o-- "Market Ticks::Domain::BaseTickStreamRepository"
+"Core::Contracts::Domain::BaseService" <|-- "Market Ticks::Domain::BaseTickStreamService"
+
+class "Market Ticks::Domain::TickStreamMapper" {
   +TickStreamModel toModel()
   +TickStreamEntity toEntity()
 }
 
-"Domain::Base Mapper::BaseMapper" <|-- "data::TickStreamMapper"
+"Core::Contracts::Domain::BaseMapper" <|-- "Market Ticks::Domain::TickStreamMapper"
 
-class "data::TickStreamDataSource" {
-  +Stream<Map<String, dynamic>> getTickStream()
+abstract class "Market Ticks::Domain::BaseTickStreamDataSource" {
+  +Stream<TickStreamModel> getTickStream()
 }
 
-"Domain::BaseDataSource" <|-- "data::TickStreamDataSource"
+"Core::Contracts::Domain::BaseDataSource" <|-- "Market Ticks::Domain::BaseTickStreamDataSource"
 
-class "Presentation::TickStreamService" {
+abstract class "Market Ticks::Domain::BaseTickStreamRepository" {
+  +TickStreamMapper mapper
+  +BaseTickStreamDataSource dataSource
   +Stream<TickStreamEntity> getTickStream()
 }
 
-"Domain::::BaseService" <|-- "Presentation::TickStreamService"
+"Market Ticks::Domain::BaseTickStreamRepository" o-- "Market Ticks::Domain::TickStreamMapper"
+"Market Ticks::Domain::BaseTickStreamRepository" o-- "Market Ticks::Domain::BaseTickStreamDataSource"
+"Core::Contracts::Domain::BaseRepository" <|-- "Market Ticks::Domain::BaseTickStreamRepository"
 
-class "Presentation::TickStreamWidget" {
+class "Market Ticks::Presentation::TickStreamService" {
+  +Stream<TickStreamEntity> getTickStream()
+}
+
+"Market Ticks::Domain::BaseTickStreamService" <|-- "Market Ticks::Presentation::TickStreamService"
+
+class "Market Ticks::Presentation::TickStreamWidget" {
   +TickStreamEntity entity
 }
 
-"Presentation::TickStreamWidget" o-- "Presentation::TickStreamEntity"
+"Market Ticks::Presentation::TickStreamWidget" o-- "Market Ticks::Presentation::TickStreamEntity"
 
-class "Presentation::State::TickStreamCubitExtended" {
-  +void onConnectivityChanged()
+class "Market Ticks::Presentation::State::TickStreamCubitExtended" {
+  +void onChanged()
 }
 
-"Presentation::State::TickStreamCubit" <|-- "Presentation::State::TickStreamCubitExtended"
-"State Listeners::ConnectivityStateListener" <|-- "Presentation::State::TickStreamCubitExtended"
+"Market Ticks::Presentation::State::TickSteamCubit" <|-- "Market Ticks::Presentation::State::TickStreamCubitExtended"
+"Core::State Listeners::StateListener" <|-- "Market Ticks::Presentation::State::TickStreamCubitExtended"
 
-class "Presentation::TickStreamEntity" {
+class "Market Ticks::Presentation::TickStreamEntity" {
   +double ask
   +double bid
   +int epoch
@@ -99,26 +126,24 @@ class "Presentation::TickStreamEntity" {
   +String symbol
 }
 
-"Domain::BaseEntity" <|-- "Presentation::TickStreamEntity"
+"Core::Contracts::Presentation::BaseEntity" <|-- "Market Ticks::Presentation::TickStreamEntity"
 
-class "Presentation::State::TickStreamCubit" {
-  +TickStreamService service
+class "Market Ticks::Presentation::State::TickSteamCubit" {
+  +BaseTickStreamService service
   +void getTickStream()
 }
 
-"Presentation::State::TickStreamCubit" o-- "Presentation::TickStreamService"
+"Market Ticks::Presentation::State::TickSteamCubit" o-- "Market Ticks::Domain::BaseTickStreamService"
 
-abstract class "Presentation::State::TickStreamState" {
+abstract class "Market Ticks::Presentation::State::TickStreamState" {
 }
 
-"Presentation::State::TickStreamState" o-- "Presentation::TickStreamEntity"
-
-class "Presentation::TickStreamPage" {
+class "Market Ticks::Presentation::TickStreamPage" {
 }
 
-"Presentation::TickStreamPage" o-- "Presentation::TickStreamWidget"
-"Presentation::TickStreamPage" o-- "Presentation::State::TickStreamCubitExtended"
-
-"Presentation::State::TickStreamCubit" o-- "Presentation::State::TickStreamState"
+"Market Ticks::Presentation::State::TickSteamCubit" o-- "Market Ticks::Presentation::State::TickStreamState"
+"Market Ticks::Presentation::State::TickStreamState" o-- "Market Ticks::Presentation::TickStreamEntity"
+"Market Ticks::Presentation::TickStreamPage" o-- "Market Ticks::Presentation::TickStreamWidget"
+"Market Ticks::Presentation::TickStreamPage" o-- "Market Ticks::Presentation::State::TickSteamCubit"
 
 @enduml
