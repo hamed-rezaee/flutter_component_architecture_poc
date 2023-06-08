@@ -1,4 +1,4 @@
-import '../../core/contracts/presentation/base_entity.dart';
+import 'package:example/core/contracts/presentation/base_entity.dart';
 
 class TickStreamEntity extends BaseEntity {
   TickStreamEntity({

@@ -1,7 +1,7 @@
-import 'package:example/market_ticks/domain/base_tick_stream_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'tick_stream_entity.dart';
+import 'package:example/features/market_ticks/domain/base_tick_stream_service.dart';
+import 'package:example/features/market_ticks/presentation/tick_stream_entity.dart';
 
 part 'tick_stream_state.dart';
 

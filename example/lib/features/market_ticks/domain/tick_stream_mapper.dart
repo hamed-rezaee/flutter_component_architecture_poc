@@ -1,6 +1,6 @@
-import '../../core/contracts/domain/base_mapper.dart';
-import '../presentation/tick_stream_entity.dart';
-import '../data/tick_stream_model.dart';
+import 'package:example/core/contracts/domain/base_mapper.dart';
+import 'package:example/features/market_ticks/data/tick_stream_model.dart';
+import 'package:example/features/market_ticks/presentation/tick_stream_entity.dart';
 
 class TickStreamMapper
     implements BaseMapper<TickStreamEntity, TickStreamModel> {

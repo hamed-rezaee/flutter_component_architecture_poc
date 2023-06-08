@@ -1,4 +1,5 @@
-import '../../core/contracts/data/base_model.dart';
+
+import 'package:example/core/contracts/data/base_model.dart';
 
 class TickStreamModel extends BaseModel {
   TickStreamModel({

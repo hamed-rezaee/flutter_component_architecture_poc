@@ -2,10 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:isolate';
 
-import 'package:example/market_ticks/data/tick_stream_model.dart';
 import 'package:web_socket_channel/io.dart';
 
-import '../domain/base_tick_stream_data_source.dart';
+import 'package:example/features/market_ticks/data/tick_stream_model.dart';
+import 'package:example/features/market_ticks/domain/base_tick_stream_data_source.dart';
 
 class TickStreamDataSource extends BaseTickStreamDataSource {
   @override

@@ -1,5 +1,5 @@
-import '../../core/state_listeners/state_listener.dart';
-import 'tick_stream_cubit.dart';
+import 'package:example/core/state_listeners/state_listener.dart';
+import 'package:example/features/market_ticks/presentation/tick_stream_cubit.dart';
 
 class TickStreamCubitExtended extends TickSteamCubit implements StateListener {
   TickStreamCubitExtended(super.service);

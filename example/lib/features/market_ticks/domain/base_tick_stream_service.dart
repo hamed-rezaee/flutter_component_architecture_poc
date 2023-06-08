@@ -1,7 +1,8 @@
-import 'package:example/market_ticks/domain/base_tick_stream_repository.dart';
 
-import '../../core/contracts/domain/base_service.dart';
-import '../presentation/tick_stream_entity.dart';
+
+import 'package:example/core/contracts/domain/base_service.dart';
+import 'package:example/features/market_ticks/domain/base_tick_stream_repository.dart';
+import 'package:example/features/market_ticks/presentation/tick_stream_entity.dart';
 
 abstract class BaseTickStreamService implements BaseService {
   BaseTickStreamService(this.repository);
