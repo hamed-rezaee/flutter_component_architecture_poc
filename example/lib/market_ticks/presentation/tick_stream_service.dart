@@ -1,4 +1,4 @@
-import '../../core/generic_domain/base_service.dart';
+import '../../core/domain_contracts/base_service.dart';
 import '../data/tick_stream_repository.dart';
 import 'tick_stream_entity.dart';
 

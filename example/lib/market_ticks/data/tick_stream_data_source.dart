@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:web_socket_channel/io.dart';
 
-import '../../core/generic_domain/base_data_source.dart';
+import '../../core/domain_contracts/base_data_source.dart';
 
 class TickStreamDataSource extends BaseDataSource {
   Stream<Map<String, dynamic>> getTickStream(String symbol) {

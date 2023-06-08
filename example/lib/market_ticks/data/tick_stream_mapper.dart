@@ -1,4 +1,4 @@
-import '../../core/generic_domain/base_mapper.dart';
+import '../../core/domain_contracts/base_mapper.dart';
 import '../presentation/tick_stream_entity.dart';
 import 'tick_stream_model.dart';
 
