@@ -1,54 +1,51 @@
 @startuml
-!theme aws-orange
-!theme plain
+!theme sketchy-outline
 
 set namespaceSeparator ::
 
-left to right direction
-
-abstract class "Core::Contracts::Data::BaseModel" {
+abstract class "Core::Contracts::BaseModel" {
 }
 
-abstract class "Core::Contracts::Domain::BaseRepository" {
+abstract class "Core::Contracts::BaseRepository" {
   +BaseMapper<BaseEntity, BaseModel> mapper
   +BaseDataSource dataSource
 }
 
-"Core::Contracts::Domain::BaseRepository" o-- "Core::Contracts::Domain::BaseMapper<BaseEntity, BaseModel>"
-"Core::Contracts::Domain::BaseRepository" o-- "Core::Contracts::Domain::BaseDataSource"
+"Core::Contracts::BaseRepository" o-- "Core::Contracts::BaseMapper<BaseEntity, BaseModel>"
+"Core::Contracts::BaseRepository" o-- "Core::Contracts::BaseDataSource"
 
-abstract class "Core::Contracts::Domain::BaseMapper" {
+abstract class "Core::Contracts::BaseMapper" {
   +M toModel()
   +E toEntity()
 }
 
-abstract class "Core::Contracts::Domain::BaseService" {
+abstract class "Core::Contracts::BaseService" {
   +BaseRepository repository
 }
 
-"Core::Contracts::Domain::BaseService" o-- "Core::Contracts::Domain::BaseRepository"
+"Core::Contracts::BaseService" o-- "Core::Contracts::BaseRepository"
 
-abstract class "Core::Contracts::Domain::BaseDataSource" {
+abstract class "Core::Contracts::BaseDataSource" {
 }
 
-abstract class "Core::Contracts::Presentation::BaseEntity" {
+abstract class "Core::Contracts::BaseEntity" {
 }
 
 abstract class "Core::State Listeners::StateListener" {
   +void onChanged()
 }
 
-class "Market Ticks::Data::TickStreamRepoistory" {
-  +TickStreamMapper mapper
-  +BaseTickStreamDataSource dataSource
-  +Stream<TickStreamEntity> getTickStream()
+class "Feature::Data::FeatureRepoistory" {
+  +FeatureMapper mapper
+  +BaseFeatureDataSource dataSource
+  +Stream<FeatureEntity> doSomeAction()
 }
 
-"Market Ticks::Data::TickStreamRepoistory" o-- "Market Ticks::Domain::TickStreamMapper"
-"Market Ticks::Data::TickStreamRepoistory" o-- "Market Ticks::Domain::BaseTickStreamDataSource"
-"Market Ticks::Domain::BaseTickStreamRepository" <|-- "Market Ticks::Data::TickStreamRepoistory"
+"Feature::Data::FeatureRepoistory" o-- "Feature::Domain::FeatureMapper"
+"Feature::Data::FeatureRepoistory" o-- "Feature::Domain::BaseFeatureDataSource"
+"Feature::Domain::BaseFeatureRepository" <|-- "Feature::Data::FeatureRepoistory"
 
-class "Market Ticks::Data::TickStreamModel" {
+class "Feature::Data::FeatureModel" {
   +double ask
   +double bid
   +int epoch
@@ -58,65 +55,65 @@ class "Market Ticks::Data::TickStreamModel" {
   +String symbol
 }
 
-"Core::Contracts::Data::BaseModel" <|-- "Market Ticks::Data::TickStreamModel"
+"Core::Contracts::BaseModel" <|-- "Feature::Data::FeatureModel"
 
-class "Market Ticks::Data::TickStreamDataSource" {
-  +Stream<TickStreamModel> getTickStream()
+class "Feature::Data::FeatureDataSource" {
+  +Stream<FeatureModel> doSomeAction()
 }
 
-"Market Ticks::Domain::BaseTickStreamDataSource" <|-- "Market Ticks::Data::TickStreamDataSource"
+"Feature::Domain::BaseFeatureDataSource" <|-- "Feature::Data::FeatureDataSource"
 
-abstract class "Market Ticks::Domain::BaseTickStreamService" {
-  +BaseTickStreamRepository repository
-  +Stream<TickStreamEntity> getTickStream()
+abstract class "Feature::Domain::BaseFeatureService" {
+  +BaseFeatureRepository repository
+  +Stream<FeatureEntity> doSomeAction()
 }
 
-"Market Ticks::Domain::BaseTickStreamService" o-- "Market Ticks::Domain::BaseTickStreamRepository"
-"Core::Contracts::Domain::BaseService" <|-- "Market Ticks::Domain::BaseTickStreamService"
+"Feature::Domain::BaseFeatureService" o-- "Feature::Domain::BaseFeatureRepository"
+"Core::Contracts::BaseService" <|-- "Feature::Domain::BaseFeatureService"
 
-class "Market Ticks::Domain::TickStreamMapper" {
-  +TickStreamModel toModel()
-  +TickStreamEntity toEntity()
+class "Feature::Domain::FeatureMapper" {
+  +FeatureModel toModel()
+  +FeatureEntity toEntity()
 }
 
-"Core::Contracts::Domain::BaseMapper" <|-- "Market Ticks::Domain::TickStreamMapper"
+"Core::Contracts::BaseMapper" <|-- "Feature::Domain::FeatureMapper"
 
-abstract class "Market Ticks::Domain::BaseTickStreamDataSource" {
-  +Stream<TickStreamModel> getTickStream()
+abstract class "Feature::Domain::BaseFeatureDataSource" {
+  +Stream<FeatureModel> doSomeAction()
 }
 
-"Core::Contracts::Domain::BaseDataSource" <|-- "Market Ticks::Domain::BaseTickStreamDataSource"
+"Core::Contracts::BaseDataSource" <|-- "Feature::Domain::BaseFeatureDataSource"
 
-abstract class "Market Ticks::Domain::BaseTickStreamRepository" {
-  +TickStreamMapper mapper
-  +BaseTickStreamDataSource dataSource
-  +Stream<TickStreamEntity> getTickStream()
+abstract class "Feature::Domain::BaseFeatureRepository" {
+  +FeatureMapper mapper
+  +BaseFeatureDataSource dataSource
+  +Stream<FeatureEntity> doSomeAction()
 }
 
-"Market Ticks::Domain::BaseTickStreamRepository" o-- "Market Ticks::Domain::TickStreamMapper"
-"Market Ticks::Domain::BaseTickStreamRepository" o-- "Market Ticks::Domain::BaseTickStreamDataSource"
-"Core::Contracts::Domain::BaseRepository" <|-- "Market Ticks::Domain::BaseTickStreamRepository"
+"Feature::Domain::BaseFeatureRepository" o-- "Feature::Domain::FeatureMapper"
+"Feature::Domain::BaseFeatureRepository" o-- "Feature::Domain::BaseFeatureDataSource"
+"Core::Contracts::BaseRepository" <|-- "Feature::Domain::BaseFeatureRepository"
 
-class "Market Ticks::Presentation::TickStreamService" {
-  +Stream<TickStreamEntity> getTickStream()
+class "Feature::Presentation::FeatureService" {
+  +Stream<FeatureEntity> doSomeAction()
 }
 
-"Market Ticks::Domain::BaseTickStreamService" <|-- "Market Ticks::Presentation::TickStreamService"
+"Feature::Domain::BaseFeatureService" <|-- "Feature::Presentation::FeatureService"
 
-class "Market Ticks::Presentation::TickStreamWidget" {
-  +TickStreamEntity entity
+class "Feature::Presentation::FeatureWidget" {
+  +FeatureEntity entity
 }
 
-"Market Ticks::Presentation::TickStreamWidget" o-- "Market Ticks::Presentation::TickStreamEntity"
+"Feature::Presentation::FeatureWidget" o-- "Feature::Presentation::FeatureEntity"
 
-class "Market Ticks::Presentation::State::TickStreamCubitExtended" {
+class "Feature::Presentation::State Managment::FeatureCubitExtended" {
   +void onChanged()
 }
 
-"Market Ticks::Presentation::State::TickSteamCubit" <|-- "Market Ticks::Presentation::State::TickStreamCubitExtended"
-"Core::State Listeners::StateListener" <|-- "Market Ticks::Presentation::State::TickStreamCubitExtended"
+"Feature::Presentation::State Managment::FeatureCubit" <|-- "Feature::Presentation::State Managment::FeatureCubitExtended"
+"Core::State Listeners::StateListener" <|-- "Feature::Presentation::State Managment::FeatureCubitExtended"
 
-class "Market Ticks::Presentation::TickStreamEntity" {
+class "Feature::Presentation::FeatureEntity" {
   +double ask
   +double bid
   +int epoch
@@ -126,24 +123,24 @@ class "Market Ticks::Presentation::TickStreamEntity" {
   +String symbol
 }
 
-"Core::Contracts::Presentation::BaseEntity" <|-- "Market Ticks::Presentation::TickStreamEntity"
+"Core::Contracts::BaseEntity" <|-- "Feature::Presentation::FeatureEntity"
 
-class "Market Ticks::Presentation::State::TickSteamCubit" {
-  +BaseTickStreamService service
-  +void getTickStream()
+class "Feature::Presentation::State Managment::FeatureCubit" {
+  +BaseFeatureService service
+  +void doSomeAction()
 }
 
-"Market Ticks::Presentation::State::TickSteamCubit" o-- "Market Ticks::Domain::BaseTickStreamService"
+"Feature::Presentation::State Managment::FeatureCubit" o-- "Feature::Domain::BaseFeatureService"
 
-abstract class "Market Ticks::Presentation::State::TickStreamState" {
+abstract class "Feature::Presentation::State Managment::FeatureState" {
 }
 
-class "Market Ticks::Presentation::TickStreamPage" {
+class "Feature::Presentation::FeaturePage" {
 }
 
-"Market Ticks::Presentation::State::TickSteamCubit" o-- "Market Ticks::Presentation::State::TickStreamState"
-"Market Ticks::Presentation::State::TickStreamState" o-- "Market Ticks::Presentation::TickStreamEntity"
-"Market Ticks::Presentation::TickStreamPage" o-- "Market Ticks::Presentation::TickStreamWidget"
-"Market Ticks::Presentation::TickStreamPage" o-- "Market Ticks::Presentation::State::TickSteamCubit"
+"Feature::Presentation::State Managment::FeatureCubit" o-- "Feature::Presentation::State Managment::FeatureState"
+"Feature::Presentation::State Managment::FeatureState" o-- "Feature::Presentation::FeatureEntity"
+"Feature::Presentation::FeaturePage" o-- "Feature::Presentation::FeatureWidget"
+"Feature::Presentation::FeaturePage" o-- "Feature::Presentation::State Managment::FeatureCubit"
 
 @enduml

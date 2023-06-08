@@ -10,8 +10,6 @@ The data layer is responsible for handling data retrieval and storage. It consis
 
 - **Model**: The `Model` class represents the data model used in the application. It implements the `BaseModel` interface defined in the domain layer.
 
-- **Mapper**: The `Mapper` class is responsible for mapping between the entities in the domain layer and the models in the data layer. It implements the `BaseMapper` interface, which defines the mapping behavior.
-
 - **DataSource**: The `DataSource` class provides the actual data retrieval and storage implementation. It interacts with external data sources such as databases, APIs, or local storage. It implements the `BaseDataSource` interface, which defines the data source operations.
 
 - **Repository**: The `Repository` class acts as a bridge between the data layer and the domain layer. It implements the `BaseRepository` interface and encapsulates the data retrieval logic using the `DataSource` and `Mapper` components. The repository is responsible for fetching data from the data source and mapping it to domain entities.
@@ -24,7 +22,7 @@ The domain layer contains the business logic of the application and defines the 
 
 - **BaseEntity**: The `BaseEntity` class defines the base entity interface, which represents the domain entities used in the application.
 
-- **BaseMapper**: The `BaseMapper` class defines the base mapper interface, which specifies the mapping behavior between domain entities and data models.
+- **Mapper**: The `Mapper` class is responsible for mapping between the entities in the domain layer and the models in the data layer. It implements the `BaseMapper` interface, which defines the mapping behavior.
 
 - **BaseDataSource**: The `BaseDataSource` class defines the base data source interface, which declares the data retrieval and storage operations.
 
