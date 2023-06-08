@@ -17,5 +17,10 @@ class WebSocketConnection {
   void addRequest(Map<String, dynamic> request) =>
       _channel.sink.add(jsonEncode(request));
 
-  Stream<dynamic> get stream => _channel.stream.asBroadcastStream();
+  Stream<dynamic> get stream =>
+      _channel.stream.asBroadcastStream().handleError((dynamic error) {
+        print('WebSocketConnection error: $error');
+
+        throw Exception(error);
+      });
 }

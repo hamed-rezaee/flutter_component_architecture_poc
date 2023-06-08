@@ -1,4 +1,3 @@
-
 import 'package:example/core/contracts/data/base_model.dart';
 
 class TickStreamModel extends BaseModel {
@@ -14,14 +13,24 @@ class TickStreamModel extends BaseModel {
 
   factory TickStreamModel.fromJson(Map<String, dynamic> json) =>
       TickStreamModel(
-        ask: json['ask'],
-        bid: json['bid'],
-        epoch: json['epoch'],
-        id: json['id'],
-        pipSize: json['pip_size'],
-        quote: json['quote'],
-        symbol: json['symbol'],
+        ask: json['ask'] as double,
+        bid: json['bid'] as double,
+        epoch: json['epoch'] as int,
+        id: json['id'] as String,
+        pipSize: json['pip_size'] as int,
+        quote: json['quote'] as double,
+        symbol: json['symbol'] as String,
       );
+
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'ask': ask,
+        'bid': bid,
+        'epoch': epoch,
+        'id': id,
+        'pip_size': pipSize,
+        'quote': quote,
+        'symbol': symbol,
+      };
 
   final double ask;
   final double bid;

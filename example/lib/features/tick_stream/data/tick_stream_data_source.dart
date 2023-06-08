@@ -8,6 +8,10 @@ import 'package:example/features/tick_stream/domain/base_tick_stream_data_source
 
 class TickStreamDataSource extends BaseTickStreamDataSource {
   @override
+  void forgetTickStream(String id) =>
+      WebSocketConnection().addRequest(<String, dynamic>{'forget': id});
+
+  @override
   Stream<TickStreamModel> getTickStream(String symbol) {
     WebSocketConnection().addRequest(<String, dynamic>{'ticks': symbol});
 

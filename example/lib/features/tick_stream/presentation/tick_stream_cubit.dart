@@ -10,6 +10,14 @@ class TickSteamCubit extends Cubit<TickStreamState> {
 
   final BaseTickStreamService service;
 
+  void forgetTickStream() {
+    emit(const TickStreamLoadingState());
+
+    if (state is TickStreamLoadedState) {
+      service.forgetTickStream((state as TickStreamLoadedState).tick.id);
+    }
+  }
+
   void getTickStream(String symbol) {
     emit(const TickStreamLoadingState());
 

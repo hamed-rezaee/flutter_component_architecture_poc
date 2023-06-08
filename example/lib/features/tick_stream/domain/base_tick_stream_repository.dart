@@ -14,5 +14,7 @@ abstract class BaseTickStreamRepository implements BaseRepository {
   @override
   final BaseTickStreamDataSource dataSource;
 
+  void forgetTickStream(String id);
+
   Stream<TickStreamEntity> getTickStream(String symbol);
 }
