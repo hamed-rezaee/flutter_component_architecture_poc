@@ -1,14 +1,14 @@
+import 'package:example/market_ticks/domain/base_tick_stream_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'tick_stream_entity.dart';
-import 'tick_stream_service.dart';
 
 part 'tick_stream_state.dart';
 
 class TickSteamCubit extends Cubit<TickStreamState> {
   TickSteamCubit(this.service) : super(const TickStreamInitialState());
 
-  final TickStreamService service;
+  final BaseTickStreamService service;
 
   void getTickStream(String symbol) {
     emit(const TickStreamLoadingState());

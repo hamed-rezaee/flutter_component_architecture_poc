@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'market_ticks/data/tick_stream_data_source.dart';
-import 'market_ticks/data/tick_stream_mapper.dart';
+import 'market_ticks/domain/tick_stream_mapper.dart';
 import 'market_ticks/data/tick_stream_repository.dart';
 import 'market_ticks/presentation/tick_stream_cubit_extended.dart';
 import 'market_ticks/presentation/tick_stream_page.dart';

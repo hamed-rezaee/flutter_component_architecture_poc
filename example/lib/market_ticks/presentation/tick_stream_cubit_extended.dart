@@ -1,11 +1,10 @@
-import '../../core/state_listeners/connectivity_state_listener.dart';
+import '../../core/state_listeners/state_listener.dart';
 import 'tick_stream_cubit.dart';
 
-class TickStreamCubitExtended extends TickSteamCubit
-    implements ConnectivityStateListener {
+class TickStreamCubitExtended extends TickSteamCubit implements StateListener {
   TickStreamCubitExtended(super.service);
 
   @override
-  void onConnectivityChanged({required bool isConnected}) =>
+  void onChanged({required bool isConnected}) =>
       print('isConnected: $isConnected');
 }

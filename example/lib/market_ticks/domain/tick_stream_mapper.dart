@@ -1,8 +1,9 @@
-import '../../core/domain_contracts/base_mapper.dart';
+import '../../core/contracts/domain/base_mapper.dart';
 import '../presentation/tick_stream_entity.dart';
-import 'tick_stream_model.dart';
+import '../data/tick_stream_model.dart';
 
-class TickStreamMapper extends BaseMapper<TickStreamEntity, TickStreamModel> {
+class TickStreamMapper
+    implements BaseMapper<TickStreamEntity, TickStreamModel> {
   @override
   TickStreamModel toModel(TickStreamEntity entity) => TickStreamModel(
         ask: entity.ask,

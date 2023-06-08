@@ -1,10 +1,11 @@
-import '../../core/domain_contracts/base_service.dart';
-import '../data/tick_stream_repository.dart';
+import 'package:example/market_ticks/domain/base_tick_stream_service.dart';
+
 import 'tick_stream_entity.dart';
 
-class TickStreamService extends BaseService {
+class TickStreamService extends BaseTickStreamService {
   TickStreamService(super.repository);
 
+  @override
   Stream<TickStreamEntity> getTickStream(String symbol) =>
-      (repository as TickStreamRepoistory).getTickStream(symbol);
+      repository.getTickStream(symbol);
 }

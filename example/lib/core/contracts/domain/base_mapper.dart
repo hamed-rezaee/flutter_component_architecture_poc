@@ -1,5 +1,5 @@
-import 'base_entity.dart';
-import 'base_model.dart';
+import '../presentation/base_entity.dart';
+import '../data/base_model.dart';
 
 /// The [BaseMapper] class defines the base mapper interface,
 /// which specifies the mapping behavior between domain entities and data models.
