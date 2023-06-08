@@ -5,45 +5,47 @@
 
 set namespaceSeparator ::
 
-abstract class "core::State Listeners::ConnectivityStateListener" {
+left to right direction
+
+abstract class "State Listeners::ConnectivityStateListener" {
   +void onConnectivityChanged()
 }
 
-abstract class "core::Domain::BaseRepository" {
+abstract class "Domain::BaseRepository" {
   +BaseMapper<BaseEntity, BaseModel> mapper
   +BaseDataSource dataSource
 }
 
-"core::Domain::BaseRepository" o-- "core::Domain::Base Mapper::BaseMapper<BaseEntity, BaseModel>"
-"core::Domain::BaseRepository" o-- "core::Domain::BaseDataSource"
+"Domain::BaseRepository" o-- "Domain::Base Mapper::BaseMapper<BaseEntity, BaseModel>"
+"Domain::BaseRepository" o-- "Domain::BaseDataSource"
 
-abstract class "core::Domain::Base Mapper::BaseMapper" {
+abstract class "Domain::Base Mapper::BaseMapper" {
   +M toModel()
   +E toEntity()
 }
 
-abstract class "core::Domain::BaseModel" {
+abstract class "Domain::BaseModel" {
 }
 
-abstract class "core::Domain::::BaseService" {
+abstract class "Domain::::BaseService" {
   +BaseRepository repository
 }
 
-"core::Domain::::BaseService" o-- "core::Domain::BaseRepository"
+"Domain::::BaseService" o-- "Domain::BaseRepository"
 
-abstract class "core::Domain::BaseDataSource" {
+abstract class "Domain::BaseDataSource" {
 }
 
-abstract class "core::Domain::BaseEntity" {
+abstract class "Domain::BaseEntity" {
 }
 
-class "Market Ticks::data::TickStreamRepoistory" {
+class "data::TickStreamRepoistory" {
   +Stream<TickStreamEntity> getTickStream()
 }
 
-"core::Domain::BaseRepository" <|-- "Market Ticks::data::TickStreamRepoistory"
+"Domain::BaseRepository" <|-- "data::TickStreamRepoistory"
 
-class "Market Ticks::data::TickStreamModel" {
+class "data::TickStreamModel" {
   +double ask
   +double bid
   +int epoch
@@ -53,41 +55,41 @@ class "Market Ticks::data::TickStreamModel" {
   +String symbol
 }
 
-"core::Domain::BaseModel" <|-- "Market Ticks::data::TickStreamModel"
+"Domain::BaseModel" <|-- "data::TickStreamModel"
 
-class "Market Ticks::data::TickStreamMapper" {
+class "data::TickStreamMapper" {
   +TickStreamModel toModel()
   +TickStreamEntity toEntity()
 }
 
-"core::Domain::Base Mapper::BaseMapper" <|-- "Market Ticks::data::TickStreamMapper"
+"Domain::Base Mapper::BaseMapper" <|-- "data::TickStreamMapper"
 
-class "Market Ticks::data::TickStreamDataSource" {
+class "data::TickStreamDataSource" {
   +Stream<Map<String, dynamic>> getTickStream()
 }
 
-"core::Domain::BaseDataSource" <|-- "Market Ticks::data::TickStreamDataSource"
+"Domain::BaseDataSource" <|-- "data::TickStreamDataSource"
 
-class "Market Ticks::Presentation::TickStreamService" {
+class "Presentation::TickStreamService" {
   +Stream<TickStreamEntity> getTickStream()
 }
 
-"core::Domain::::BaseService" <|-- "Market Ticks::Presentation::TickStreamService"
+"Domain::::BaseService" <|-- "Presentation::TickStreamService"
 
-class "Market Ticks::Presentation::TickStreamWidget" {
+class "Presentation::TickStreamWidget" {
   +TickStreamEntity entity
 }
 
-"Market Ticks::Presentation::TickStreamWidget" o-- "Market Ticks::Presentation::TickStreamEntity"
+"Presentation::TickStreamWidget" o-- "Presentation::TickStreamEntity"
 
-class "Market Ticks::Presentation::State::TickStreamCubitExtended" {
+class "Presentation::State::TickStreamCubitExtended" {
   +void onConnectivityChanged()
 }
 
-"Market Ticks::Presentation::State::TickStreamCubit" <|-- "Market Ticks::Presentation::State::TickStreamCubitExtended"
-"core::State Listeners::ConnectivityStateListener" <|-- "Market Ticks::Presentation::State::TickStreamCubitExtended"
+"Presentation::State::TickStreamCubit" <|-- "Presentation::State::TickStreamCubitExtended"
+"State Listeners::ConnectivityStateListener" <|-- "Presentation::State::TickStreamCubitExtended"
 
-class "Market Ticks::Presentation::TickStreamEntity" {
+class "Presentation::TickStreamEntity" {
   +double ask
   +double bid
   +int epoch
@@ -97,47 +99,26 @@ class "Market Ticks::Presentation::TickStreamEntity" {
   +String symbol
 }
 
-"core::Domain::BaseEntity" <|-- "Market Ticks::Presentation::TickStreamEntity"
+"Domain::BaseEntity" <|-- "Presentation::TickStreamEntity"
 
-class "Market Ticks::Presentation::State::TickStreamCubit" {
+class "Presentation::State::TickStreamCubit" {
   +TickStreamService service
   +void getTickStream()
 }
 
-"Market Ticks::Presentation::State::TickStreamCubit" o-- "Market Ticks::Presentation::TickStreamService"
+"Presentation::State::TickStreamCubit" o-- "Presentation::TickStreamService"
 
-abstract class "Market Ticks::Presentation::State::TickStreamState" {
+abstract class "Presentation::State::TickStreamState" {
 }
 
-class "Market Ticks::Presentation::State::TickStreamInitialState" {
+"Presentation::State::TickStreamState" o-- "Presentation::TickStreamEntity"
+
+class "Presentation::TickStreamPage" {
 }
 
-"Market Ticks::Presentation::State::TickStreamState" <|-- "Market Ticks::Presentation::State::TickStreamInitialState"
+"Presentation::TickStreamPage" o-- "Presentation::TickStreamWidget"
+"Presentation::TickStreamPage" o-- "Presentation::State::TickStreamCubitExtended"
 
-class "Market Ticks::Presentation::State::TickStreamLoadingState" {
-}
-
-"Market Ticks::Presentation::State::TickStreamState" <|-- "Market Ticks::Presentation::State::TickStreamLoadingState"
-
-class "Market Ticks::Presentation::State::TickStreamLoadedState" {
-  +TickStreamEntity tick
-}
-
-"Market Ticks::Presentation::State::TickStreamLoadedState" o-- "Market Ticks::Presentation::TickStreamEntity"
-"Market Ticks::Presentation::State::TickStreamState" <|-- "Market Ticks::Presentation::State::TickStreamLoadedState"
-
-class "Market Ticks::Presentation::State::TickStreamErrorState" {
-  +String message
-}
-
-"Market Ticks::Presentation::State::TickStreamState" <|-- "Market Ticks::Presentation::State::TickStreamErrorState"
-
-class "Market Ticks::Presentation::TickStreamPage" {
-}
-
-"Market Ticks::Presentation::TickStreamPage" o-- "Market Ticks::Presentation::TickStreamWidget"
-"Market Ticks::Presentation::TickStreamPage" o-- "Market Ticks::Presentation::State::TickStreamCubitExtended"
-
-"Market Ticks::Presentation::State::TickStreamCubit" o-- "Market Ticks::Presentation::State::TickStreamState"
+"Presentation::State::TickStreamCubit" o-- "Presentation::State::TickStreamState"
 
 @enduml
