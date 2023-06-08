@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:example/features/market_ticks/presentation/tick_stream_entity.dart';
+import 'package:example/features/tick_stream/presentation/tick_stream_entity.dart';
 
 class TickStreamWidget extends StatelessWidget {
   const TickStreamWidget({required this.entity, super.key});
