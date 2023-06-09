@@ -64,8 +64,8 @@ class App extends StatelessWidget {
             padding: EdgeInsets.all(8),
             child: Column(
               children: <Widget>[
-                ActiveSymbolPage(),
-                TickStreamPage(),
+                SizedBox(height: 48, child: ActiveSymbolPage()),
+                Expanded(child: TickStreamPage()),
               ],
             ),
           ),

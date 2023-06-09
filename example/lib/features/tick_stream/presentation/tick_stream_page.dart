@@ -11,21 +11,25 @@ class TickStreamPage extends StatelessWidget {
   const TickStreamPage({super.key});
 
   @override
-  Widget build(BuildContext context) =>
-      BlocBuilder<TickStreamCubitExtended, TickStreamState>(
-        bloc: BlocManager.instance.fetch<TickStreamCubitExtended>(),
-        builder: (BuildContext context, TickStreamState state) {
-          if (state is TickStreamInitialState) {
-            return const Center(child: Text('Initial State'));
-          } else if (state is TickStreamLoadingState) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is TickStreamLoadedState) {
-            return Center(child: TickStreamWidget(entity: state.tick));
-          } else if (state is TickStreamErrorState) {
-            return Center(child: Text(state.message));
-          }
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+        child: BlocBuilder<TickStreamCubitExtended, TickStreamState>(
+          bloc: BlocManager.instance.fetch<TickStreamCubitExtended>(),
+          builder: (BuildContext context, TickStreamState state) {
+            if (state is TickStreamInitialState) {
+              return const Center(
+                child: Text('Please select an active symbol.'),
+              );
+            } else if (state is TickStreamLoadingState) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (state is TickStreamLoadedState) {
+              return Center(child: TickStreamWidget(entity: state.tick));
+            } else if (state is TickStreamErrorState) {
+              return Center(child: Text(state.message));
+            }
 
-          return const Center(child: Text('Unknown State'));
-        },
+            return const Center(child: Text('Unknown State'));
+          },
+        ),
       );
 }

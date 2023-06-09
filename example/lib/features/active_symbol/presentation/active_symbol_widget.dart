@@ -15,17 +15,28 @@ class ActiveSymbolWidget extends StatelessWidget {
   final void Function(ActiveSymbolEntity entity)? onChanged;
 
   @override
-  Widget build(BuildContext context) => DropdownButton<ActiveSymbolEntity>(
-        value: selectedActiveSymbol,
-        items: activeSymbols
-            .map(
-              (ActiveSymbolEntity activeSymbol) =>
-                  DropdownMenuItem<ActiveSymbolEntity>(
-                value: activeSymbol,
-                child: Text(activeSymbol.symbolDisplayName),
-              ),
-            )
-            .toList(),
-        onChanged: (ActiveSymbolEntity? entity) => onChanged?.call(entity!),
+  Widget build(BuildContext context) => DecoratedBox(
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey),
+          borderRadius: BorderRadius.circular(4),
+        ),
+        child: DropdownButton<ActiveSymbolEntity>(
+          isExpanded: true,
+          underline: Container(),
+          value: selectedActiveSymbol,
+          items: activeSymbols
+              .map(
+                (ActiveSymbolEntity activeSymbol) =>
+                    DropdownMenuItem<ActiveSymbolEntity>(
+                  value: activeSymbol,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Text(activeSymbol.symbolDisplayName),
+                  ),
+                ),
+              )
+              .toList(),
+          onChanged: (ActiveSymbolEntity? entity) => onChanged?.call(entity!),
+        ),
       );
 }

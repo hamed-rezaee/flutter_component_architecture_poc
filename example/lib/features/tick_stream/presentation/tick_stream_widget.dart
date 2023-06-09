@@ -11,16 +11,43 @@ class TickStreamWidget extends StatelessWidget {
   Widget build(BuildContext context) => Column(
         children: <Widget>[
           Row(
-            children: <Widget>[const Text('Symbol: '), Text(entity.symbol)],
+            children: <Widget>[
+              const Text(
+                'Symbol: ',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              Text(entity.symbol)
+            ],
           ),
+          const SizedBox(height: 4),
           Row(
-            children: <Widget>[const Text('Quote: '), Text('${entity.quote}')],
+            children: <Widget>[
+              const Text(
+                'Quote: ',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              Text('${entity.quote}')
+            ],
           ),
+          const SizedBox(height: 4),
           Row(
-            children: <Widget>[const Text('Epoch: '), Text('${entity.epoch}')],
+            children: <Widget>[
+              const Text(
+                'Epoch: ',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              Text('${entity.epoch}')
+            ],
           ),
+          const SizedBox(height: 4),
           Row(
-            children: <Widget>[const Text('Id: '), Text(entity.id)],
+            children: <Widget>[
+              const Text(
+                'Id: ',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              Text(entity.id)
+            ],
           ),
         ],
       );
