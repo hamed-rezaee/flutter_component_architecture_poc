@@ -1,3 +1,4 @@
+import 'package:example/features/active_symbol/presentation/active_symbol_entity.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:example/features/tick_stream/domain/base_tick_stream_service.dart';
@@ -10,19 +11,13 @@ class TickSteamCubit extends Cubit<TickStreamState> {
 
   final BaseTickStreamService service;
 
-  void forgetTickStream() {
-    emit(const TickStreamLoadingState());
-
-    if (state is TickStreamLoadedState) {
-      service.forgetTickStream((state as TickStreamLoadedState).tick.id);
-    }
-  }
-
-  void getTickStream(String symbol) {
+  void fetchTickStream(ActiveSymbolEntity symbol) {
     emit(const TickStreamLoadingState());
 
     try {
-      service.getTickStream(symbol).listen((TickStreamEntity tick) {
+      service.forgetTickStream();
+
+      service.fetchTickStream(symbol.symbol).listen((TickStreamEntity tick) {
         emit(TickStreamLoadedState(tick));
       });
     } on Exception catch (e) {

@@ -5,6 +5,6 @@ class TickStreamService extends BaseTickStreamService {
   TickStreamService(super.repository);
 
   @override
-  Stream<TickStreamEntity> getTickStream(String symbol) =>
-      repository.getTickStream(symbol);
+  Stream<TickStreamEntity> fetchTickStream(String symbol) =>
+      repository.fetchTickStream(symbol);
 }

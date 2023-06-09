@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:web_socket_channel/io.dart';
@@ -8,7 +9,9 @@ class WebSocketConnection {
   WebSocketConnection._internal()
       : _channel = IOWebSocketChannel.connect(
           'wss://ws.binaryws.com/websockets/v3?app_id=1089',
-        );
+        ) {
+    _channel.stream.listen((dynamic event) => myStreamController.add(event));
+  }
 
   static final WebSocketConnection _instance = WebSocketConnection._internal();
 
@@ -17,10 +20,8 @@ class WebSocketConnection {
   void addRequest(Map<String, dynamic> request) =>
       _channel.sink.add(jsonEncode(request));
 
-  Stream<dynamic> get stream =>
-      _channel.stream.asBroadcastStream().handleError((dynamic error) {
-        print('WebSocketConnection error: $error');
+  final StreamController<dynamic> myStreamController =
+      StreamController<dynamic>.broadcast();
 
-        throw Exception(error);
-      });
+  Stream<dynamic> get stream => myStreamController.stream;
 }

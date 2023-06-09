@@ -13,8 +13,7 @@ class TickStreamPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) =>
       BlocBuilder<TickStreamCubitExtended, TickStreamState>(
-        bloc: BlocManager.instance.fetch<TickStreamCubitExtended>()
-          ..getTickStream('R_100'),
+        bloc: BlocManager.instance.fetch<TickStreamCubitExtended>(),
         builder: (BuildContext context, TickStreamState state) {
           if (state is TickStreamInitialState) {
             return const Center(child: Text('Initial State'));
