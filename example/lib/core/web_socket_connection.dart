@@ -10,7 +10,7 @@ class WebSocketConnection {
       : _channel = IOWebSocketChannel.connect(
           'wss://ws.binaryws.com/websockets/v3?app_id=1089',
         ) {
-    _channel.stream.listen((dynamic event) => myStreamController.add(event));
+    _channel.stream.listen((dynamic event) => streamController.add(event));
   }
 
   static final WebSocketConnection _instance = WebSocketConnection._internal();
@@ -20,8 +20,8 @@ class WebSocketConnection {
   void addRequest(Map<String, dynamic> request) =>
       _channel.sink.add(jsonEncode(request));
 
-  final StreamController<dynamic> myStreamController =
+  final StreamController<dynamic> streamController =
       StreamController<dynamic>.broadcast();
 
-  Stream<dynamic> get stream => myStreamController.stream;
+  Stream<dynamic> get stream => streamController.stream;
 }

@@ -1,0 +1,322 @@
+@startuml
+set namespaceSeparator ::
+
+left to right direction
+
+abstract class "example::core::contracts::data::base_model.dart::BaseModel" {
+}
+
+abstract class "example::core::contracts::domain::base_repository.dart::BaseRepository" {
+  +BaseMapper<BaseEntity, BaseModel> mapper
+  +BaseDataSource dataSource
+}
+
+"example::core::contracts::domain::base_repository.dart::BaseRepository" o-- "example::core::contracts::domain::base_mapper.dart::BaseMapper<BaseEntity, BaseModel>"
+"example::core::contracts::domain::base_repository.dart::BaseRepository" o-- "example::core::contracts::domain::base_data_source.dart::BaseDataSource"
+
+abstract class "example::core::contracts::domain::base_mapper.dart::BaseMapper" {
+  +M toModel()
+  +E toEntity()
+}
+
+abstract class "example::core::contracts::domain::base_service.dart::BaseService" {
+  +BaseRepository repository
+}
+
+"example::core::contracts::domain::base_service.dart::BaseService" o-- "example::core::contracts::domain::base_repository.dart::BaseRepository"
+
+abstract class "example::core::contracts::domain::base_data_source.dart::BaseDataSource" {
+}
+
+abstract class "example::core::contracts::presentation::base_entity.dart::BaseEntity" {
+}
+
+class "example::core::bloc_manager::selected_active_symbol_state_emitters.dart::SelectedActiveSymbolStateEmitter" {
+  +void handleStates()
+}
+
+"flutter_deriv_bloc_manager::state_emitter::base_state_emitter.dart::BaseStateEmitter" <|-- "example::core::bloc_manager::selected_active_symbol_state_emitters.dart::SelectedActiveSymbolStateEmitter"
+
+abstract class "example::core::bloc_manager::selected_active_symbol_state_listener.dart::SelectedActiveSymbolStateListener" {
+  +void onChanged()
+}
+
+"flutter_deriv_bloc_manager::state_emitter::base_state_listener.dart::BaseStateListener" <|-- "example::core::bloc_manager::selected_active_symbol_state_listener.dart::SelectedActiveSymbolStateListener"
+
+class "example::core::web_socket_connection.dart::WebSocketConnection" {
+  {static} -WebSocketConnection _instance
+  -IOWebSocketChannel _channel
+  +StreamController<dynamic> streamController
+  +Stream<dynamic> stream
+  +void addRequest()
+}
+
+"example::core::web_socket_connection.dart::WebSocketConnection" o-- "example::core::web_socket_connection.dart::WebSocketConnection"
+
+class "example::features::active_symbol::data::active_symbol_model.dart::ActiveSymbolModel" {
+  +String symbol
+  +String symbolDisplayName
+  +String market
+  +String marketDisplayName
+  +Map<String, dynamic> toJson()
+}
+
+"example::core::contracts::data::base_model.dart::BaseModel" <|-- "example::features::active_symbol::data::active_symbol_model.dart::ActiveSymbolModel"
+
+class "example::features::active_symbol::data::active_symbol_data_source.dart::ActiveSymbolDataSource" {
+  +dynamic fetchActiveSymbols()
+}
+
+"example::features::active_symbol::domain::base_active_symbol_data_source.dart::BaseActiveSymbolDataSource" <|-- "example::features::active_symbol::data::active_symbol_data_source.dart::ActiveSymbolDataSource"
+
+class "example::features::active_symbol::data::active_symbol_repository.dart::ActiveSymbolRepoistory" {
+  +ActiveSymbolMapper mapper
+  +BaseActiveSymbolDataSource dataSource
+  +dynamic fetchActiveSymbols()
+}
+
+"example::features::active_symbol::data::active_symbol_repository.dart::ActiveSymbolRepoistory" o-- "example::features::active_symbol::domain::active_symbol_mapper.dart::ActiveSymbolMapper"
+"example::features::active_symbol::data::active_symbol_repository.dart::ActiveSymbolRepoistory" o-- "example::features::active_symbol::domain::base_active_symbol_data_source.dart::BaseActiveSymbolDataSource"
+"example::features::active_symbol::domain::base_active_symbol_repository.dart::BaseActiveSymbolRepository" <|-- "example::features::active_symbol::data::active_symbol_repository.dart::ActiveSymbolRepoistory"
+
+abstract class "example::features::active_symbol::domain::base_active_symbol_service.dart::BaseActiveSymbolService" {
+  +BaseActiveSymbolRepository repository
+  +dynamic fetchActiveSymbols()
+}
+
+"example::features::active_symbol::domain::base_active_symbol_service.dart::BaseActiveSymbolService" o-- "example::features::active_symbol::domain::base_active_symbol_repository.dart::BaseActiveSymbolRepository"
+"example::core::contracts::domain::base_service.dart::BaseService" <|-- "example::features::active_symbol::domain::base_active_symbol_service.dart::BaseActiveSymbolService"
+
+abstract class "example::features::active_symbol::domain::base_active_symbol_data_source.dart::BaseActiveSymbolDataSource" {
+  +dynamic fetchActiveSymbols()
+}
+
+"example::core::contracts::domain::base_data_source.dart::BaseDataSource" <|-- "example::features::active_symbol::domain::base_active_symbol_data_source.dart::BaseActiveSymbolDataSource"
+
+abstract class "example::features::active_symbol::domain::base_active_symbol_repository.dart::BaseActiveSymbolRepository" {
+  +ActiveSymbolMapper mapper
+  +BaseActiveSymbolDataSource dataSource
+  +dynamic fetchActiveSymbols()
+}
+
+"example::features::active_symbol::domain::base_active_symbol_repository.dart::BaseActiveSymbolRepository" o-- "example::features::active_symbol::domain::active_symbol_mapper.dart::ActiveSymbolMapper"
+"example::features::active_symbol::domain::base_active_symbol_repository.dart::BaseActiveSymbolRepository" o-- "example::features::active_symbol::domain::base_active_symbol_data_source.dart::BaseActiveSymbolDataSource"
+"example::core::contracts::domain::base_repository.dart::BaseRepository" <|-- "example::features::active_symbol::domain::base_active_symbol_repository.dart::BaseActiveSymbolRepository"
+
+class "example::features::active_symbol::domain::active_symbol_mapper.dart::ActiveSymbolMapper" {
+  +ActiveSymbolModel toModel()
+  +ActiveSymbolEntity toEntity()
+}
+
+"example::core::contracts::domain::base_mapper.dart::BaseMapper" <|-- "example::features::active_symbol::domain::active_symbol_mapper.dart::ActiveSymbolMapper"
+
+class "example::features::active_symbol::presentation::active_symbol_widget.dart::ActiveSymbolWidget" {
+  +List<ActiveSymbolEntity> activeSymbols
+  +ActiveSymbolEntity? selectedActiveSymbol
+  +void Function(ActiveSymbolEntity)? onChanged
+  +Widget build()
+}
+
+"example::features::active_symbol::presentation::active_symbol_widget.dart::ActiveSymbolWidget" o-- "example::features::active_symbol::presentation::active_symbol_entity.dart::ActiveSymbolEntity"
+
+class "example::features::active_symbol::presentation::active_symbol_service.dart::ActiveSymbolService" {
+  +dynamic fetchActiveSymbols()
+}
+
+"example::features::active_symbol::domain::base_active_symbol_service.dart::BaseActiveSymbolService" <|-- "example::features::active_symbol::presentation::active_symbol_service.dart::ActiveSymbolService"
+
+class "example::features::active_symbol::presentation::active_symbol_entity.dart::ActiveSymbolEntity" {
+  +String symbol
+  +String symbolDisplayName
+  +String market
+  +String marketDisplayName
+}
+
+"example::core::contracts::presentation::base_entity.dart::BaseEntity" <|-- "example::features::active_symbol::presentation::active_symbol_entity.dart::ActiveSymbolEntity"
+
+class "example::features::active_symbol::presentation::active_symbol_page.dart::ActiveSymbolPage" {
+  +Widget build()
+}
+
+class "example::features::active_symbol::presentation::active_symbol_cubit.dart::ActiveSymbolCubit" {
+  +BaseActiveSymbolService service
+  +dynamic fetchActiveSymbols()
+}
+
+"example::features::active_symbol::presentation::active_symbol_cubit.dart::ActiveSymbolCubit" o-- "example::features::active_symbol::domain::base_active_symbol_service.dart::BaseActiveSymbolService"
+
+abstract class "example::features::active_symbol::presentation::active_symbol_cubit.dart::ActiveSymbolState" {
+}
+
+class "example::features::active_symbol::presentation::active_symbol_cubit.dart::ActiveSymbolInitialState" {
+}
+
+"example::features::active_symbol::presentation::active_symbol_cubit.dart::ActiveSymbolState" <|-- "example::features::active_symbol::presentation::active_symbol_cubit.dart::ActiveSymbolInitialState"
+
+class "example::features::active_symbol::presentation::active_symbol_cubit.dart::ActiveSymbolLoadingState" {
+}
+
+"example::features::active_symbol::presentation::active_symbol_cubit.dart::ActiveSymbolState" <|-- "example::features::active_symbol::presentation::active_symbol_cubit.dart::ActiveSymbolLoadingState"
+
+class "example::features::active_symbol::presentation::active_symbol_cubit.dart::ActiveSymbolLoadedState" {
+  +List<ActiveSymbolEntity> activeSymbols
+}
+
+"example::features::active_symbol::presentation::active_symbol_cubit.dart::ActiveSymbolState" <|-- "example::features::active_symbol::presentation::active_symbol_cubit.dart::ActiveSymbolLoadedState"
+
+class "example::features::active_symbol::presentation::active_symbol_cubit.dart::ActiveSymbolErrorState" {
+  +String message
+}
+
+"example::features::active_symbol::presentation::active_symbol_cubit.dart::ActiveSymbolState" <|-- "example::features::active_symbol::presentation::active_symbol_cubit.dart::ActiveSymbolErrorState"
+
+class "example::features::active_symbol::presentation::selected_active_symbol_cubit.dart::SelectedActiveSymbolCubit" {
+  +void updateActiveSymbol()
+}
+
+abstract class "example::features::active_symbol::presentation::selected_active_symbol_cubit.dart::SelectedActiveSymbolState" {
+  +ActiveSymbolEntity? activeSymbol
+}
+
+"example::features::active_symbol::presentation::selected_active_symbol_cubit.dart::SelectedActiveSymbolState" o-- "example::features::active_symbol::presentation::active_symbol_entity.dart::ActiveSymbolEntity"
+
+class "example::features::active_symbol::presentation::selected_active_symbol_cubit.dart::SelectedActiveSymbolUpdateState" {
+}
+
+"example::features::active_symbol::presentation::selected_active_symbol_cubit.dart::SelectedActiveSymbolState" <|-- "example::features::active_symbol::presentation::selected_active_symbol_cubit.dart::SelectedActiveSymbolUpdateState"
+
+class "example::features::tick_stream::data::tick_stream_repository.dart::TickStreamRepoistory" {
+  +TickStreamMapper mapper
+  +BaseTickStreamDataSource dataSource
+  +void forgetTickStream()
+  +Stream<TickStreamEntity> fetchTickStream()
+}
+
+"example::features::tick_stream::data::tick_stream_repository.dart::TickStreamRepoistory" o-- "example::features::tick_stream::domain::tick_stream_mapper.dart::TickStreamMapper"
+"example::features::tick_stream::data::tick_stream_repository.dart::TickStreamRepoistory" o-- "example::features::tick_stream::domain::base_tick_stream_data_source.dart::BaseTickStreamDataSource"
+"example::features::tick_stream::domain::base_tick_stream_repository.dart::BaseTickStreamRepository" <|-- "example::features::tick_stream::data::tick_stream_repository.dart::TickStreamRepoistory"
+
+class "example::features::tick_stream::data::tick_stream_model.dart::TickStreamModel" {
+  +double ask
+  +double bid
+  +int epoch
+  +String id
+  +int pipSize
+  +double quote
+  +String symbol
+  +Map<String, dynamic> toJson()
+}
+
+"example::core::contracts::data::base_model.dart::BaseModel" <|-- "example::features::tick_stream::data::tick_stream_model.dart::TickStreamModel"
+
+class "example::features::tick_stream::data::tick_stream_data_source.dart::TickStreamDataSource" {
+  +void forgetTickStream()
+  +Stream<TickStreamModel> fetchTickStream()
+}
+
+"example::features::tick_stream::domain::base_tick_stream_data_source.dart::BaseTickStreamDataSource" <|-- "example::features::tick_stream::data::tick_stream_data_source.dart::TickStreamDataSource"
+
+abstract class "example::features::tick_stream::domain::base_tick_stream_service.dart::BaseTickStreamService" {
+  +BaseTickStreamRepository repository
+  +void forgetTickStream()
+  +Stream<TickStreamEntity> fetchTickStream()
+}
+
+"example::features::tick_stream::domain::base_tick_stream_service.dart::BaseTickStreamService" o-- "example::features::tick_stream::domain::base_tick_stream_repository.dart::BaseTickStreamRepository"
+"example::core::contracts::domain::base_service.dart::BaseService" <|-- "example::features::tick_stream::domain::base_tick_stream_service.dart::BaseTickStreamService"
+
+class "example::features::tick_stream::domain::tick_stream_mapper.dart::TickStreamMapper" {
+  +TickStreamModel toModel()
+  +TickStreamEntity toEntity()
+}
+
+"example::core::contracts::domain::base_mapper.dart::BaseMapper" <|-- "example::features::tick_stream::domain::tick_stream_mapper.dart::TickStreamMapper"
+
+abstract class "example::features::tick_stream::domain::base_tick_stream_data_source.dart::BaseTickStreamDataSource" {
+  +void forgetTickStream()
+  +Stream<TickStreamModel> fetchTickStream()
+}
+
+"example::core::contracts::domain::base_data_source.dart::BaseDataSource" <|-- "example::features::tick_stream::domain::base_tick_stream_data_source.dart::BaseTickStreamDataSource"
+
+abstract class "example::features::tick_stream::domain::base_tick_stream_repository.dart::BaseTickStreamRepository" {
+  +TickStreamMapper mapper
+  +BaseTickStreamDataSource dataSource
+  +void forgetTickStream()
+  +Stream<TickStreamEntity> fetchTickStream()
+}
+
+"example::features::tick_stream::domain::base_tick_stream_repository.dart::BaseTickStreamRepository" o-- "example::features::tick_stream::domain::tick_stream_mapper.dart::TickStreamMapper"
+"example::features::tick_stream::domain::base_tick_stream_repository.dart::BaseTickStreamRepository" o-- "example::features::tick_stream::domain::base_tick_stream_data_source.dart::BaseTickStreamDataSource"
+"example::core::contracts::domain::base_repository.dart::BaseRepository" <|-- "example::features::tick_stream::domain::base_tick_stream_repository.dart::BaseTickStreamRepository"
+
+class "example::features::tick_stream::presentation::tick_stream_service.dart::TickStreamService" {
+  +Stream<TickStreamEntity> fetchTickStream()
+}
+
+"example::features::tick_stream::domain::base_tick_stream_service.dart::BaseTickStreamService" <|-- "example::features::tick_stream::presentation::tick_stream_service.dart::TickStreamService"
+
+class "example::features::tick_stream::presentation::tick_stream_widget.dart::TickStreamWidget" {
+  +TickStreamEntity entity
+  +Widget build()
+}
+
+"example::features::tick_stream::presentation::tick_stream_widget.dart::TickStreamWidget" o-- "example::features::tick_stream::presentation::tick_stream_entity.dart::TickStreamEntity"
+
+class "example::features::tick_stream::presentation::tick_stream_cubit_extended.dart::TickStreamCubitExtended" {
+  +void onChanged()
+}
+
+"example::features::tick_stream::presentation::tick_stream_cubit.dart::TickSteamCubit" <|-- "example::features::tick_stream::presentation::tick_stream_cubit_extended.dart::TickStreamCubitExtended"
+"example::core::bloc_manager::selected_active_symbol_state_listener.dart::SelectedActiveSymbolStateListener" <|-- "example::features::tick_stream::presentation::tick_stream_cubit_extended.dart::TickStreamCubitExtended"
+
+class "example::features::tick_stream::presentation::tick_stream_entity.dart::TickStreamEntity" {
+  +double ask
+  +double bid
+  +int epoch
+  +String id
+  +int pipSize
+  +double quote
+  +String symbol
+}
+
+"example::core::contracts::presentation::base_entity.dart::BaseEntity" <|-- "example::features::tick_stream::presentation::tick_stream_entity.dart::TickStreamEntity"
+
+class "example::features::tick_stream::presentation::tick_stream_cubit.dart::TickSteamCubit" {
+  +BaseTickStreamService service
+  +void fetchTickStream()
+}
+
+"example::features::tick_stream::presentation::tick_stream_cubit.dart::TickSteamCubit" o-- "example::features::tick_stream::domain::base_tick_stream_service.dart::BaseTickStreamService"
+
+abstract class "example::features::tick_stream::presentation::tick_stream_cubit.dart::TickStreamState" {
+}
+
+class "example::features::tick_stream::presentation::tick_stream_cubit.dart::TickStreamInitialState" {
+}
+
+"example::features::tick_stream::presentation::tick_stream_cubit.dart::TickStreamState" <|-- "example::features::tick_stream::presentation::tick_stream_cubit.dart::TickStreamInitialState"
+
+class "example::features::tick_stream::presentation::tick_stream_cubit.dart::TickStreamLoadingState" {
+}
+
+"example::features::tick_stream::presentation::tick_stream_cubit.dart::TickStreamState" <|-- "example::features::tick_stream::presentation::tick_stream_cubit.dart::TickStreamLoadingState"
+
+class "example::features::tick_stream::presentation::tick_stream_cubit.dart::TickStreamLoadedState" {
+  +TickStreamEntity tick
+}
+
+"example::features::tick_stream::presentation::tick_stream_cubit.dart::TickStreamLoadedState" o-- "example::features::tick_stream::presentation::tick_stream_entity.dart::TickStreamEntity"
+"example::features::tick_stream::presentation::tick_stream_cubit.dart::TickStreamState" <|-- "example::features::tick_stream::presentation::tick_stream_cubit.dart::TickStreamLoadedState"
+
+class "example::features::tick_stream::presentation::tick_stream_cubit.dart::TickStreamErrorState" {
+  +String message
+}
+
+"example::features::tick_stream::presentation::tick_stream_cubit.dart::TickStreamState" <|-- "example::features::tick_stream::presentation::tick_stream_cubit.dart::TickStreamErrorState"
+
+class "example::features::tick_stream::presentation::tick_stream_page.dart::TickStreamPage" {
+  +Widget build()
+}
+
+@enduml
