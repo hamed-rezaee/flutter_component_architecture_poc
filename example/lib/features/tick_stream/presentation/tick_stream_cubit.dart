@@ -18,7 +18,20 @@ class TickSteamCubit extends Cubit<TickStreamState> {
       service.forgetTickStream();
 
       service.fetchTickStream(symbol.symbol).listen((TickStreamEntity tick) {
-        emit(TickStreamLoadedState(tick));
+        final List<TickStreamEntity> ticks = <TickStreamEntity>[];
+
+        if (state is TickStreamLoadedState) {
+          final TickStreamLoadedState loadedState =
+              state as TickStreamLoadedState;
+
+          ticks.addAll(<TickStreamEntity>[...loadedState.ticks, tick]);
+
+          if (ticks.length > 50) {
+            ticks.removeRange(0, ticks.length - 50);
+          }
+        }
+
+        emit(TickStreamLoadedState(tick, ticks: ticks));
       });
     } on Exception catch (e) {
       emit(TickStreamErrorState('$e'));

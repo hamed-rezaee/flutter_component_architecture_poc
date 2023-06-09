@@ -1,3 +1,4 @@
+import 'package:example/features/tick_stream/presentation/basic_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -23,7 +24,19 @@ class TickStreamPage extends StatelessWidget {
             } else if (state is TickStreamLoadingState) {
               return const Center(child: CircularProgressIndicator());
             } else if (state is TickStreamLoadedState) {
-              return Center(child: TickStreamWidget(entity: state.tick));
+              return Center(
+                child: Column(
+                  children: <Widget>[
+                    TickStreamWidget(entity: state.tick),
+                    const SizedBox(height: 32),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 100,
+                      child: BasicChart(ticks: state.ticks),
+                    ),
+                  ],
+                ),
+              );
             } else if (state is TickStreamErrorState) {
               return Center(child: Text(state.message));
             }
