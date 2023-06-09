@@ -11,16 +11,14 @@ class TickStreamModel extends BaseModel {
     required this.symbol,
   });
 
-  factory TickStreamModel.fromJson(Map<String, dynamic> json) =>
-      TickStreamModel(
-        ask: json['ask'].toDouble(),
-        bid: json['bid'].toDouble(),
-        epoch: json['epoch'],
-        id: json['id'],
-        pipSize: json['pip_size'],
-        quote: json['quote'].toDouble(),
-        symbol: json['symbol'],
-      );
+  TickStreamModel.fromJson(Map<String, dynamic> json)
+      : ask = json['ask'].toDouble(),
+        bid = json['bid'].toDouble(),
+        epoch = json['epoch'],
+        id = json['id'],
+        pipSize = json['pip_size'],
+        quote = json['quote'].toDouble(),
+        symbol = json['symbol'];
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'ask': ask,
