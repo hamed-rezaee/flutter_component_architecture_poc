@@ -10,7 +10,8 @@ class WebSocketConnection {
       : _channel = IOWebSocketChannel.connect(
           'wss://ws.binaryws.com/websockets/v3?app_id=1089',
         ) {
-    _channel.stream.listen((dynamic event) => streamController.add(event));
+    _channel.stream
+        .listen((dynamic event) => streamController.add(jsonDecode(event)));
   }
 
   static final WebSocketConnection _instance = WebSocketConnection._internal();

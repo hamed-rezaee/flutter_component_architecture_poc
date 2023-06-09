@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:isolate';
 
 import 'package:example/core/web_socket_connection.dart';
@@ -15,14 +14,14 @@ class ActiveSymbolDataSource extends BaseActiveSymbolDataSource {
 
     return WebSocketConnection().stream.transform(
       StreamTransformer<dynamic, List<ActiveSymbolModel>>.fromHandlers(
-        handleData:
-            (dynamic event, EventSink<List<ActiveSymbolModel>> sink) async {
-          final Map<String, dynamic> data = json.decode(event);
-
-          if (data['msg_type'] == 'active_symbols') {
+        handleData: (
+          dynamic event,
+          EventSink<List<ActiveSymbolModel>> sink,
+        ) async {
+          if (event['msg_type'] == 'active_symbols') {
             final List<ActiveSymbolModel> models =
                 await Isolate.run<List<ActiveSymbolModel>>(
-              () => data['active_symbols']
+              () => event['active_symbols']
                   .map<ActiveSymbolModel>(
                     (dynamic e) => ActiveSymbolModel.fromJson(e),
                   )
