@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:flutter_deriv_bloc_manager/manager.dart';
 
 import 'package:example/features/tick_stream/data/tick_stream_data_source.dart';
 import 'package:example/features/tick_stream/data/tick_stream_repository.dart';
@@ -8,16 +9,20 @@ import 'package:example/features/tick_stream/presentation/tick_stream_cubit_exte
 import 'package:example/features/tick_stream/presentation/tick_stream_page.dart';
 import 'package:example/features/tick_stream/presentation/tick_stream_service.dart';
 
-void main() => runApp(
-      BlocProvider<TickStreamCubitExtended>(
-        create: (BuildContext context) => TickStreamCubitExtended(
-          TickStreamService(
-            TickStreamRepoistory(TickStreamMapper(), TickStreamDataSource()),
-          ),
+void main() {
+  BlocManager.instance.register(
+    TickStreamCubitExtended(
+      TickStreamService(
+        TickStreamRepoistory(
+          TickStreamMapper(),
+          TickStreamDataSource(),
         ),
-        child: const App(),
       ),
-    );
+    ),
+  );
+
+  runApp(const App());
+}
 
 class App extends StatelessWidget {
   const App({super.key});
