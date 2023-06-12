@@ -15,30 +15,28 @@ class TickStreamPage extends StatelessWidget {
         child: BlocManagerBuilder<TickStreamCubitExtended, TickStreamState>(
           builder: (BuildContext context, TickStreamState state) {
             if (state is TickStreamInitialState) {
-              return const Center(
-                child: Text('Please select an active symbol.'),
-              );
+              return const Text('Please select an active symbol.');
             } else if (state is TickStreamLoadingState) {
               return const Center(child: CircularProgressIndicator());
             } else if (state is TickStreamLoadedState) {
-              return Center(
-                child: Column(
-                  children: <Widget>[
-                    TickStreamWidget(entity: state.tick),
-                    const SizedBox(height: 32),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 100,
-                      child: BasicChart(ticks: state.ticks),
-                    ),
-                  ],
-                ),
-              );
+              return state.ticks.isEmpty
+                  ? const Text('Waiting for data...')
+                  : Column(
+                      children: <Widget>[
+                        TickStreamWidget(entity: state.tick),
+                        const SizedBox(height: 32),
+                        SizedBox(
+                          width: double.infinity,
+                          height: 96,
+                          child: BasicChart(ticks: state.ticks),
+                        ),
+                      ],
+                    );
             } else if (state is TickStreamErrorState) {
-              return Center(child: Text(state.message));
+              return Text(state.message);
             }
 
-            return const Center(child: Text('Unknown State'));
+            return const Text('Unknown State');
           },
         ),
       );

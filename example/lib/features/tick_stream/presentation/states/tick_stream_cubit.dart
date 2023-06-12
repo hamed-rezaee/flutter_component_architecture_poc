@@ -11,7 +11,7 @@ class TickSteamCubit extends Cubit<TickStreamState> {
 
   final BaseTickStreamService service;
 
-  void fetchTickStream(ActiveSymbolEntity symbol) {
+  void fetchTickStream(ActiveSymbolEntity symbol, [int maxVisibleTicks = 50]) {
     emit(const TickStreamLoadingState());
 
     try {
@@ -26,8 +26,8 @@ class TickSteamCubit extends Cubit<TickStreamState> {
 
           ticks.addAll(<TickStreamEntity>[...loadedState.ticks, tick]);
 
-          if (ticks.length > 50) {
-            ticks.removeRange(0, ticks.length - 50);
+          if (ticks.length > maxVisibleTicks) {
+            ticks.removeRange(0, ticks.length - maxVisibleTicks);
           }
         }
 
