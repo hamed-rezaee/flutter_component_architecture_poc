@@ -61,14 +61,14 @@ To use this architecture in your application, you can follow these steps:
 
 Ensure that you properly define dependencies between the layers and use interfaces to enable loose coupling and easier testing.
 
-### Overview Diagram
+### Architecture Overview Diagram
 
-![Architecture](architecture.drawio.png)
+![Architecture Overview Diagram](architecture.drawio.png)
 
-### UML Diagram
+### Architecture Class Diagram
 
-![Diagram](diagram.svg)
+![Architecture Class Diagram](diagram.svg)
 
-### Example UML Diagram
+### Example Class Diagram
 
-![Example Diagram](example_diagram.svg)
+![Example Class Diagram](example_diagram.svg)
