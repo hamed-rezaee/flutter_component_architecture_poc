@@ -67,7 +67,7 @@ Ensure that you properly define dependencies between the layers and use interfac
 
 ### UML Diagram
 
-![Diagram](diagram.png)
+![Diagram](diagram.svg)
 
 ### Example UML Diagram
 
