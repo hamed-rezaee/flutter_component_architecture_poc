@@ -31,7 +31,14 @@ class ActiveSymbolWidget extends StatelessWidget {
                   value: activeSymbol,
                   child: Padding(
                     padding: const EdgeInsets.all(8),
-                    child: Text(activeSymbol.symbolDisplayName),
+                    child: Text(
+                      activeSymbol.symbolDisplayName,
+                      style: TextStyle(
+                        fontWeight: _isSelected(activeSymbol)
+                            ? FontWeight.bold
+                            : FontWeight.normal,
+                      ),
+                    ),
                   ),
                 ),
               )
@@ -39,4 +46,7 @@ class ActiveSymbolWidget extends StatelessWidget {
           onChanged: (ActiveSymbolEntity? entity) => onChanged?.call(entity!),
         ),
       );
+
+  bool _isSelected(ActiveSymbolEntity activeSymbol) =>
+      activeSymbol.symbolDisplayName == selectedActiveSymbol?.symbolDisplayName;
 }
