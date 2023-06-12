@@ -65,10 +65,6 @@ Ensure that you properly define dependencies between the layers and use interfac
 
 ![Architecture Overview Diagram](architecture.drawio.png)
 
-### Architecture Class Diagram
-
-![Architecture Class Diagram](diagram.svg)
-
 ### Example Class Diagram
 
 ![Example Class Diagram](example_diagram.svg)
