@@ -29,8 +29,7 @@ class _BasicChartPainter extends CustomPainter {
     double minY = double.infinity;
     double maxY = -double.infinity;
 
-    final Paint areaPaint = Paint()
-      ..color = Colors.grey; // Set the color for the area
+    final Paint areaPaint = Paint()..color = Colors.grey;
 
     final Paint axisPaint = Paint()..strokeWidth = 1.0;
 

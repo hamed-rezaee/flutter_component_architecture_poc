@@ -79,9 +79,16 @@ class "example::features::active_symbol::data::active_symbol_repository.dart::Ac
   +dynamic fetchActiveSymbols()
 }
 
-"example::features::active_symbol::data::active_symbol_repository.dart::ActiveSymbolRepoistory" o-- "example::features::active_symbol::domain::active_symbol_mapper.dart::ActiveSymbolMapper"
+"example::features::active_symbol::data::active_symbol_repository.dart::ActiveSymbolRepoistory" o-- "example::features::active_symbol::data::active_symbol_mapper.dart::ActiveSymbolMapper"
 "example::features::active_symbol::data::active_symbol_repository.dart::ActiveSymbolRepoistory" o-- "example::features::active_symbol::domain::base_active_symbol_data_source.dart::BaseActiveSymbolDataSource"
 "example::features::active_symbol::domain::base_active_symbol_repository.dart::BaseActiveSymbolRepository" <|-- "example::features::active_symbol::data::active_symbol_repository.dart::ActiveSymbolRepoistory"
+
+class "example::features::active_symbol::data::active_symbol_mapper.dart::ActiveSymbolMapper" {
+  +ActiveSymbolModel toModel()
+  +ActiveSymbolEntity toEntity()
+}
+
+"example::core::contracts::domain::base_mapper.dart::BaseMapper" <|-- "example::features::active_symbol::data::active_symbol_mapper.dart::ActiveSymbolMapper"
 
 abstract class "example::features::active_symbol::domain::base_active_symbol_service.dart::BaseActiveSymbolService" {
   +BaseActiveSymbolRepository repository
@@ -98,21 +105,14 @@ abstract class "example::features::active_symbol::domain::base_active_symbol_dat
 "example::core::contracts::domain::base_data_source.dart::BaseDataSource" <|-- "example::features::active_symbol::domain::base_active_symbol_data_source.dart::BaseActiveSymbolDataSource"
 
 abstract class "example::features::active_symbol::domain::base_active_symbol_repository.dart::BaseActiveSymbolRepository" {
-  +ActiveSymbolMapper mapper
-  +BaseActiveSymbolDataSource dataSource
+  +BaseMapper<BaseEntity, BaseModel> mapper
+  +BaseDataSource dataSource
   +dynamic fetchActiveSymbols()
 }
 
-"example::features::active_symbol::domain::base_active_symbol_repository.dart::BaseActiveSymbolRepository" o-- "example::features::active_symbol::domain::active_symbol_mapper.dart::ActiveSymbolMapper"
-"example::features::active_symbol::domain::base_active_symbol_repository.dart::BaseActiveSymbolRepository" o-- "example::features::active_symbol::domain::base_active_symbol_data_source.dart::BaseActiveSymbolDataSource"
+"example::features::active_symbol::domain::base_active_symbol_repository.dart::BaseActiveSymbolRepository" o-- "example::core::contracts::domain::base_mapper.dart::BaseMapper<BaseEntity, BaseModel>"
+"example::features::active_symbol::domain::base_active_symbol_repository.dart::BaseActiveSymbolRepository" o-- "example::core::contracts::domain::base_data_source.dart::BaseDataSource"
 "example::core::contracts::domain::base_repository.dart::BaseRepository" <|-- "example::features::active_symbol::domain::base_active_symbol_repository.dart::BaseActiveSymbolRepository"
-
-class "example::features::active_symbol::domain::active_symbol_mapper.dart::ActiveSymbolMapper" {
-  +ActiveSymbolModel toModel()
-  +ActiveSymbolEntity toEntity()
-}
-
-"example::core::contracts::domain::base_mapper.dart::BaseMapper" <|-- "example::features::active_symbol::domain::active_symbol_mapper.dart::ActiveSymbolMapper"
 
 class "example::features::active_symbol::presentation::active_symbol_widget.dart::ActiveSymbolWidget" {
   +List<ActiveSymbolEntity> activeSymbols
@@ -196,7 +196,7 @@ class "example::features::tick_stream::data::tick_stream_repository.dart::TickSt
   +Stream<TickStreamEntity> fetchTickStream()
 }
 
-"example::features::tick_stream::data::tick_stream_repository.dart::TickStreamRepoistory" o-- "example::features::tick_stream::domain::tick_stream_mapper.dart::TickStreamMapper"
+"example::features::tick_stream::data::tick_stream_repository.dart::TickStreamRepoistory" o-- "example::features::tick_stream::data::tick_stream_mapper.dart::TickStreamMapper"
 "example::features::tick_stream::data::tick_stream_repository.dart::TickStreamRepoistory" o-- "example::features::tick_stream::domain::base_tick_stream_data_source.dart::BaseTickStreamDataSource"
 "example::features::tick_stream::domain::base_tick_stream_repository.dart::BaseTickStreamRepository" <|-- "example::features::tick_stream::data::tick_stream_repository.dart::TickStreamRepoistory"
 
@@ -212,6 +212,13 @@ class "example::features::tick_stream::data::tick_stream_model.dart::TickStreamM
 }
 
 "example::core::contracts::data::base_model.dart::BaseModel" <|-- "example::features::tick_stream::data::tick_stream_model.dart::TickStreamModel"
+
+class "example::features::tick_stream::data::tick_stream_mapper.dart::TickStreamMapper" {
+  +TickStreamModel toModel()
+  +TickStreamEntity toEntity()
+}
+
+"example::core::contracts::domain::base_mapper.dart::BaseMapper" <|-- "example::features::tick_stream::data::tick_stream_mapper.dart::TickStreamMapper"
 
 class "example::features::tick_stream::data::tick_stream_data_source.dart::TickStreamDataSource" {
   +void forgetTickStream()
@@ -229,13 +236,6 @@ abstract class "example::features::tick_stream::domain::base_tick_stream_service
 "example::features::tick_stream::domain::base_tick_stream_service.dart::BaseTickStreamService" o-- "example::features::tick_stream::domain::base_tick_stream_repository.dart::BaseTickStreamRepository"
 "example::core::contracts::domain::base_service.dart::BaseService" <|-- "example::features::tick_stream::domain::base_tick_stream_service.dart::BaseTickStreamService"
 
-class "example::features::tick_stream::domain::tick_stream_mapper.dart::TickStreamMapper" {
-  +TickStreamModel toModel()
-  +TickStreamEntity toEntity()
-}
-
-"example::core::contracts::domain::base_mapper.dart::BaseMapper" <|-- "example::features::tick_stream::domain::tick_stream_mapper.dart::TickStreamMapper"
-
 abstract class "example::features::tick_stream::domain::base_tick_stream_data_source.dart::BaseTickStreamDataSource" {
   +void forgetTickStream()
   +Stream<TickStreamModel> fetchTickStream()
@@ -244,14 +244,14 @@ abstract class "example::features::tick_stream::domain::base_tick_stream_data_so
 "example::core::contracts::domain::base_data_source.dart::BaseDataSource" <|-- "example::features::tick_stream::domain::base_tick_stream_data_source.dart::BaseTickStreamDataSource"
 
 abstract class "example::features::tick_stream::domain::base_tick_stream_repository.dart::BaseTickStreamRepository" {
-  +TickStreamMapper mapper
-  +BaseTickStreamDataSource dataSource
+  +BaseMapper<BaseEntity, BaseModel> mapper
+  +BaseDataSource dataSource
   +void forgetTickStream()
   +Stream<TickStreamEntity> fetchTickStream()
 }
 
-"example::features::tick_stream::domain::base_tick_stream_repository.dart::BaseTickStreamRepository" o-- "example::features::tick_stream::domain::tick_stream_mapper.dart::TickStreamMapper"
-"example::features::tick_stream::domain::base_tick_stream_repository.dart::BaseTickStreamRepository" o-- "example::features::tick_stream::domain::base_tick_stream_data_source.dart::BaseTickStreamDataSource"
+"example::features::tick_stream::domain::base_tick_stream_repository.dart::BaseTickStreamRepository" o-- "example::core::contracts::domain::base_mapper.dart::BaseMapper<BaseEntity, BaseModel>"
+"example::features::tick_stream::domain::base_tick_stream_repository.dart::BaseTickStreamRepository" o-- "example::core::contracts::domain::base_data_source.dart::BaseDataSource"
 "example::core::contracts::domain::base_repository.dart::BaseRepository" <|-- "example::features::tick_stream::domain::base_tick_stream_repository.dart::BaseTickStreamRepository"
 
 class "example::features::tick_stream::presentation::tick_stream_service.dart::TickStreamService" {
@@ -262,10 +262,16 @@ class "example::features::tick_stream::presentation::tick_stream_service.dart::T
 
 class "example::features::tick_stream::presentation::tick_stream_widget.dart::TickStreamWidget" {
   +TickStreamEntity entity
-  +Widget build()
+  +State<TickStreamWidget> createState()
 }
 
 "example::features::tick_stream::presentation::tick_stream_widget.dart::TickStreamWidget" o-- "example::features::tick_stream::presentation::tick_stream_entity.dart::TickStreamEntity"
+
+class "example::features::tick_stream::presentation::tick_stream_widget.dart::_TickStreamWidgetState" {
+  -Color _color
+  +void didUpdateWidget()
+  +Widget build()
+}
 
 class "example::features::tick_stream::presentation::basic_chart.dart::BasicChart" {
   +List<TickStreamEntity> ticks
@@ -306,11 +312,9 @@ class "example::features::tick_stream::presentation::states::tick_stream_cubit.d
 "example::features::tick_stream::presentation::states::tick_stream_cubit.dart::TickStreamState" <|-- "example::features::tick_stream::presentation::states::tick_stream_cubit.dart::TickStreamLoadingState"
 
 class "example::features::tick_stream::presentation::states::tick_stream_cubit.dart::TickStreamLoadedState" {
-  +TickStreamEntity tick
   +List<TickStreamEntity> ticks
 }
 
-"example::features::tick_stream::presentation::states::tick_stream_cubit.dart::TickStreamLoadedState" o-- "example::features::tick_stream::presentation::tick_stream_entity.dart::TickStreamEntity"
 "example::features::tick_stream::presentation::states::tick_stream_cubit.dart::TickStreamState" <|-- "example::features::tick_stream::presentation::states::tick_stream_cubit.dart::TickStreamLoadedState"
 
 class "example::features::tick_stream::presentation::states::tick_stream_cubit.dart::TickStreamErrorState" {
