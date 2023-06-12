@@ -20,13 +20,9 @@ class TickStreamLoadingState extends TickStreamState {
 /// The [TickStreamLoadedState] class defines the loaded state.
 class TickStreamLoadedState extends TickStreamState {
   /// Initializes a new instance of [TickStreamLoadedState].
-  const TickStreamLoadedState(
-    this.tick, {
+  const TickStreamLoadedState([
     this.ticks = const <TickStreamEntity>[],
-  });
-
-  /// Tick stream entity.
-  final TickStreamEntity tick;
+  ]);
 
   /// Tick stream entities.
   final List<TickStreamEntity> ticks;

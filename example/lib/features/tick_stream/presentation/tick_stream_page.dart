@@ -23,7 +23,7 @@ class TickStreamPage extends StatelessWidget {
                   ? const Text('Waiting for data...')
                   : Column(
                       children: <Widget>[
-                        TickStreamWidget(entity: state.tick),
+                        TickStreamWidget(entity: state.ticks.last),
                         const SizedBox(height: 32),
                         SizedBox(
                           width: double.infinity,

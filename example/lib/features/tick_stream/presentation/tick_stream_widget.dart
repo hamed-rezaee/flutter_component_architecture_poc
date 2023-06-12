@@ -2,10 +2,30 @@ import 'package:flutter/material.dart';
 
 import 'package:example/features/tick_stream/presentation/tick_stream_entity.dart';
 
-class TickStreamWidget extends StatelessWidget {
+class TickStreamWidget extends StatefulWidget {
   const TickStreamWidget({required this.entity, super.key});
 
   final TickStreamEntity entity;
+
+  @override
+  State<TickStreamWidget> createState() => _TickStreamWidgetState();
+}
+
+class _TickStreamWidgetState extends State<TickStreamWidget> {
+  Color _color = Colors.black;
+
+  @override
+  void didUpdateWidget(TickStreamWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.entity != widget.entity) {
+      widget.entity.quote == oldWidget.entity.quote
+          ? _color = Colors.black
+          : widget.entity.quote > oldWidget.entity.quote
+              ? _color = Colors.green
+              : _color = Colors.red;
+    }
+  }
 
   @override
   Widget build(BuildContext context) => Column(
@@ -16,7 +36,7 @@ class TickStreamWidget extends StatelessWidget {
                 'Symbol: ',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              Text(entity.symbol)
+              Text(widget.entity.symbol)
             ],
           ),
           const SizedBox(height: 4),
@@ -26,7 +46,7 @@ class TickStreamWidget extends StatelessWidget {
                 'Quote: ',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              Text('${entity.quote}')
+              Text('${widget.entity.quote}', style: TextStyle(color: _color))
             ],
           ),
           const SizedBox(height: 4),
@@ -36,7 +56,7 @@ class TickStreamWidget extends StatelessWidget {
                 'Epoch: ',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              Text('${entity.epoch}')
+              Text('${widget.entity.epoch}')
             ],
           ),
           const SizedBox(height: 4),
@@ -46,7 +66,7 @@ class TickStreamWidget extends StatelessWidget {
                 'Id: ',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              Text(entity.id)
+              Text(widget.entity.id)
             ],
           ),
         ],
