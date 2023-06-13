@@ -1,4 +1,4 @@
-import 'base_repository.dart';
+import 'package:example/core/contracts/domain/base_repository.dart';
 
 /// The [BaseService] class defines the base service interface,
 /// which encapsulates the business logic operations.

@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:example/features/active_symbol/domain/base_active_symbol_service.dart';
-import 'package:example/features/active_symbol/presentation/active_symbol_entity.dart';
+import 'package:example/features/active_symbol/domain/active_symbol_entity.dart';
 
 part 'active_symbol_state.dart';
 

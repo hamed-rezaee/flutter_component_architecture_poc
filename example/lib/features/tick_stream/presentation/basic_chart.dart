@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import 'package:example/features/tick_stream/presentation/tick_stream_entity.dart';
+import 'package:example/features/tick_stream/domain/tick_stream_entity.dart';
 
 class BasicChart extends StatelessWidget {
   const BasicChart({required this.ticks, super.key});

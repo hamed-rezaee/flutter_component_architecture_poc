@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_deriv_bloc_manager/manager.dart';
 
-import 'package:example/features/active_symbol/presentation/active_symbol_entity.dart';
+import 'package:example/features/active_symbol/domain/active_symbol_entity.dart';
 import 'package:example/features/active_symbol/presentation/active_symbol_widget.dart';
 import 'package:example/features/active_symbol/presentation/states/active_symbol_cubit.dart';
 import 'package:example/features/active_symbol/presentation/states/selected_active_symbol_cubit.dart';

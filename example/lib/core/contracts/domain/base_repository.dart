@@ -1,7 +1,7 @@
-import 'base_data_source.dart';
-import '../presentation/base_entity.dart';
-import 'base_mapper.dart';
-import '../data/base_model.dart';
+import 'package:example/core/contracts/data/base_data_source.dart';
+import 'package:example/core/contracts/data/base_model.dart';
+import 'package:example/core/contracts/domain/base_entity.dart';
+import 'package:example/core/contracts/domain/base_mapper.dart';
 
 /// The [BaseRepository] class defines the base repository interface,
 /// which encapsulates the data retrieval logic and provides an abstraction for

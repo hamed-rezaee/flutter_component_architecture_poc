@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:example/features/active_symbol/presentation/active_symbol_entity.dart';
+import 'package:example/features/active_symbol/domain/active_symbol_entity.dart';
 
 class ActiveSymbolWidget extends StatelessWidget {
   const ActiveSymbolWidget({

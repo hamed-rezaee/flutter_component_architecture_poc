@@ -3,7 +3,7 @@ import 'dart:isolate';
 
 import 'package:example/core/web_socket_connection.dart';
 import 'package:example/features/active_symbol/data/active_symbol_model.dart';
-import 'package:example/features/active_symbol/domain/base_active_symbol_data_source.dart';
+import 'package:example/features/active_symbol/data/base_active_symbol_data_source.dart';
 
 class ActiveSymbolDataSource extends BaseActiveSymbolDataSource {
   @override
