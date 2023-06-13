@@ -8,7 +8,7 @@ abstract class BaseTickStreamService implements BaseService {
   @override
   final BaseTickStreamRepository repository;
 
-  void forgetTickStream();
-
   Stream<TickStreamEntity> fetchTickStream(String symbol);
+
+  void forgetTickStream();
 }
