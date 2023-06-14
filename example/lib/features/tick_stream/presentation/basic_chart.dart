@@ -24,6 +24,7 @@ class _BasicChartPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     const int yAxisCount = 5;
+    const int xAxisCount = 5;
     const TextStyle labelStyle = TextStyle(color: Colors.white, fontSize: 10);
 
     final double width = size.width;
@@ -70,6 +71,24 @@ class _BasicChartPainter extends CustomPainter {
     canvas
       ..drawLine(Offset(width, height), Offset(0, height), axisPaint)
       ..drawLine(Offset(width, 0), Offset(width, height), axisPaint);
+
+    final Paint gridsPaint = Paint()
+      ..color = Colors.white.withOpacity(0.2)
+      ..strokeWidth = 1.0;
+
+    final double xGridInterval = width / (xAxisCount - 1);
+    for (int i = 0; i < xAxisCount; i++) {
+      final double x = i * xGridInterval;
+
+      canvas.drawLine(Offset(x, 0), Offset(x, height), gridsPaint);
+    }
+
+    final double yGridInterval = height / (yAxisCount - 1);
+    for (int i = 0; i < yAxisCount; i++) {
+      final double y = height - i * yGridInterval;
+
+      canvas.drawLine(Offset(0, y), Offset(width, y), gridsPaint);
+    }
 
     final Path path = Path();
 
@@ -120,9 +139,9 @@ class _BasicChartPainter extends CustomPainter {
     }
 
     final List<double> xLabels = <double>[];
-    final double xLabelInterval = (maxX - minX) / 5;
+    final double xLabelInterval = (maxX - minX) / (xAxisCount - 1);
 
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < xAxisCount; i++) {
       final double labelValue = minX + (xLabelInterval * i);
       xLabels.add(labelValue);
     }
@@ -146,8 +165,8 @@ class _BasicChartPainter extends CustomPainter {
         textDirection: TextDirection.ltr,
       )..layout();
 
-      final double labelX = width * ((labelValue - minX) / (maxX - minX));
-      final double labelY = height + labelPainter.width / 6;
+      final double labelX = i * xGridInterval - labelPainter.width / 2;
+      final double labelY = height + 4;
 
       canvas
         ..save()
