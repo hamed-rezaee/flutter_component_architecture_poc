@@ -20,16 +20,6 @@ class TickStreamModel extends BaseModel {
         quote = json['quote'].toDouble(),
         symbol = json['symbol'];
 
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        'ask': ask,
-        'bid': bid,
-        'epoch': epoch,
-        'id': id,
-        'pip_size': pipSize,
-        'quote': quote,
-        'symbol': symbol,
-      };
-
   final double ask;
   final double bid;
   final int epoch;

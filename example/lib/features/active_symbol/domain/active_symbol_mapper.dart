@@ -5,14 +5,6 @@ import 'package:example/features/active_symbol/domain/active_symbol_entity.dart'
 class ActiveSymbolMapper
     implements BaseMapper<ActiveSymbolEntity, ActiveSymbolModel> {
   @override
-  ActiveSymbolModel toModel(ActiveSymbolEntity entity) => ActiveSymbolModel(
-        symbol: entity.symbol,
-        symbolDisplayName: entity.symbolDisplayName,
-        market: entity.market,
-        marketDisplayName: entity.marketDisplayName,
-      );
-
-  @override
   ActiveSymbolEntity toEntity(ActiveSymbolModel model) => ActiveSymbolEntity(
         symbol: model.symbol,
         symbolDisplayName: model.symbolDisplayName,
