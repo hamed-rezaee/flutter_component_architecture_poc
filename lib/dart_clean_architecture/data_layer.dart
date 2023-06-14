@@ -1,8 +1,8 @@
-import 'package:dart_clean_architecture/dart_clean_architecture/domain_layer.dart';
+import 'domain_layer.dart';
 
 class Model implements BaseModel {}
 
-class Mapper implements BaseMapper<BaseEntity, BaseModel> {}
+abstract class BaseDataSource<M extends BaseModel> {}
 
 class DataSource implements BaseDataSource<BaseModel> {}
 

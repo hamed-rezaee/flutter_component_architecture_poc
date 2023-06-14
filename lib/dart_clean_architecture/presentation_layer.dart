@@ -1,8 +1,6 @@
 import 'package:dart_clean_architecture/dart_clean_architecture/bloc_manager.dart';
 import 'package:dart_clean_architecture/dart_clean_architecture/domain_layer.dart';
 
-class Entity implements BaseEntity {}
-
 class Service implements BaseService {
   @override
   BaseRepository<BaseEntity, BaseModel> get repository =>

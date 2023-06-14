@@ -1,10 +1,14 @@
+import 'data_layer.dart';
+
 abstract class BaseModel {}
 
 abstract class BaseEntity {}
 
-abstract class BaseMapper<E extends BaseEntity, M extends BaseModel> {}
+class Entity implements BaseEntity {}
 
-abstract class BaseDataSource<M extends BaseModel> {}
+class Mapper implements BaseMapper<BaseEntity, BaseModel> {}
+
+abstract class BaseMapper<E extends BaseEntity, M extends BaseModel> {}
 
 abstract class BaseRepository<E extends BaseEntity, M extends BaseModel> {
   BaseRepository(this.mapper, this.dataSource);
