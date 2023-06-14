@@ -27,7 +27,7 @@ class TickStreamPage extends StatelessWidget {
                         const SizedBox(height: 32),
                         SizedBox(
                           width: double.infinity,
-                          height: 96,
+                          height: 128,
                           child: BasicChart(ticks: state.ticks),
                         ),
                       ],

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:example/features/tick_stream/domain/tick_stream_entity.dart';
+import 'package:example/features/tick_stream/presentation/enums/tick_state.dart';
+import 'package:example/features/tick_stream/presentation/helpers/helpers.dart';
 
 class TickStreamWidget extends StatefulWidget {
   const TickStreamWidget({required this.entity, super.key});
@@ -12,7 +14,7 @@ class TickStreamWidget extends StatefulWidget {
 }
 
 class _TickStreamWidgetState extends State<TickStreamWidget> {
-  Color _color = Colors.black;
+  TickState _status = TickState.none;
 
   @override
   void didUpdateWidget(TickStreamWidget oldWidget) {
@@ -20,10 +22,10 @@ class _TickStreamWidgetState extends State<TickStreamWidget> {
 
     if (oldWidget.entity != widget.entity) {
       widget.entity.quote == oldWidget.entity.quote
-          ? _color = Colors.black
+          ? _status = TickState.none
           : widget.entity.quote > oldWidget.entity.quote
-              ? _color = Colors.green
-              : _color = Colors.red;
+              ? _status = TickState.up
+              : _status = TickState.down;
     }
   }
 
@@ -36,7 +38,7 @@ class _TickStreamWidgetState extends State<TickStreamWidget> {
                 'Symbol: ',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              Text(widget.entity.symbol)
+              Text(widget.entity.symbol),
             ],
           ),
           const SizedBox(height: 4),
@@ -46,7 +48,22 @@ class _TickStreamWidgetState extends State<TickStreamWidget> {
                 'Quote: ',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              Text('${widget.entity.quote}', style: TextStyle(color: _color))
+              Row(
+                children: <Widget>[
+                  Text(
+                    '${widget.entity.quote}',
+                    style: TextStyle(color: getColor(_status)),
+                  ),
+                  Icon(
+                    _status == TickState.up
+                        ? Icons.arrow_drop_up_rounded
+                        : _status == TickState.down
+                            ? Icons.arrow_drop_down_rounded
+                            : Icons.commit_rounded,
+                    color: getColor(_status),
+                  ),
+                ],
+              )
             ],
           ),
           const SizedBox(height: 4),
@@ -56,17 +73,7 @@ class _TickStreamWidgetState extends State<TickStreamWidget> {
                 'Epoch: ',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              Text('${widget.entity.epoch}')
-            ],
-          ),
-          const SizedBox(height: 4),
-          Row(
-            children: <Widget>[
-              const Text(
-                'Id: ',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text(widget.entity.id)
+              Text('${getFormattedDateTime(widget.entity.epoch)}'),
             ],
           ),
         ],
