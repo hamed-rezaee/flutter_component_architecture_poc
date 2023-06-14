@@ -6,13 +6,13 @@ import 'package:example/features/tick_stream/domain/tick_stream_entity.dart';
 import 'package:example/features/tick_stream/presentation/helpers/helpers.dart';
 
 class BasicChart extends StatelessWidget {
-  const BasicChart({required this.ticks, super.key});
+  const BasicChart({required this.ticks, Key? key}) : super(key: key);
 
   final List<TickStreamEntity> ticks;
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(left: 48),
+        padding: const EdgeInsets.only(right: 48),
         child: CustomPaint(painter: _BasicChartPainter(ticks)),
       );
 }
@@ -61,9 +61,11 @@ class _BasicChartPainter extends CustomPainter {
       maxY = max(maxY, entity.quote);
     }
 
+    final double yAxisX = width - 1;
     canvas
-      ..drawLine(Offset(0, height), Offset(width, height), axisPaint)
-      ..drawLine(const Offset(0, 0), Offset(0, height), axisPaint);
+      ..drawLine(Offset(width, height), Offset(0, height), axisPaint)
+      ..drawLine(Offset(width, 0), Offset(width, height), axisPaint)
+      ..drawLine(Offset(yAxisX, 0), Offset(yAxisX, height), axisPaint);
 
     final Path path = Path();
     for (int i = 0; i < data.length; i++) {
@@ -105,7 +107,7 @@ class _BasicChartPainter extends CustomPainter {
         textDirection: TextDirection.ltr,
       )..layout();
 
-      final double labelX = -labelPainter.width - yAxisCount;
+      final double labelX = yAxisX + labelPainter.width / 4;
       final double labelY =
           height - (i * (height / yAxisCount)) - (labelPainter.height / 2);
 
@@ -141,14 +143,13 @@ class _BasicChartPainter extends CustomPainter {
       )..layout();
 
       final double labelX = width * ((labelValue - minX) / (maxX - minX)) -
-          (labelPainter.width / 2) -
-          16;
-      final double labelY = height + 32;
+          (labelPainter.height / 2);
+      final double labelY = height + 42;
 
       canvas
         ..save()
         ..translate(labelX, labelY)
-        ..rotate(-pi / 4);
+        ..rotate(-pi / 2);
 
       labelPainter.paint(canvas, Offset.zero);
       canvas.restore();
