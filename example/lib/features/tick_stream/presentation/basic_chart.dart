@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 import 'package:example/features/tick_stream/domain/tick_stream_entity.dart';
+import 'package:example/features/tick_stream/presentation/helpers/helpers.dart';
 
 class BasicChart extends StatelessWidget {
   const BasicChart({required this.ticks, super.key});
@@ -24,6 +25,7 @@ class _BasicChartPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     const int yAxisCount = 5;
+    const TextStyle labelStyle = TextStyle(color: Colors.white, fontSize: 10);
 
     final double width = size.width;
     final double height = size.height;
@@ -67,7 +69,8 @@ class _BasicChartPainter extends CustomPainter {
     for (int i = 0; i < data.length; i++) {
       final TickStreamEntity entity = data[i];
 
-      final double x = width * ((entity.epoch - minX) / (maxX - minX));
+      final double x =
+          width * ((entity.epoch.toDouble() - minX) / (maxX - minX));
       final double y = height * (1 - ((entity.quote - minY) / (maxY - minY)));
 
       if (i == 0) {
@@ -87,7 +90,6 @@ class _BasicChartPainter extends CustomPainter {
       ..drawPath(path, pathPaint);
 
     final double yLabelInterval = (maxY - minY) / yAxisCount;
-    const TextStyle labelStyle = TextStyle(color: Colors.white, fontSize: 10);
 
     for (int i = 0; i <= yAxisCount; i++) {
       final double labelValue = minY + (yLabelInterval * i);
@@ -108,6 +110,48 @@ class _BasicChartPainter extends CustomPainter {
           height - (i * (height / yAxisCount)) - (labelPainter.height / 2);
 
       labelPainter.paint(canvas, Offset(labelX, labelY));
+    }
+
+    final List<double> xLabels = <double>[];
+    final double xLabelInterval = (maxX - minX) / 5;
+
+    for (int i = 0; i < 6; i++) {
+      final double labelValue = minX + (xLabelInterval * i);
+
+      xLabels.add(labelValue);
+    }
+
+    const TextStyle xLabelStyle = TextStyle(
+      color: Colors.white,
+      fontSize: 10,
+    );
+
+    for (int i = 0; i < xLabels.length; i++) {
+      final double labelValue = xLabels[i];
+      final String labelText = getFormattedTime(labelValue.toInt());
+
+      final TextSpan labelSpan = TextSpan(
+        text: labelText,
+        style: xLabelStyle,
+      );
+
+      final TextPainter labelPainter = TextPainter(
+        text: labelSpan,
+        textDirection: TextDirection.ltr,
+      )..layout();
+
+      final double labelX = width * ((labelValue - minX) / (maxX - minX)) -
+          (labelPainter.width / 2) -
+          16;
+      final double labelY = height + 32;
+
+      canvas
+        ..save()
+        ..translate(labelX, labelY)
+        ..rotate(-pi / 4);
+
+      labelPainter.paint(canvas, Offset.zero);
+      canvas.restore();
     }
   }
 

@@ -19,8 +19,8 @@ class TickStreamPage extends StatelessWidget {
             } else if (state is TickStreamLoadingState) {
               return const Center(child: CircularProgressIndicator());
             } else if (state is TickStreamLoadedState) {
-              return state.ticks.isEmpty
-                  ? const Text('Waiting for data...')
+              return state.ticks.length < 2
+                  ? const Center(child: CircularProgressIndicator())
                   : Column(
                       children: <Widget>[
                         TickStreamWidget(entity: state.ticks.last),
