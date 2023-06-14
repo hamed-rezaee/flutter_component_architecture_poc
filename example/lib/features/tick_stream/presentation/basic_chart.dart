@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-
 import 'package:example/features/tick_stream/domain/tick_stream_entity.dart';
 import 'package:example/features/tick_stream/presentation/helpers/helpers.dart';
 
@@ -40,19 +39,20 @@ class _BasicChartPainter extends CustomPainter {
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: <Color>[
-          Colors.grey.withOpacity(0.3),
-          Colors.white.withOpacity(0),
+          Colors.blue.withOpacity(0.4),
+          Colors.blue.withOpacity(0),
         ],
       ).createShader(Rect.fromLTRB(0, 0, width, height));
 
-    final Paint axisPaint = Paint()
-      ..color = Colors.white
-      ..strokeWidth = 1.0;
-
     final Paint pathPaint = Paint()
-      ..color = Colors.grey
+      ..color = Colors.grey.withOpacity(0.7)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.5;
+
+    final Paint currentPointPaint = Paint()
+      ..color = Colors.blue.withOpacity(0.7)
+      ..strokeWidth = 2.0
+      ..style = PaintingStyle.fill;
 
     for (final TickStreamEntity entity in data) {
       minX = min(minX, entity.epoch.toDouble());
@@ -62,12 +62,17 @@ class _BasicChartPainter extends CustomPainter {
     }
 
     final double yAxisX = width - 1;
+
+    final Paint axisPaint = Paint()
+      ..color = Colors.white
+      ..strokeWidth = 1.0;
+
     canvas
       ..drawLine(Offset(width, height), Offset(0, height), axisPaint)
-      ..drawLine(Offset(width, 0), Offset(width, height), axisPaint)
-      ..drawLine(Offset(yAxisX, 0), Offset(yAxisX, height), axisPaint);
+      ..drawLine(Offset(width, 0), Offset(width, height), axisPaint);
 
     final Path path = Path();
+
     for (int i = 0; i < data.length; i++) {
       final TickStreamEntity entity = data[i];
 
@@ -119,7 +124,6 @@ class _BasicChartPainter extends CustomPainter {
 
     for (int i = 0; i < 6; i++) {
       final double labelValue = minX + (xLabelInterval * i);
-
       xLabels.add(labelValue);
     }
 
@@ -142,18 +146,53 @@ class _BasicChartPainter extends CustomPainter {
         textDirection: TextDirection.ltr,
       )..layout();
 
-      final double labelX = width * ((labelValue - minX) / (maxX - minX)) -
-          (labelPainter.height / 2);
-      final double labelY = height + 42;
+      final double labelX = width * ((labelValue - minX) / (maxX - minX));
+      final double labelY = height + labelPainter.width / 6;
 
       canvas
         ..save()
         ..translate(labelX, labelY)
-        ..rotate(-pi / 2);
+        ..rotate(pi / 8);
 
       labelPainter.paint(canvas, Offset.zero);
       canvas.restore();
     }
+
+    final double currentValueY =
+        height * (1 - ((data.last.quote - minY) / (maxY - minY)));
+
+    final TextStyle valueStyle = TextStyle(
+      color: Colors.white.withOpacity(0.5),
+      fontSize: 12,
+      fontWeight: FontWeight.bold,
+    );
+
+    final TextSpan currentSpan = TextSpan(
+      text: data.last.quote.toStringAsFixed(2),
+      style: valueStyle,
+    );
+
+    final TextPainter currentPainter = TextPainter(
+      text: currentSpan,
+      textDirection: TextDirection.ltr,
+    )..layout();
+
+    const double valuePadding = 4;
+
+    final double currentValueX = width - currentPainter.width - valuePadding;
+
+    currentPainter.paint(
+      canvas,
+      Offset(currentValueX, currentValueY - currentPainter.height),
+    );
+
+    final double currentPointX =
+        width * ((data.last.epoch.toDouble() - minX) / (maxX - minX));
+    final double currentPointY =
+        height * (1 - ((data.last.quote - minY) / (maxY - minY)));
+
+    canvas.drawCircle(
+        Offset(currentPointX, currentPointY), 4, currentPointPaint);
   }
 
   @override
