@@ -40,18 +40,18 @@ class _BasicChartPainter extends CustomPainter {
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: <Color>[
-          Colors.blue.withOpacity(0.4),
-          Colors.blue.withOpacity(0),
+          Colors.green.withOpacity(0.5),
+          Colors.transparent,
         ],
       ).createShader(Rect.fromLTRB(0, 0, width, height));
 
     final Paint pathPaint = Paint()
-      ..color = Colors.grey.withOpacity(0.7)
+      ..color = Colors.greenAccent.withOpacity(0.5)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.5;
 
     final Paint currentPointPaint = Paint()
-      ..color = Colors.blue.withOpacity(0.7)
+      ..color = Colors.green.withOpacity(0.7)
       ..strokeWidth = 2.0
       ..style = PaintingStyle.fill;
 
@@ -180,8 +180,8 @@ class _BasicChartPainter extends CustomPainter {
     final double currentValueY =
         height * (1 - ((data.last.quote - minY) / (maxY - minY)));
 
-    final TextStyle valueStyle = TextStyle(
-      color: Colors.white.withOpacity(0.5),
+    const TextStyle valueStyle = TextStyle(
+      color: Colors.white,
       fontSize: 12,
       fontWeight: FontWeight.bold,
     );

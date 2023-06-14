@@ -8,5 +8,5 @@ abstract class BaseService {
   const BaseService(this.repository);
 
   /// Repository instance.
-  final BaseRepository repository;
+  final BaseRepository? repository;
 }

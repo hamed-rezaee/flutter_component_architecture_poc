@@ -12,8 +12,8 @@ abstract class BaseRepository {
   const BaseRepository(this.mapper, this.dataSource);
 
   /// Mapper instance.
-  final BaseMapper<BaseEntity, BaseModel> mapper;
+  final BaseMapper<BaseEntity, BaseModel>? mapper;
 
   /// Data source instance.
-  final BaseDataSource dataSource;
+  final BaseDataSource? dataSource;
 }

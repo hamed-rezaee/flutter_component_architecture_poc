@@ -55,11 +55,12 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-        theme: ThemeData(brightness: Brightness.dark),
+        theme:
+            ThemeData(brightness: Brightness.dark, primarySwatch: Colors.green),
         home: Scaffold(
           appBar: AppBar(
             elevation: 0,
-            title: const Text('Architecture Demo'),
+            title: const Text('App Architecture Demo'),
           ),
           body: const Padding(
             padding: EdgeInsets.all(8),

@@ -23,7 +23,7 @@ class ActiveSymbolDataSource extends BaseActiveSymbolDataSource {
                 await Isolate.run<List<ActiveSymbolModel>>(
               () => event['active_symbols']
                   .map<ActiveSymbolModel>(
-                    (dynamic e) => ActiveSymbolModel.fromJson(e),
+                    (dynamic item) => ActiveSymbolModel.fromJson(item),
                   )
                   .toList(),
             );
