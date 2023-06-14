@@ -47,6 +47,11 @@ class _BasicChartPainter extends CustomPainter {
       ..color = Colors.white
       ..strokeWidth = 1.0;
 
+    final Paint pathPaint = Paint()
+      ..color = Colors.grey
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.5;
+
     for (final TickStreamEntity entity in data) {
       minX = min(minX, entity.epoch.toDouble());
       maxX = max(maxX, entity.epoch.toDouble());
@@ -77,7 +82,9 @@ class _BasicChartPainter extends CustomPainter {
       ..lineTo(0, height)
       ..close();
 
-    canvas.drawPath(areaPath, areaPaint);
+    canvas
+      ..drawPath(areaPath, areaPaint)
+      ..drawPath(path, pathPaint);
 
     final double yLabelInterval = (maxY - minY) / yAxisCount;
     const TextStyle labelStyle = TextStyle(color: Colors.white, fontSize: 10);
