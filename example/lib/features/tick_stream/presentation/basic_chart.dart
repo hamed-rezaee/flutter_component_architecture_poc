@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+
 import 'package:example/features/tick_stream/domain/tick_stream_entity.dart';
 import 'package:example/features/tick_stream/presentation/helpers/helpers.dart';
 
@@ -8,21 +9,29 @@ const int yAxisCount = 5;
 const int xAxisCount = 5;
 
 class BasicChart extends StatelessWidget {
-  const BasicChart({required this.ticks, Key? key}) : super(key: key);
+  const BasicChart({
+    required this.ticks,
+    Key? key,
+    this.chartColor = Colors.orange,
+  }) : super(key: key);
 
   final List<TickStreamEntity> ticks;
+  final Color chartColor;
 
   @override
   Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.only(right: 48),
-        child: CustomPaint(painter: _BasicChartPainter(ticks)),
+        child: CustomPaint(
+          painter: _BasicChartPainter(ticks, chartColor),
+        ),
       );
 }
 
 class _BasicChartPainter extends CustomPainter {
-  _BasicChartPainter(this.data);
+  _BasicChartPainter(this.data, this.chartColor);
 
   final List<TickStreamEntity> data;
+  final Color chartColor;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -104,7 +113,7 @@ class _BasicChartPainter extends CustomPainter {
     final double height = size.height;
 
     final Paint pathPaint = Paint()
-      ..color = Colors.amber.withOpacity(0.5)
+      ..color = chartColor.withOpacity(0.5)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.5;
 
@@ -113,8 +122,8 @@ class _BasicChartPainter extends CustomPainter {
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: <Color>[
-          Colors.amber.withOpacity(0.3),
-          Colors.amber.withOpacity(0.2),
+          chartColor.withOpacity(0.3),
+          chartColor.withOpacity(0.2),
           Colors.transparent,
         ],
       ).createShader(Rect.fromLTRB(0, 0, width, height));
@@ -277,7 +286,7 @@ class _BasicChartPainter extends CustomPainter {
     final double height = size.height;
 
     final Paint currentPointPaint = Paint()
-      ..color = Colors.amber
+      ..color = chartColor
       ..strokeWidth = 2.0
       ..style = PaintingStyle.fill;
 

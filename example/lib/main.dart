@@ -55,8 +55,10 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-        theme:
-            ThemeData(brightness: Brightness.dark, primarySwatch: Colors.amber),
+        theme: ThemeData(
+          brightness: Brightness.dark,
+          primarySwatch: Colors.orange,
+        ),
         home: Scaffold(
           appBar: AppBar(
             elevation: 0,
