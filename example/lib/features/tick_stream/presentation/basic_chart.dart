@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:example/features/tick_stream/domain/tick_stream_entity.dart';
 import 'package:example/features/tick_stream/presentation/helpers/helpers.dart';
 
+const int yAxisCount = 5;
+const int xAxisCount = 5;
+
 class BasicChart extends StatelessWidget {
   const BasicChart({required this.ticks, Key? key}) : super(key: key);
 
@@ -23,46 +26,38 @@ class _BasicChartPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    const int yAxisCount = 5;
-    const int xAxisCount = 5;
-    const TextStyle labelStyle = TextStyle(color: Colors.white, fontSize: 10);
+    final double minX = data
+        .reduce((TickStreamEntity value, TickStreamEntity element) =>
+            value.epoch < element.epoch ? value : element)
+        .epoch
+        .toDouble();
+    final double maxX = data
+        .reduce((TickStreamEntity value, TickStreamEntity element) =>
+            value.epoch > element.epoch ? value : element)
+        .epoch
+        .toDouble();
+    final double minY = data
+        .reduce((TickStreamEntity value, TickStreamEntity element) =>
+            value.quote < element.quote ? value : element)
+        .quote;
+    final double maxY = data
+        .reduce((TickStreamEntity value, TickStreamEntity element) =>
+            value.quote > element.quote ? value : element)
+        .quote;
 
+    _drawAxes(canvas, size);
+    _drawGrids(canvas, size);
+
+    _drawChart(canvas, size, minX, maxX, minY, maxY);
+
+    _drawLabels(canvas, size, minX, maxX, minY, maxY);
+    _drawCurrentValue(canvas, size, minX, maxX, minY, maxY);
+    _drawCurrentPoint(canvas, size, minX, maxX, minY, maxY);
+  }
+
+  void _drawAxes(Canvas canvas, Size size) {
     final double width = size.width;
     final double height = size.height;
-
-    double minX = double.infinity;
-    double maxX = -double.infinity;
-    double minY = double.infinity;
-    double maxY = -double.infinity;
-
-    final Paint areaPaint = Paint()
-      ..shader = LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: <Color>[
-          Colors.green.withOpacity(0.5),
-          Colors.transparent,
-        ],
-      ).createShader(Rect.fromLTRB(0, 0, width, height));
-
-    final Paint pathPaint = Paint()
-      ..color = Colors.greenAccent.withOpacity(0.5)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.5;
-
-    final Paint currentPointPaint = Paint()
-      ..color = Colors.green.withOpacity(0.7)
-      ..strokeWidth = 2.0
-      ..style = PaintingStyle.fill;
-
-    for (final TickStreamEntity entity in data) {
-      minX = min(minX, entity.epoch.toDouble());
-      maxX = max(maxX, entity.epoch.toDouble());
-      minY = min(minY, entity.quote);
-      maxY = max(maxY, entity.quote);
-    }
-
-    final double yAxisX = width - 1;
 
     final Paint axisPaint = Paint()
       ..color = Colors.white
@@ -71,24 +66,58 @@ class _BasicChartPainter extends CustomPainter {
     canvas
       ..drawLine(Offset(width, height), Offset(0, height), axisPaint)
       ..drawLine(Offset(width, 0), Offset(width, height), axisPaint);
+  }
+
+  void _drawGrids(Canvas canvas, Size size) {
+    final double width = size.width;
+    final double height = size.height;
 
     final Paint gridsPaint = Paint()
       ..color = Colors.white.withOpacity(0.2)
       ..strokeWidth = 1.0;
 
     final double xGridInterval = width / (xAxisCount - 1);
+    final double yGridInterval = height / yAxisCount;
+
     for (int i = 0; i < xAxisCount; i++) {
       final double x = i * xGridInterval;
 
       canvas.drawLine(Offset(x, 0), Offset(x, height), gridsPaint);
     }
 
-    final double yGridInterval = height / (yAxisCount - 1);
-    for (int i = 0; i < yAxisCount; i++) {
+    for (int i = 0; i <= yAxisCount; i++) {
       final double y = height - i * yGridInterval;
 
       canvas.drawLine(Offset(0, y), Offset(width, y), gridsPaint);
     }
+  }
+
+  void _drawChart(
+    Canvas canvas,
+    Size size,
+    double minX,
+    double maxX,
+    double minY,
+    double maxY,
+  ) {
+    final double width = size.width;
+    final double height = size.height;
+
+    final Paint pathPaint = Paint()
+      ..color = Colors.amber.withOpacity(0.5)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.5;
+
+    final Paint areaPaint = Paint()
+      ..shader = LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: <Color>[
+          Colors.amber.withOpacity(0.3),
+          Colors.amber.withOpacity(0.2),
+          Colors.transparent,
+        ],
+      ).createShader(Rect.fromLTRB(0, 0, width, height));
 
     final Path path = Path();
 
@@ -106,14 +135,30 @@ class _BasicChartPainter extends CustomPainter {
       }
     }
 
+    canvas.drawPath(path, pathPaint);
+
     final Path areaPath = Path.from(path)
       ..lineTo(width, height)
       ..lineTo(0, height)
       ..close();
 
-    canvas
-      ..drawPath(areaPath, areaPaint)
-      ..drawPath(path, pathPaint);
+    canvas.drawPath(areaPath, areaPaint);
+  }
+
+  void _drawLabels(
+    Canvas canvas,
+    Size size,
+    double minX,
+    double maxX,
+    double minY,
+    double maxY,
+  ) {
+    final double width = size.width;
+    final double height = size.height;
+
+    const TextStyle labelStyle = TextStyle(color: Colors.white, fontSize: 10);
+
+    final double yAxisX = width - 1;
 
     final double yLabelInterval = (maxY - minY) / yAxisCount;
 
@@ -151,6 +196,8 @@ class _BasicChartPainter extends CustomPainter {
       fontSize: 10,
     );
 
+    final double xGridInterval = width / (xAxisCount - 1);
+
     for (int i = 0; i < xLabels.length; i++) {
       final double labelValue = xLabels[i];
       final String labelText = getFormattedTime(labelValue.toInt());
@@ -174,11 +221,21 @@ class _BasicChartPainter extends CustomPainter {
         ..rotate(pi / 8);
 
       labelPainter.paint(canvas, Offset.zero);
+
       canvas.restore();
     }
+  }
 
-    final double currentValueY =
-        height * (1 - ((data.last.quote - minY) / (maxY - minY)));
+  void _drawCurrentValue(
+    Canvas canvas,
+    Size size,
+    double minX,
+    double maxX,
+    double minY,
+    double maxY,
+  ) {
+    final double width = size.width;
+    final double height = size.height;
 
     const TextStyle valueStyle = TextStyle(
       color: Colors.white,
@@ -198,12 +255,31 @@ class _BasicChartPainter extends CustomPainter {
 
     const double valuePadding = 4;
 
+    final double currentValueY =
+        height * (1 - ((data.last.quote - minY) / (maxY - minY)));
     final double currentValueX = width - currentPainter.width - valuePadding;
 
     currentPainter.paint(
       canvas,
       Offset(currentValueX, currentValueY - currentPainter.height),
     );
+  }
+
+  void _drawCurrentPoint(
+    Canvas canvas,
+    Size size,
+    double minX,
+    double maxX,
+    double minY,
+    double maxY,
+  ) {
+    final double width = size.width;
+    final double height = size.height;
+
+    final Paint currentPointPaint = Paint()
+      ..color = Colors.amber
+      ..strokeWidth = 2.0
+      ..style = PaintingStyle.fill;
 
     final double currentPointX =
         width * ((data.last.epoch.toDouble() - minX) / (maxX - minX));
@@ -211,7 +287,10 @@ class _BasicChartPainter extends CustomPainter {
         height * (1 - ((data.last.quote - minY) / (maxY - minY)));
 
     canvas.drawCircle(
-        Offset(currentPointX, currentPointY), 4, currentPointPaint);
+      Offset(currentPointX, currentPointY),
+      4,
+      currentPointPaint,
+    );
   }
 
   @override
