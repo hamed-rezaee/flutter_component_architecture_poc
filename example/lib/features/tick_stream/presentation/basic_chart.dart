@@ -173,7 +173,7 @@ class _BasicChartPainter extends CustomPainter {
 
     for (int i = 0; i <= yAxisCount; i++) {
       final double labelValue = minY + (yLabelInterval * i);
-      final String labelText = labelValue.toStringAsFixed(2);
+      final String labelText = labelValue.toStringAsFixed(data.first.pipSize);
 
       final TextSpan labelSpan = TextSpan(
         text: labelText,
@@ -253,7 +253,7 @@ class _BasicChartPainter extends CustomPainter {
     );
 
     final TextSpan currentSpan = TextSpan(
-      text: data.last.quote.toStringAsFixed(2),
+      text: data.last.quote.toStringAsFixed(data.first.pipSize),
       style: valueStyle,
     );
 

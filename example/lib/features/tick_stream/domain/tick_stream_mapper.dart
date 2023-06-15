@@ -9,5 +9,6 @@ class TickStreamMapper
         epoch: model.epoch,
         quote: model.quote,
         symbol: model.symbol,
+        pipSize: model.pipSize,
       );
 }

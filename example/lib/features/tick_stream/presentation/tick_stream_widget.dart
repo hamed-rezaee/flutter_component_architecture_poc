@@ -51,7 +51,7 @@ class _TickStreamWidgetState extends State<TickStreamWidget> {
               Row(
                 children: <Widget>[
                   Text(
-                    widget.entity.quote.toStringAsFixed(2),
+                    widget.entity.quote.toStringAsFixed(widget.entity.pipSize),
                     style: TextStyle(color: getColor(_status)),
                   ),
                   Icon(
