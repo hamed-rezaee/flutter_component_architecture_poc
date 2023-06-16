@@ -1,4 +1,4 @@
-import 'package:example/core/contracts/domain/base_service.dart';
+import 'package:example/core/contracts/Interactor/base_service.dart';
 import 'package:example/features/tick_stream/domain/base_tick_stream_repository.dart';
 import 'package:example/features/tick_stream/domain/tick_stream_entity.dart';
 
