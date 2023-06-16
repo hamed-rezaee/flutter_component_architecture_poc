@@ -1,8 +1,8 @@
 # Architecture Overview
 
-This architecture follows a clean architecture pattern and consists of three main layers: the presentation layer, the domain layer, and the data layer. Each layer has its own set of classes and responsibilities, which are briefly described below.
+This architecture follows a clean architecture pattern and consists of four main layers: the presentation layer, the interactor, the domain layer, and the data layer.
 
-The architecture is divided into three main layers: the data layer, domain layer, and presentation layer. Each layer has its own set of responsibilities and interacts with the other layers through well-defined interfaces.
+Each layer has its own set of classes and responsibilities, which are briefly described below.
 
 ### Data Layer
 
@@ -28,7 +28,13 @@ The domain layer contains the business logic of the application and defines the 
 
 - **BaseRepository**: The `BaseRepository` class defines the base repository interface, which encapsulates the data retrieval logic and provides an abstraction for accessing data from the data source. It depends on the `BaseMapper` and `BaseDataSource` interfaces.
 
+### Interactor Layer
+
+The interactor layer is responsible for handling the business logic of the application. It consists of the following components:
+
 - **BaseService**: The `BaseService` class defines the base service interface, which encapsulates the business logic operations. It depends on the `BaseRepository` interface.
+
+- **Service**: The `Service` class implements the `BaseService` interface and provides the implementation of the business logic operations. It depends on the `BaseRepository` interface.
 
 ### Presentation Layer
 
@@ -36,11 +42,9 @@ The presentation layer is responsible for displaying the user interface and hand
 
 - **Entity**: The `Entity` class represents the domain entity used in the presentation layer. It implements the `BaseEntity` interface.
 
-- **Service**: The `Service` class implements the `BaseService` interface and provides the implementation of the business logic operations. It depends on the `BaseRepository` interface.
-
 - **ExtendedBloc**: The `ExtendedBloc` class extends the `Bloc` class and implements the `StateListener` interface. It represents a specific type of business logic component in the presentation layer. It interacts with the `Service` and handles state changes. It implements the `onState()` method defined in the `StateListener` interface.
 
-- **Bloc**: The `Bloc` class represents a general business logic component in the presentation layer. It interacts with the `Service` and encapsulates the business logic operations.
+- **Bloc**: The `Bloc` class interacts with the `Service` and encapsulates the business logic operations, it is responsible for handling state changes. It is better to keep the business logic in the `Service` and use the `Bloc` as a wrapper to handle state changes.
 
 - **Widget**: The `Widget` class represents a UI component in the presentation layer.
 
