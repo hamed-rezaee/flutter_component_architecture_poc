@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+import 'package:example/core/helpers/helpers.dart';
 import 'package:example/features/tick_stream/domain/tick_stream_entity.dart';
-import 'package:example/features/tick_stream/presentation/helpers/helpers.dart';
 
 const int yAxisCount = 5;
 const int xAxisCount = 5;

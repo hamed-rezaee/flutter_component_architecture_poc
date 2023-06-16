@@ -16,9 +16,3 @@ abstract class BaseRepository<E extends BaseEntity, M extends BaseModel> {
   final BaseMapper<BaseEntity, BaseModel> mapper;
   final BaseDataSource<BaseModel> dataSource;
 }
-
-abstract class BaseService {
-  BaseService(this.repository);
-
-  final BaseRepository<BaseEntity, BaseModel> repository;
-}
