@@ -32,6 +32,8 @@ class TickSteamCubit extends Cubit<TickStreamState> {
         }
 
         emit(TickStreamLoadedState(ticks));
+      }).onError((Object error) {
+        emit(TickStreamErrorState('$error'));
       });
     } on Exception catch (e) {
       emit(TickStreamErrorState('$e'));
