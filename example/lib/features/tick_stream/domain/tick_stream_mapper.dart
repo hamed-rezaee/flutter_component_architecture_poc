@@ -10,5 +10,6 @@ class TickStreamMapper
         quote: model.quote,
         symbol: model.symbol,
         pipSize: model.pipSize,
+        id: model.id,
       );
 }

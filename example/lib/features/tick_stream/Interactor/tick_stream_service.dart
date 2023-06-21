@@ -9,9 +9,9 @@ class TickStreamService implements BaseTickStreamService {
   final BaseTickStreamRepository repository;
 
   @override
-  Stream<TickStreamEntity> fetchTickStream(String symbol) =>
-      repository.fetchTickStream(symbol);
+  void forgetTickStream(String id) => repository.forgetTickStream(id);
 
   @override
-  void forgetTickStream() => repository.forgetTickStream();
+  Stream<TickStreamEntity> fetchTickStream(String symbol) =>
+      repository.fetchTickStream(symbol);
 }

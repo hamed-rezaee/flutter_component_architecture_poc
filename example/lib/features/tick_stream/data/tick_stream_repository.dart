@@ -16,7 +16,7 @@ class TickStreamRepoistory implements BaseTickStreamRepository {
   final BaseTickStreamDataSource dataSource;
 
   @override
-  void forgetTickStream() => dataSource.forgetTickStream();
+  void forgetTickStream(String id) => dataSource.forgetTickStream(id);
 
   @override
   Stream<TickStreamEntity> fetchTickStream(String symbol) =>
