@@ -18,11 +18,11 @@ class WebSocketConnection {
 
   late final IOWebSocketChannel _channel;
 
-  void addRequest(Map<String, dynamic> request) =>
+  void request(Map<String, dynamic> request) =>
       _channel.sink.add(jsonEncode(request));
 
   final StreamController<dynamic> streamController =
       StreamController<dynamic>.broadcast();
 
-  Stream<dynamic> get stream => streamController.stream;
+  Stream<dynamic> get response => streamController.stream;
 }

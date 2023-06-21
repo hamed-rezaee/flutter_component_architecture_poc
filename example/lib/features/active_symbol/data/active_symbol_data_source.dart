@@ -8,11 +8,14 @@ import 'package:example/features/active_symbol/data/base_active_symbol_data_sour
 class ActiveSymbolDataSource extends BaseActiveSymbolDataSource {
   @override
   Future<List<ActiveSymbolModel>> fetchActiveSymbols() async {
-    WebSocketConnection().addRequest(
-      <String, dynamic>{'active_symbols': 'brief', 'product_type': 'basic'},
+    WebSocketConnection().request(
+      <String, dynamic>{
+        'active_symbols': 'brief',
+        'product_type': 'basic',
+      },
     );
 
-    return WebSocketConnection().stream.transform(
+    return WebSocketConnection().response.transform(
       StreamTransformer<dynamic, List<ActiveSymbolModel>>.fromHandlers(
         handleData: (
           dynamic event,

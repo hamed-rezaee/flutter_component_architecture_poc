@@ -7,14 +7,15 @@ import 'package:example/features/tick_stream/data/base_tick_stream_data_source.d
 
 class TickStreamDataSource extends BaseTickStreamDataSource {
   @override
-  void forgetTickStream() => WebSocketConnection()
-      .addRequest(<String, dynamic>{'forget_all': 'ticks'});
+  void forgetTickStream(String id) => WebSocketConnection().request(
+        <String, dynamic>{'forget': id},
+      );
 
   @override
   Stream<TickStreamModel> fetchTickStream(String symbol) {
-    WebSocketConnection().addRequest(<String, dynamic>{'ticks': symbol});
+    WebSocketConnection().request(<String, dynamic>{'ticks': symbol});
 
-    return WebSocketConnection().stream.transform(
+    return WebSocketConnection().response.transform(
       StreamTransformer<dynamic, TickStreamModel>.fromHandlers(
         handleData: (dynamic event, EventSink<TickStreamModel> sink) async {
           print(event);
