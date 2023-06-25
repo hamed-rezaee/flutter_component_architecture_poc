@@ -75,4 +75,4 @@ Example usage of this architecture can be found in the [example](example) direct
 
 ### Example Class Diagram
 
-![Example Class Diagram](example_diagram.svg)
+![Class Diagram](diagram.svg)
