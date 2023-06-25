@@ -3,10 +3,8 @@ import 'package:flutter_deriv_bloc_manager/manager.dart';
 import 'package:example/core/bloc_manager/selected_active_symbol_state_listener.dart';
 import 'package:example/features/active_symbol/presentation/states/selected_active_symbol_cubit.dart';
 
-/// selected active symbol state emitter.
 class SelectedActiveSymbolStateEmitter extends BaseStateEmitter<
     SelectedActiveSymbolStateListener, SelectedActiveSymbolCubit> {
-  /// Initializes Active symbol state emitter.
   SelectedActiveSymbolStateEmitter(BaseBlocManager blocManager)
       : super(blocManager);
 

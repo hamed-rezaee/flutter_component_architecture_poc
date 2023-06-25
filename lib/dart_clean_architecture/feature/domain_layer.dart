@@ -1,6 +1,5 @@
 import '../core/data.dart';
 import '../core/domain.dart';
-import 'data_layer.dart';
 
 class FeatureEntity implements BaseEntity {}
 
