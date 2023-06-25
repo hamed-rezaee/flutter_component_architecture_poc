@@ -5,144 +5,139 @@
 
 set namespaceSeparator ::
 
-abstract class "Core::Contracts::BaseModel" {
+left to right direction
+
+abstract class "core::bloc_manager.dart::BaseStateListener" {
 }
 
-abstract class "Core::Contracts::BaseRepository" {
-  +BaseMapper<BaseEntity, BaseModel> mapper
-  +BaseDataSource dataSource
+class "core::bloc_manager.dart::StateListener" {
+  +void onChangeState()
 }
 
-"Core::Contracts::BaseRepository" o-- "Core::Contracts::BaseMapper<BaseEntity, BaseModel>"
-"Core::Contracts::BaseRepository" o-- "Core::Contracts::BaseDataSource"
+"core::bloc_manager.dart::BaseStateListener" <|-- "core::bloc_manager.dart::StateListener"
 
-abstract class "Core::Contracts::BaseMapper" {
-  +M toModel()
+abstract class "core::data.dart::BaseDataSource" {
+}
+
+abstract class "core::data.dart::BaseModel" {
+}
+
+abstract class "core::data.dart::BaseDataSources" {
+}
+
+abstract class "core::domain.dart::BaseEntity" {
+}
+
+abstract class "core::domain.dart::BaseMapper" {
   +E toEntity()
+  +M toModel()
 }
 
-abstract class "Core::Contracts::BaseService" {
-  +BaseRepository repository
+abstract class "core::domain.dart::BaseRepository" {
+  +BaseMapper<BaseEntity, BaseModel>? mapper
+  +BaseDataSource? dataSource
 }
 
-"Core::Contracts::BaseService" o-- "Core::Contracts::BaseRepository"
+"core::domain.dart::BaseRepository" o-- "core::domain.dart::BaseMapper<BaseEntity, BaseModel>"
+"core::domain.dart::BaseRepository" o-- "core::data.dart::BaseDataSource"
 
-abstract class "Core::Contracts::BaseDataSource" {
+abstract class "core::interactor.dart::BaseService" {
+  +BaseRepository? repository
 }
 
-abstract class "Core::Contracts::BaseEntity" {
+"core::interactor.dart::BaseService" o-- "core::domain.dart::BaseRepository"
+
+class "feature::data_layer.dart::FeatureModel" {
 }
 
-abstract class "Core::State Listeners::StateListener" {
-  +void onChanged()
+"core::data.dart::BaseModel" <|-- "feature::data_layer.dart::FeatureModel"
+
+abstract class "feature::data_layer.dart::BaseFeatureDataSource" {
+  +dynamic getData()
 }
 
-class "Feature::Data::FeatureRepoistory" {
-  +FeatureMapper mapper
+"core::data.dart::BaseDataSource" <|-- "feature::data_layer.dart::BaseFeatureDataSource"
+
+class "feature::data_layer.dart::RemoteFeatureDataSource" {
+  +dynamic getData()
+}
+
+"feature::data_layer.dart::BaseFeatureDataSource" <|-- "feature::data_layer.dart::RemoteFeatureDataSource"
+
+class "feature::data_layer.dart::LocalFeatureDataSource" {
+  +dynamic getData()
+}
+
+"feature::data_layer.dart::BaseFeatureDataSource" <|-- "feature::data_layer.dart::LocalFeatureDataSource"
+
+class "feature::data_layer.dart::FeatureRepository" {
   +BaseFeatureDataSource dataSource
-  +Stream<FeatureEntity> doSomeAction()
-}
-
-"Feature::Data::FeatureRepoistory" o-- "Feature::Domain::FeatureMapper"
-"Feature::Data::FeatureRepoistory" o-- "Feature::Domain::BaseFeatureDataSource"
-"Feature::Domain::BaseFeatureRepository" <|-- "Feature::Data::FeatureRepoistory"
-
-class "Feature::Data::FeatureModel" {
-  +double ask
-  +double bid
-  +int epoch
-  +String id
-  +int pipSize
-  +double quote
-  +String symbol
-}
-
-"Core::Contracts::BaseModel" <|-- "Feature::Data::FeatureModel"
-
-class "Feature::Data::FeatureDataSource" {
-  +Stream<FeatureModel> doSomeAction()
-}
-
-"Feature::Domain::BaseFeatureDataSource" <|-- "Feature::Data::FeatureDataSource"
-
-abstract class "Feature::Domain::BaseFeatureService" {
-  +BaseFeatureRepository repository
-  +Stream<FeatureEntity> doSomeAction()
-}
-
-"Feature::Domain::BaseFeatureService" o-- "Feature::Domain::BaseFeatureRepository"
-"Core::Contracts::BaseService" <|-- "Feature::Domain::BaseFeatureService"
-
-class "Feature::Domain::FeatureMapper" {
-  +FeatureModel toModel()
-  +FeatureEntity toEntity()
-}
-
-"Core::Contracts::BaseMapper" <|-- "Feature::Domain::FeatureMapper"
-
-abstract class "Feature::Domain::BaseFeatureDataSource" {
-  +Stream<FeatureModel> doSomeAction()
-}
-
-"Core::Contracts::BaseDataSource" <|-- "Feature::Domain::BaseFeatureDataSource"
-
-abstract class "Feature::Domain::BaseFeatureRepository" {
   +FeatureMapper mapper
-  +BaseFeatureDataSource dataSource
-  +Stream<FeatureEntity> doSomeAction()
 }
 
-"Feature::Domain::BaseFeatureRepository" o-- "Feature::Domain::FeatureMapper"
-"Feature::Domain::BaseFeatureRepository" o-- "Feature::Domain::BaseFeatureDataSource"
-"Core::Contracts::BaseRepository" <|-- "Feature::Domain::BaseFeatureRepository"
+"feature::data_layer.dart::FeatureRepository" o-- "feature::data_layer.dart::BaseFeatureDataSource"
+"feature::data_layer.dart::FeatureRepository" o-- "feature::domain_layer.dart::FeatureMapper"
+"feature::domain_layer.dart::BaseFeatureRepository" <|-- "feature::data_layer.dart::FeatureRepository"
 
-class "Feature::Presentation::FeatureService" {
-  +Stream<FeatureEntity> doSomeAction()
+class "feature::domain_layer.dart::FeatureEntity" {
 }
 
-"Feature::Domain::BaseFeatureService" <|-- "Feature::Presentation::FeatureService"
+"core::domain.dart::BaseEntity" <|-- "feature::domain_layer.dart::FeatureEntity"
 
-class "Feature::Presentation::FeatureWidget" {
-  +FeatureEntity entity
+class "feature::domain_layer.dart::FeatureMapper" {
+  +BaseModel toModel()
+  +BaseEntity toEntity()
 }
 
-"Feature::Presentation::FeatureWidget" o-- "Feature::Presentation::FeatureEntity"
+"core::domain.dart::BaseMapper" <|-- "feature::domain_layer.dart::FeatureMapper"
 
-class "Feature::Presentation::State Managment::FeatureCubitExtended" {
-  +void onChanged()
+abstract class "feature::domain_layer.dart::BaseFeatureRepository" {
+  +BaseDataSource dataSource
+  +FeatureMapper mapper
 }
 
-"Feature::Presentation::State Managment::FeatureCubit" <|-- "Feature::Presentation::State Managment::FeatureCubitExtended"
-"Core::State Listeners::StateListener" <|-- "Feature::Presentation::State Managment::FeatureCubitExtended"
+"feature::domain_layer.dart::BaseFeatureRepository" o-- "core::data.dart::BaseDataSource"
+"feature::domain_layer.dart::BaseFeatureRepository" o-- "feature::domain_layer.dart::FeatureMapper"
+"core::domain.dart::BaseRepository" <|-- "feature::domain_layer.dart::BaseFeatureRepository"
 
-class "Feature::Presentation::FeatureEntity" {
-  +double ask
-  +double bid
-  +int epoch
-  +String id
-  +int pipSize
-  +double quote
-  +String symbol
+abstract class "feature::interactor_layer.dart::BaseFeatureService" {
+  +BaseFeatureRepository? repository
+  +dynamic getData()
 }
 
-"Core::Contracts::BaseEntity" <|-- "Feature::Presentation::FeatureEntity"
+"feature::interactor_layer.dart::BaseFeatureService" o-- "feature::domain_layer.dart::BaseFeatureRepository"
+"core::interactor.dart::BaseService" <|-- "feature::interactor_layer.dart::BaseFeatureService"
 
-class "Feature::Presentation::State Managment::FeatureCubit" {
+class "feature::interactor_layer.dart::FeatureService" {
+  +BaseFeatureRepository? repository
+  +dynamic getData()
+}
+
+"feature::interactor_layer.dart::FeatureService" o-- "feature::domain_layer.dart::BaseFeatureRepository"
+"feature::interactor_layer.dart::BaseFeatureService" <|-- "feature::interactor_layer.dart::FeatureService"
+
+class "feature::presentation_layer.dart::ExtendedBloc" {
+  +dynamic getData()
+  +void onChangeState()
+}
+
+"feature::presentation_layer.dart::Bloc" <|-- "feature::presentation_layer.dart::ExtendedBloc"
+"core::bloc_manager.dart::StateListener" <|-- "feature::presentation_layer.dart::ExtendedBloc"
+
+class "feature::presentation_layer.dart::Bloc" {
   +BaseFeatureService service
-  +void doSomeAction()
 }
 
-"Feature::Presentation::State Managment::FeatureCubit" o-- "Feature::Domain::BaseFeatureService"
+"feature::presentation_layer.dart::Bloc" o-- "feature::interactor_layer.dart::BaseFeatureService"
 
-abstract class "Feature::Presentation::State Managment::FeatureState" {
+class "feature::presentation_layer.dart::Widget" {
 }
 
-class "Feature::Presentation::FeaturePage" {
+class "feature::presentation_layer.dart::Page" {
+  +ExtendedBloc bloc
+  +List<Widget> widgets
 }
 
-"Feature::Presentation::State Managment::FeatureCubit" o-- "Feature::Presentation::State Managment::FeatureState"
-"Feature::Presentation::State Managment::FeatureState" o-- "Feature::Presentation::FeatureEntity"
-"Feature::Presentation::FeaturePage" o-- "Feature::Presentation::FeatureWidget"
-"Feature::Presentation::FeaturePage" o-- "Feature::Presentation::State Managment::FeatureCubit"
+"feature::presentation_layer.dart::Page" o-- "feature::presentation_layer.dart::ExtendedBloc"
 
 @enduml
