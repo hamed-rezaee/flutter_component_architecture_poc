@@ -1,6 +1,5 @@
 analyzer:
   exclude:
-    - example/**
 
   errors:
     todo: ignore

@@ -1,0 +1,22 @@
+PODS:
+  - Flutter (1.0.0)
+  - flutter_deriv_bloc_manager (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - flutter_deriv_bloc_manager (from `.symlinks/plugins/flutter_deriv_bloc_manager/ios`)
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  flutter_deriv_bloc_manager:
+    :path: ".symlinks/plugins/flutter_deriv_bloc_manager/ios"
+
+SPEC CHECKSUMS:
+  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  flutter_deriv_bloc_manager: d3456b8d2971c3a0fbf4b7ecc81893504d93a45e
+
+PODFILE CHECKSUM: 70d9d25280d0dd177a5f637cdb0f0b0b12c6a189
+
+COCOAPODS: 1.12.1

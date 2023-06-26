@@ -14,5 +14,5 @@ class FeatureService implements BaseFeatureService {
 
   @override
   Future<FeatureEntity?> getData() async =>
-      repository?.mapper.toEntity(await repository?.dataSource.getData());
+      throw UnimplementedError(); // repository?.mapper.toEntity(await repository?.dataSource.getData());
 }

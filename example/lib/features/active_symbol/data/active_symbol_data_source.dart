@@ -7,7 +7,7 @@ import 'package:example/features/active_symbol/data/base_active_symbol_data_sour
 
 class ActiveSymbolDataSource extends BaseActiveSymbolDataSource {
   @override
-  Future<List<ActiveSymbolModel>> fetchActiveSymbols() async {
+  Future<List<ActiveSymbolModel>> fetchActiveSymbols() {
     WebSocketConnection().request(
       <String, dynamic>{
         'active_symbols': 'brief',

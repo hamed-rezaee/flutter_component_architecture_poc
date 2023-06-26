@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_deriv_bloc_manager/manager.dart';
 
 import 'package:example/features/tick_stream/presentation/basic_chart.dart';
