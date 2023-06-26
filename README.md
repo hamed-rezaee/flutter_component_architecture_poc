@@ -8,7 +8,7 @@ This document presents an architecture proposal for the project, outlining the d
 
 In software development, choosing the right architecture is crucial for building robust, scalable, and maintainable applications. This architecture proposal aims to provide a solid foundation for the project, enabling developers to efficiently organize and manage the codebase.
 
-The proposed architecture follows a layered approach, dividing the application into different layers, each with its own responsibilities. This separation of concerns allows for easier maintenance, testing, and extensibility. The key components of the architecture include data sources, repositories, mappers, services, and blocks.
+The proposed architecture follows a layered approach, dividing the application into different layers, each with its own responsibilities. This separation of concerns allows for easier maintenance, testing, and extensibility. The key components of the architecture include data sources, repositories, mappers, services, and blocs (business logic components).
 
 ![Class Diagram](diagram.svg)
 
