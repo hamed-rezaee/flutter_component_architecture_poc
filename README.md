@@ -12,36 +12,6 @@ The proposed architecture follows a layered approach, dividing the application i
 
 ![Class Diagram](diagram.svg)
 
-### Layers
-
-#### 1. Data Layer
-
-The data layer is responsible for handling data retrieval and storage. It consists of data sources and repositories.
-
-##### Data Sources
-
-Data sources encapsulate the logic for retrieving data from various sources, such as databases, APIs, or local storage. They implement the common methods defined in the `BaseDataSource` abstract class, allowing for consistent data access across different sources. In the proposed architecture, there are concrete implementations of data sources, such as `RemoteFeatureDataSource` and `LocalFeatureDataSource`, which retrieve data for the specific feature.
-
-##### Repositories
-
-Repositories act as an intermediary between the data layer and the domain layer. They encapsulate the data access logic, allowing the domain layer to interact with the data sources without directly accessing them. Repositories implement the `BaseRepository` abstract class, which defines the common behavior for working with data sources and mappers. The repositories use data sources to retrieve data and mappers to convert the retrieved data into domain entities. In the architecture, there is a concrete implementation of the `FeatureRepository` class, which provides access to the feature's data source and mapper.
-
-The data layer ensures that data retrieval and storage operations are decoupled from the business logic, promoting separation of concerns and maintainability. It also allows for flexibility in choosing different data sources or implementing caching strategies without affecting the higher layers.
-
-#### 2. Domain Layer
-
-The domain layer contains the core business logic of the application. It represents the problem domain and defines the entities and operations that manipulate and process the data.
-
-##### Entities
-
-Entities are the fundamental data structures in the application. They represent the real-world concepts and encapsulate the business rules and behavior related to the data. In the proposed architecture, the domain layer includes concrete implementations of entities, such as `FeatureEntity`, which represents the entity specific to the feature.
-
-##### Mappers
-
-Mappers are responsible for converting data between entities and data models. They implement the `BaseMapper` abstract class, which defines the methods for mapping entities to models and vice versa. Mappers ensure the separation of concerns between the data layer and the domain layer. In the proposed architecture, there is a concrete implementation of the `FeatureMapper` class, which performs the mapping between `FeatureEntity` and `FeatureModel`.
-
-The domain layer encapsulates the business logic and rules, ensuring that the core functionality of the application remains independent of specific data sources or presentation details. It provides a clear and concise representation of the problem domain and facilitates easy maintenance and extensibility.
-
 ### Architecture Comparison
 
 | Architecture          | Benefits                                                                                                                                                                                                                                                                                                                                    | Weaknesses                                                                                                                                                                                                  |
