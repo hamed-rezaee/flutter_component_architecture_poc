@@ -7,6 +7,38 @@ set namespaceSeparator ::
 
 left to right direction
 
+abstract class "core::interactor.dart::BaseService" {
+  +BaseRepository repository
+}
+
+"core::interactor.dart::BaseService" o-- "core::domain.dart::BaseRepository"
+
+abstract class "core::data.dart::BaseDataSource" {
+  +BaseMapper<BaseEntity, BaseModel>? mapper
+}
+
+"core::data.dart::BaseDataSource" o-- "core::data.dart::BaseMapper<BaseEntity, BaseModel>"
+
+abstract class "core::data.dart::BaseModel" {
+}
+
+abstract class "core::data.dart::BaseDataSources" {
+}
+
+abstract class "core::data.dart::BaseMapper" {
+  +E toEntity()
+  +M toModel()
+}
+
+abstract class "core::domain.dart::BaseEntity" {
+}
+
+abstract class "core::domain.dart::BaseRepository" {
+  +BaseDataSource? dataSource
+}
+
+"core::domain.dart::BaseRepository" o-- "core::data.dart::BaseDataSource"
+
 abstract class "core::bloc_manager.dart::BaseStateListener" {
 }
 
@@ -16,36 +48,33 @@ class "core::bloc_manager.dart::StateListener" {
 
 "core::bloc_manager.dart::BaseStateListener" <|-- "core::bloc_manager.dart::StateListener"
 
-abstract class "core::data.dart::BaseDataSource" {
+class "feature::domain_layer.dart::FeatureEntity" {
 }
 
-abstract class "core::data.dart::BaseModel" {
+"core::domain.dart::BaseEntity" <|-- "feature::domain_layer.dart::FeatureEntity"
+
+abstract class "feature::domain_layer.dart::BaseFeatureRepository" {
+  +BaseDataSource dataSource
 }
 
-abstract class "core::data.dart::BaseDataSources" {
+"feature::domain_layer.dart::BaseFeatureRepository" o-- "core::data.dart::BaseDataSource"
+"core::domain.dart::BaseRepository" <|-- "feature::domain_layer.dart::BaseFeatureRepository"
+
+abstract class "feature::interactor_layer.dart::BaseFeatureService" {
+  +BaseFeatureRepository repository
+  +dynamic getData()
 }
 
-abstract class "core::domain.dart::BaseEntity" {
+"feature::interactor_layer.dart::BaseFeatureService" o-- "feature::domain_layer.dart::BaseFeatureRepository"
+"core::interactor.dart::BaseService" <|-- "feature::interactor_layer.dart::BaseFeatureService"
+
+class "feature::interactor_layer.dart::FeatureService" {
+  +BaseFeatureRepository repository
+  +dynamic getData()
 }
 
-abstract class "core::domain.dart::BaseMapper" {
-  +E toEntity()
-  +M toModel()
-}
-
-abstract class "core::domain.dart::BaseRepository" {
-  +BaseMapper<BaseEntity, BaseModel>? mapper
-  +BaseDataSource? dataSource
-}
-
-"core::domain.dart::BaseRepository" o-- "core::domain.dart::BaseMapper<BaseEntity, BaseModel>"
-"core::domain.dart::BaseRepository" o-- "core::data.dart::BaseDataSource"
-
-abstract class "core::interactor.dart::BaseService" {
-  +BaseRepository? repository
-}
-
-"core::interactor.dart::BaseService" o-- "core::domain.dart::BaseRepository"
+"feature::interactor_layer.dart::FeatureService" o-- "feature::domain_layer.dart::BaseFeatureRepository"
+"feature::interactor_layer.dart::BaseFeatureService" <|-- "feature::interactor_layer.dart::FeatureService"
 
 class "feature::data_layer.dart::FeatureModel" {
 }
@@ -59,62 +88,34 @@ abstract class "feature::data_layer.dart::BaseFeatureDataSource" {
 "core::data.dart::BaseDataSource" <|-- "feature::data_layer.dart::BaseFeatureDataSource"
 
 class "feature::data_layer.dart::RemoteFeatureDataSource" {
+  +BaseMapper<BaseEntity, BaseModel>? mapper
   +dynamic getData()
 }
 
+"feature::data_layer.dart::RemoteFeatureDataSource" o-- "core::data.dart::BaseMapper<BaseEntity, BaseModel>"
 "feature::data_layer.dart::BaseFeatureDataSource" <|-- "feature::data_layer.dart::RemoteFeatureDataSource"
 
 class "feature::data_layer.dart::LocalFeatureDataSource" {
+  +BaseMapper<BaseEntity, BaseModel>? mapper
   +dynamic getData()
 }
 
+"feature::data_layer.dart::LocalFeatureDataSource" o-- "core::data.dart::BaseMapper<BaseEntity, BaseModel>"
 "feature::data_layer.dart::BaseFeatureDataSource" <|-- "feature::data_layer.dart::LocalFeatureDataSource"
 
 class "feature::data_layer.dart::FeatureRepository" {
   +BaseFeatureDataSource dataSource
-  +FeatureMapper mapper
 }
 
 "feature::data_layer.dart::FeatureRepository" o-- "feature::data_layer.dart::BaseFeatureDataSource"
-"feature::data_layer.dart::FeatureRepository" o-- "feature::domain_layer.dart::FeatureMapper"
 "feature::domain_layer.dart::BaseFeatureRepository" <|-- "feature::data_layer.dart::FeatureRepository"
 
-class "feature::domain_layer.dart::FeatureEntity" {
-}
-
-"core::domain.dart::BaseEntity" <|-- "feature::domain_layer.dart::FeatureEntity"
-
-class "feature::domain_layer.dart::FeatureMapper" {
+class "feature::data_layer.dart::FeatureMapper" {
   +BaseModel toModel()
   +BaseEntity toEntity()
 }
 
-"core::domain.dart::BaseMapper" <|-- "feature::domain_layer.dart::FeatureMapper"
-
-abstract class "feature::domain_layer.dart::BaseFeatureRepository" {
-  +BaseDataSource dataSource
-  +FeatureMapper mapper
-}
-
-"feature::domain_layer.dart::BaseFeatureRepository" o-- "core::data.dart::BaseDataSource"
-"feature::domain_layer.dart::BaseFeatureRepository" o-- "feature::domain_layer.dart::FeatureMapper"
-"core::domain.dart::BaseRepository" <|-- "feature::domain_layer.dart::BaseFeatureRepository"
-
-abstract class "feature::interactor_layer.dart::BaseFeatureService" {
-  +BaseFeatureRepository? repository
-  +dynamic getData()
-}
-
-"feature::interactor_layer.dart::BaseFeatureService" o-- "feature::domain_layer.dart::BaseFeatureRepository"
-"core::interactor.dart::BaseService" <|-- "feature::interactor_layer.dart::BaseFeatureService"
-
-class "feature::interactor_layer.dart::FeatureService" {
-  +BaseFeatureRepository? repository
-  +dynamic getData()
-}
-
-"feature::interactor_layer.dart::FeatureService" o-- "feature::domain_layer.dart::BaseFeatureRepository"
-"feature::interactor_layer.dart::BaseFeatureService" <|-- "feature::interactor_layer.dart::FeatureService"
+"core::data.dart::BaseMapper" <|-- "feature::data_layer.dart::FeatureMapper"
 
 class "feature::presentation_layer.dart::ExtendedBloc" {
   +dynamic getData()
