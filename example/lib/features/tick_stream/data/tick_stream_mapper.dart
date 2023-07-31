@@ -1,4 +1,4 @@
-import 'package:example/core/contracts/domain/base_mapper.dart';
+import 'package:example/core/contracts/data/base_mapper.dart';
 import 'package:example/features/tick_stream/data/tick_stream_model.dart';
 import 'package:example/features/tick_stream/domain/tick_stream_entity.dart';
 

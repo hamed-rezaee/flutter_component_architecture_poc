@@ -6,14 +6,14 @@ import 'package:example/core/bloc_manager/selected_active_symbol_state_emitters.
 import 'package:example/features/active_symbol/Interactor/active_symbol_service.dart';
 import 'package:example/features/active_symbol/data/active_symbol_data_source.dart';
 import 'package:example/features/active_symbol/data/active_symbol_repository.dart';
-import 'package:example/features/active_symbol/domain/active_symbol_mapper.dart';
+import 'package:example/features/active_symbol/data/active_symbol_mapper.dart';
 import 'package:example/features/active_symbol/presentation/active_symbol_page.dart';
 import 'package:example/features/active_symbol/presentation/states/active_symbol_cubit.dart';
 import 'package:example/features/active_symbol/presentation/states/selected_active_symbol_cubit.dart';
 import 'package:example/features/tick_stream/Interactor/tick_stream_service.dart';
 import 'package:example/features/tick_stream/data/tick_stream_data_source.dart';
 import 'package:example/features/tick_stream/data/tick_stream_repository.dart';
-import 'package:example/features/tick_stream/domain/tick_stream_mapper.dart';
+import 'package:example/features/tick_stream/data/tick_stream_mapper.dart';
 import 'package:example/features/tick_stream/presentation/states/tick_stream_cubit_extended.dart';
 import 'package:example/features/tick_stream/presentation/tick_stream_page.dart';
 
@@ -23,20 +23,14 @@ void main() {
     ..register(
       ActiveSymbolCubit(
         ActiveSymbolService(
-          ActiveSymbolRepoistory(
-            ActiveSymbolMapper(),
-            ActiveSymbolDataSource(),
-          ),
+          ActiveSymbolRepoistory(ActiveSymbolDataSource(ActiveSymbolMapper())),
         ),
       ),
     )
     ..register(
       TickStreamCubitExtended(
         TickStreamService(
-          TickStreamRepoistory(
-            TickStreamMapper(),
-            TickStreamDataSource(),
-          ),
+          TickStreamRepoistory(TickStreamDataSource(TickStreamMapper())),
         ),
       ),
     );

@@ -1,20 +1,18 @@
 import 'dart:async';
 
-import 'package:example/features/active_symbol/domain/active_symbol_mapper.dart';
-import 'package:example/features/active_symbol/data/base_active_symbol_data_source.dart';
-import 'package:example/features/active_symbol/domain/base_active_symbol_repository.dart';
-import 'package:example/features/active_symbol/domain/active_symbol_entity.dart';
+import '../domain/active_symbol_entity.dart';
+import '../domain/base_active_symbol_repository.dart';
+import 'base_active_symbol_data_source.dart';
 
 class ActiveSymbolRepoistory implements BaseActiveSymbolRepository {
-  ActiveSymbolRepoistory(this.mapper, this.dataSource);
-
-  @override
-  final ActiveSymbolMapper mapper;
+  ActiveSymbolRepoistory(this.dataSource);
 
   @override
   final BaseActiveSymbolDataSource dataSource;
 
   @override
   Future<List<ActiveSymbolEntity>> fetchActiveSymbols() async =>
-      (await dataSource.fetchActiveSymbols()).map(mapper.toEntity).toList();
+      (await dataSource.fetchActiveSymbols())
+          .map(dataSource.mapper.toEntity)
+          .toList();
 }
