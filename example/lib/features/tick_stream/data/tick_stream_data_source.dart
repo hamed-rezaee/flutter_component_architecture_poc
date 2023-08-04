@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:isolate';
 
 import 'package:example/core/web_socket_connection.dart';
 
@@ -30,9 +29,8 @@ class TickStreamDataSource extends BaseTickStreamDataSource {
             }
 
             if (event['tick']['symbol'] == symbol) {
-              final TickStreamModel model = await Isolate.run(
-                () => TickStreamModel.fromJson(event['tick']),
-              );
+              final TickStreamModel model =
+                  TickStreamModel.fromJson(event['tick']);
 
               sink.add(model);
             }

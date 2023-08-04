@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:isolate';
 
 import 'package:example/core/web_socket_connection.dart';
 
@@ -31,14 +30,11 @@ class ActiveSymbolDataSource extends BaseActiveSymbolDataSource {
               return;
             }
 
-            final List<ActiveSymbolModel> models =
-                await Isolate.run<List<ActiveSymbolModel>>(
-              () => event['active_symbols']
-                  .map<ActiveSymbolModel>(
-                    (dynamic item) => ActiveSymbolModel.fromJson(item),
-                  )
-                  .toList(),
-            );
+            final List<ActiveSymbolModel> models = event['active_symbols']
+                .map<ActiveSymbolModel>(
+                  (dynamic item) => ActiveSymbolModel.fromJson(item),
+                )
+                .toList();
 
             sink.add(models);
           }

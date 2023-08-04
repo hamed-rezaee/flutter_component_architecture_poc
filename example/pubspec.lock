@@ -57,6 +57,15 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.3"
+  dart_web_socket_handler:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: main
+      resolved-ref: ac3c56330fdac9fefcd754945db866228cccd1d4
+      url: "git@github.com:hamed-deriv/dart_web_socket_handler.git"
+    source: git
+    version: "1.0.0"
   equatable:
     dependency: transitive
     description:
@@ -91,7 +100,7 @@ packages:
     description:
       path: "packages/deriv_bloc_manager"
       ref: flutter-version-3
-      resolved-ref: "9a0100c0698841d84e29d2da1157fb7220433105"
+      resolved-ref: "46c3d7f54072a7ac31c981c76afefe142fd1db6f"
       url: "git@github.com:regentmarkets/flutter-deriv-packages.git"
     source: git
     version: "0.0.1"
@@ -99,10 +108,10 @@ packages:
     dependency: "direct dev"
     description:
       name: flutter_lints
-      sha256: aeb0b80a8b3709709c9cc496cdc027c5b3216796bc0af0ce1007eaf24464fd4c
+      sha256: "2118df84ef0c3ca93f96123a616ae8540879991b8b57af2f81b76a7ada49b2a4"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.1"
+    version: "2.0.2"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -257,14 +266,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.0"
-  web_socket_client:
-    dependency: "direct main"
-    description:
-      name: web_socket_client
-      sha256: c58378b2374622c43abfb0a29dce1a9418f95e1dddbf7fdd695a8c34b01eb737
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.0-dev.3"
 sdks:
   dart: ">=3.0.2 <4.0.0"
   flutter: ">=3.10.2"
