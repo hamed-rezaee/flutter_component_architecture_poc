@@ -62,7 +62,7 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: ac3c56330fdac9fefcd754945db866228cccd1d4
+      resolved-ref: "701a20bca40aada5a3d2af4ad64cfbcb43b09ba5"
       url: "git@github.com:hamed-deriv/dart_web_socket_handler.git"
     source: git
     version: "1.0.0"

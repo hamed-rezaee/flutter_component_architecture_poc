@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:example/features/active_symbol/domain/active_symbol_entity.dart';
@@ -11,7 +13,14 @@ class TickSteamCubit extends Cubit<TickStreamState> {
 
   final BaseTickStreamService service;
 
-  void fetchTickStream(ActiveSymbolEntity symbol, [int maxVisibleTicks = 50]) {
+  StreamSubscription<TickStreamEntity>? _tickStreamSubscription;
+
+  Future<void> fetchTickStream(
+    ActiveSymbolEntity symbol, [
+    int maxVisibleTicks = 50,
+  ]) async {
+    await _tickStreamSubscription?.cancel();
+
     if (state is TickStreamLoadedState) {
       final TickStreamLoadedState loadedState = state as TickStreamLoadedState;
 
@@ -23,7 +32,9 @@ class TickSteamCubit extends Cubit<TickStreamState> {
     emit(const TickStreamLoadingState());
 
     try {
-      service.fetchTickStream(symbol.symbol).listen((TickStreamEntity tick) {
+      _tickStreamSubscription = service
+          .fetchTickStream(symbol.symbol)
+          .listen((TickStreamEntity tick) {
         final List<TickStreamEntity> ticks = <TickStreamEntity>[];
 
         if (state is TickStreamLoadedState) {
@@ -38,8 +49,6 @@ class TickSteamCubit extends Cubit<TickStreamState> {
         }
 
         emit(TickStreamLoadedState(ticks));
-      }).onError((Object error) {
-        emit(TickStreamErrorState('$error'));
       });
     } on Exception catch (e) {
       emit(TickStreamErrorState('$e'));
