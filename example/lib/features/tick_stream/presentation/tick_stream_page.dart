@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:example/features/tick_stream/presentation/basic_chart.dart';
 import 'package:example/features/tick_stream/presentation/states/tick_stream_cubit.dart';
 import 'package:example/features/tick_stream/presentation/states/tick_stream_cubit_extended.dart';
 import 'package:example/features/tick_stream/presentation/tick_stream_widget.dart';
@@ -21,17 +20,7 @@ class TickStreamPage extends StatelessWidget {
             } else if (state is TickStreamLoadedState) {
               return state.ticks.length < 2
                   ? const Center(child: CircularProgressIndicator())
-                  : Column(
-                      children: <Widget>[
-                        TickStreamWidget(entity: state.ticks.last),
-                        const SizedBox(height: 32),
-                        SizedBox(
-                          width: double.infinity,
-                          height: 128,
-                          child: BasicChart(ticks: state.ticks),
-                        ),
-                      ],
-                    );
+                  : TickStreamWidget(entity: state.ticks.last);
             } else if (state is TickStreamErrorState) {
               return Text(state.message);
             }

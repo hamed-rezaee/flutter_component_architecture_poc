@@ -3,26 +3,27 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 import 'package:example/core/helpers/helpers.dart';
-import 'package:example/features/tick_stream/domain/tick_stream_entity.dart';
+
+import 'basic_chart_model.dart';
 
 const int yAxisCount = 5;
 const int xAxisCount = 5;
 
 class BasicChart extends StatelessWidget {
   const BasicChart({
-    required this.ticks,
+    required this.data,
     Key? key,
     this.chartColor = Colors.orange,
   }) : super(key: key);
 
-  final List<TickStreamEntity> ticks;
+  final List<BasicChartModel> data;
   final Color chartColor;
 
   @override
   Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.only(right: 48),
         child: CustomPaint(
-          painter: _BasicChartPainter(ticks, chartColor),
+          painter: _BasicChartPainter(data, chartColor),
         ),
       );
 }
@@ -30,27 +31,27 @@ class BasicChart extends StatelessWidget {
 class _BasicChartPainter extends CustomPainter {
   _BasicChartPainter(this.data, this.chartColor);
 
-  final List<TickStreamEntity> data;
+  final List<BasicChartModel> data;
   final Color chartColor;
 
   @override
   void paint(Canvas canvas, Size size) {
     final double minX = data
-        .reduce((TickStreamEntity value, TickStreamEntity element) =>
+        .reduce((BasicChartModel value, BasicChartModel element) =>
             value.epoch < element.epoch ? value : element)
         .epoch
         .toDouble();
     final double maxX = data
-        .reduce((TickStreamEntity value, TickStreamEntity element) =>
+        .reduce((BasicChartModel value, BasicChartModel element) =>
             value.epoch > element.epoch ? value : element)
         .epoch
         .toDouble();
     final double minY = data
-        .reduce((TickStreamEntity value, TickStreamEntity element) =>
+        .reduce((BasicChartModel value, BasicChartModel element) =>
             value.quote < element.quote ? value : element)
         .quote;
     final double maxY = data
-        .reduce((TickStreamEntity value, TickStreamEntity element) =>
+        .reduce((BasicChartModel value, BasicChartModel element) =>
             value.quote > element.quote ? value : element)
         .quote;
 
@@ -131,7 +132,7 @@ class _BasicChartPainter extends CustomPainter {
     final Path path = Path();
 
     for (int i = 0; i < data.length; i++) {
-      final TickStreamEntity entity = data[i];
+      final BasicChartModel entity = data[i];
 
       final double x =
           width * ((entity.epoch.toDouble() - minX) / (maxX - minX));
