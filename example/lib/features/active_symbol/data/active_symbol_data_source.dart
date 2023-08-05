@@ -24,12 +24,6 @@ class ActiveSymbolDataSource extends BaseActiveSymbolDataSource {
           EventSink<List<ActiveSymbolModel>> sink,
         ) async {
           if (event['msg_type'] == 'active_symbols') {
-            if (event['error'] != null) {
-              sink.addError(event['error']['message']);
-
-              return;
-            }
-
             final List<ActiveSymbolModel> models = event['active_symbols']
                 .map<ActiveSymbolModel>(
                   (dynamic item) => ActiveSymbolModel.fromJson(item),

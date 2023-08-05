@@ -22,12 +22,6 @@ class TickStreamDataSource extends BaseTickStreamDataSource {
         handleData: (dynamic event, EventSink<TickStreamModel> sink) async {
           print(event);
           if (event['msg_type'] == 'tick') {
-            if (event['error'] != null) {
-              sink.addError(event['error']['message']);
-
-              return;
-            }
-
             if (event['tick']['symbol'] == symbol) {
               final TickStreamModel model =
                   TickStreamModel.fromJson(event['tick']);

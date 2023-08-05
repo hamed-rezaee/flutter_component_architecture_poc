@@ -24,7 +24,19 @@ class WebSocketConnection {
   final StreamController<dynamic> streamController =
       StreamController<dynamic>.broadcast();
 
-  Stream<dynamic> get response => streamController.stream;
+  Stream<dynamic> get response => streamController.stream.transform(
+        StreamTransformer<dynamic, dynamic>.fromHandlers(
+          handleData: (dynamic event, EventSink<dynamic> sink) {
+            if (event['error'] != null) {
+              sink.addError(event['error']['message']);
+
+              return;
+            }
+
+            sink.add(event);
+          },
+        ),
+      );
 
   Stream<ConnectionState> get connectionState => _channel.connection;
 }
