@@ -11,15 +11,9 @@ dependencies:
   flutter:
     sdk: flutter
 
-  flutter_deriv_bloc_manager:
-    git:
-      url: git@github.com:regentmarkets/flutter-deriv-packages.git
-      path: packages/deriv_bloc_manager
-      ref: flutter-version-3
-
   dart_web_socket_handler:
     git:
-      url: git@github.com:hamed-deriv/dart_web_socket_handler.git
+      url: https://github.com/hamed-deriv/dart_web_socket_handler.git
       ref: main
 
   flutter_bloc: ^8.1.3

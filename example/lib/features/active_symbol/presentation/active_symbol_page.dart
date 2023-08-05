@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'package:flutter_deriv_bloc_manager/manager.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:example/features/active_symbol/domain/active_symbol_entity.dart';
 import 'package:example/features/active_symbol/presentation/active_symbol_widget.dart';
@@ -9,19 +8,18 @@ import 'package:example/features/active_symbol/presentation/states/selected_acti
 
 class ActiveSymbolPage extends StatelessWidget {
   const ActiveSymbolPage({super.key});
-
   @override
   Widget build(BuildContext context) {
-    BlocManager.instance.fetch<ActiveSymbolCubit>().fetchActiveSymbols();
+    context.read<ActiveSymbolCubit>().fetchActiveSymbols();
 
-    return BlocManagerBuilder<ActiveSymbolCubit, ActiveSymbolState>(
+    return BlocBuilder<ActiveSymbolCubit, ActiveSymbolState>(
       builder: (BuildContext context, ActiveSymbolState activeSymbolState) {
         if (activeSymbolState is ActiveSymbolInitialState) {
           return const Center(child: Text('Initial State'));
         } else if (activeSymbolState is ActiveSymbolLoadingState) {
           return const Center(child: CircularProgressIndicator());
         } else if (activeSymbolState is ActiveSymbolLoadedState) {
-          return BlocManagerBuilder<SelectedActiveSymbolCubit,
+          return BlocBuilder<SelectedActiveSymbolCubit,
               SelectedActiveSymbolState>(
             builder: (
               BuildContext context,
@@ -30,8 +28,8 @@ class ActiveSymbolPage extends StatelessWidget {
                 ActiveSymbolWidget(
               activeSymbols: activeSymbolState.activeSymbols,
               selectedActiveSymbol: state.activeSymbol,
-              onChanged: (ActiveSymbolEntity entity) => BlocManager.instance
-                  .fetch<SelectedActiveSymbolCubit>()
+              onChanged: (ActiveSymbolEntity entity) => context
+                  .read<SelectedActiveSymbolCubit>()
                   .updateActiveSymbol(entity),
             ),
           );

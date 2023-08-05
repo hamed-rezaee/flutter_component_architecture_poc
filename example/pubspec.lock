@@ -62,8 +62,8 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: "701a20bca40aada5a3d2af4ad64cfbcb43b09ba5"
-      url: "git@github.com:hamed-deriv/dart_web_socket_handler.git"
+      resolved-ref: "660fad8b27c73426ce6054ec971abeebadf4c77b"
+      url: "https://github.com/hamed-deriv/dart_web_socket_handler.git"
     source: git
     version: "1.0.0"
   equatable:
@@ -95,15 +95,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "8.1.3"
-  flutter_deriv_bloc_manager:
-    dependency: "direct main"
-    description:
-      path: "packages/deriv_bloc_manager"
-      ref: flutter-version-3
-      resolved-ref: "46c3d7f54072a7ac31c981c76afefe142fd1db6f"
-      url: "git@github.com:regentmarkets/flutter-deriv-packages.git"
-    source: git
-    version: "0.0.1"
   flutter_lints:
     dependency: "direct dev"
     description:

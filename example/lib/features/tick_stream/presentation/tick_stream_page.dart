@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_deriv_bloc_manager/manager.dart';
-
 import 'package:example/features/tick_stream/presentation/basic_chart.dart';
 import 'package:example/features/tick_stream/presentation/states/tick_stream_cubit.dart';
 import 'package:example/features/tick_stream/presentation/states/tick_stream_cubit_extended.dart';
 import 'package:example/features/tick_stream/presentation/tick_stream_widget.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TickStreamPage extends StatelessWidget {
   const TickStreamPage({super.key});
@@ -13,7 +12,7 @@ class TickStreamPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-        child: BlocManagerBuilder<TickStreamCubitExtended, TickStreamState>(
+        child: BlocBuilder<TickStreamCubitExtended, TickStreamState>(
           builder: (BuildContext context, TickStreamState state) {
             if (state is TickStreamInitialState) {
               return const Text('Please select an active symbol.');
