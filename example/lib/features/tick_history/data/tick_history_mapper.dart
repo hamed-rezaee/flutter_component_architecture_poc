@@ -1,7 +1,6 @@
 import 'package:example/core/contracts/data/base_mapper.dart';
-
-import '../domain/tick_history_entity.dart';
-import 'tick_history_model.dart';
+import 'package:example/features/tick_history/data/tick_history_model.dart';
+import 'package:example/features/tick_history/domain/tick_history_entity.dart';
 
 class TickHistoryMapper
     implements BaseMapper<TickHistoryEntity, TickHistoryModel> {

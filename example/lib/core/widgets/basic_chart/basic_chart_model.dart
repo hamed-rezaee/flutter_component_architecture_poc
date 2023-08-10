@@ -1,3 +1,5 @@
+part of 'basic_chart.dart';
+
 class BasicChartModel {
   BasicChartModel({
     required this.symbol,

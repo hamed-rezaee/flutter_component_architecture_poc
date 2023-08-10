@@ -1,9 +1,8 @@
 import 'dart:async';
 
 import 'package:example/core/web_socket_connection.dart';
-
-import 'base_tick_history_data_source.dart';
-import 'tick_history_model.dart';
+import 'package:example/features/tick_history/data/base_tick_history_data_source.dart';
+import 'package:example/features/tick_history/data/tick_history_model.dart';
 
 class TickHistoryDataSource extends BaseTickSHistoryDataSource {
   TickHistoryDataSource(super.mapper);

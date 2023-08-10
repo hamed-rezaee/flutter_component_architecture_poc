@@ -1,10 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:example/features/active_symbol/domain/active_symbol_entity.dart';
 import 'package:example/features/active_symbol/presentation/states/active_symbol_cubit.dart';
 import 'package:example/features/active_symbol/presentation/states/selected_active_symbol_cubit.dart';
 import 'package:example/features/active_symbol/presentation/widgets/active_symbol_dropdown.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ActiveSymbol extends StatelessWidget {
   const ActiveSymbol({super.key});

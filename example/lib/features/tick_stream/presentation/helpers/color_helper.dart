@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
-
 import 'package:example/features/tick_stream/presentation/enums/tick_state.dart';
+import 'package:flutter/material.dart';
 
 Color getColor(TickState state) {
   switch (state) {

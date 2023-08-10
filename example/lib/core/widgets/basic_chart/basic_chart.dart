@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:example/core/helpers/helpers.dart';
 
-import 'basic_chart_model.dart';
+part 'basic_chart_model.dart';
 
 const int yAxisCount = 5;
 const int xAxisCount = 5;

@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
-
 import 'package:example/features/active_symbol/domain/active_symbol_entity.dart';
+import 'package:flutter/material.dart';
 
 class ActiveSymbolDropdownItems extends StatelessWidget {
   const ActiveSymbolDropdownItems({

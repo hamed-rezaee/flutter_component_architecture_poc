@@ -1,9 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:example/features/tick_stream/presentation/states/tick_stream_cubit.dart';
 import 'package:example/features/tick_stream/presentation/states/tick_stream_cubit_extended.dart';
 import 'package:example/features/tick_stream/presentation/widgets/tick_stream_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TickStream extends StatelessWidget {
   const TickStream({super.key});

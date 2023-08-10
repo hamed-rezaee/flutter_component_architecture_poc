@@ -1,4 +1,4 @@
-import 'package:example/core/widgets/basic_chart/basic_chart_model.dart';
+import 'package:example/core/widgets/basic_chart/basic_chart.dart';
 import 'package:example/features/chart/presentation/states/chart_cubit.dart';
 import 'package:example/features/tick_stream/domain/tick_stream_entity.dart';
 import 'package:example/features/tick_stream/presentation/states/tick_stream_cubit.dart';

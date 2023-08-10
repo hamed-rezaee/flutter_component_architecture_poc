@@ -1,4 +1,4 @@
-import 'package:example/core/widgets/basic_chart/basic_chart_model.dart';
+import 'package:example/core/widgets/basic_chart/basic_chart.dart';
 import 'package:example/features/tick_history/domain/tick_history_entity.dart';
 
 extension TickHistory on TickHistoryEntity {

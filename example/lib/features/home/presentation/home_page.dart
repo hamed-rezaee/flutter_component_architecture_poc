@@ -1,12 +1,10 @@
-import 'package:example/features/tick_stream/presentation/states/tick_stream_cubit.dart';
-import 'package:flutter/material.dart';
-
 import 'package:example/features/active_symbol/presentation/widgets/active_symbol.dart';
+import 'package:example/features/tick_stream/presentation/states/tick_stream_cubit.dart';
+import 'package:example/features/tick_stream/presentation/states/tick_stream_cubit_extended.dart';
 import 'package:example/features/tick_stream/presentation/widgets/tick_stream.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-
-import '../../tick_stream/presentation/states/tick_stream_cubit_extended.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
