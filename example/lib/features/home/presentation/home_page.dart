@@ -25,7 +25,7 @@ class HomePage extends StatelessWidget {
                 IconButton(
               icon: const Icon(Icons.ssid_chart_rounded),
               onPressed:
-                  chartPageIsEnabled ? () => context.push('/chart') : null,
+                  chartPageIsEnabled ? () => context.push('/chart_page') : null,
             ),
           ),
         ],
