@@ -11,4 +11,6 @@ abstract class BaseLoginDataSource implements BaseDataSource {
   final LoginMapper mapper;
 
   Future<LoginModel> authorize(String token);
+
+  Future<void> logout();
 }

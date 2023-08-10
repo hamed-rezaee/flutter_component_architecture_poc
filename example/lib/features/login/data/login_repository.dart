@@ -15,4 +15,7 @@ class LoginRepoistory implements BaseLoginRepository {
   Future<LoginEntity> authorize(String token) => dataSource
       .authorize(token)
       .then((LoginModel model) => dataSource.mapper.toEntity(model));
+
+  @override
+  Future<void> logout() => dataSource.logout();
 }

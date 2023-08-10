@@ -23,4 +23,8 @@ class LoginDataSource extends BaseLoginDataSource {
       ),
     ).first;
   }
+
+  @override
+  Future<void> logout() =>
+      WebSocketConnection().request(<String, dynamic>{'logout': 1});
 }

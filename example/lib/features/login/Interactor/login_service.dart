@@ -10,4 +10,7 @@ class LoginService implements BaseLoginService {
 
   @override
   Future<LoginEntity> authorize(String token) => repository.authorize(token);
+
+  @override
+  Future<void> logout() => repository.logout();
 }
