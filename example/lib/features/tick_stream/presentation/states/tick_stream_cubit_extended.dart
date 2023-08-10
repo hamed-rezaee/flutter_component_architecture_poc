@@ -6,14 +6,11 @@ class TickStreamCubitExtended extends TickSteamCubit {
   TickStreamCubitExtended(super.service, this.activeSymbolStateStream) {
     activeSymbolStateStream.listen(
       (SelectedActiveSymbolState activeSymbolState) {
-        print('TickStreamCubitExtended: $activeSymbolState');
-
         switch (activeSymbolState) {
           case SelectedActiveSymbolUpdateState():
             _onSelectedActiveSymbolChanged(
               activeSymbol: activeSymbolState.activeSymbol,
             );
-            break;
         }
       },
     );

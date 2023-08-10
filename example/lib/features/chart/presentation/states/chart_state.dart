@@ -4,10 +4,6 @@ abstract class ChartState {
   const ChartState();
 }
 
-class ChartInitialState extends ChartState {
-  const ChartInitialState();
-}
-
 class ChartLoadingState extends ChartState {
   const ChartLoadingState();
 }

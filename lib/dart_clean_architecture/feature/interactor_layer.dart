@@ -3,7 +3,7 @@ import 'package:dart_clean_architecture/dart_clean_architecture/core/domain.dart
 import '../core/interactor.dart';
 import 'domain_layer.dart';
 
-abstract class BaseFeatureService implements BaseService {
+abstract class BaseFeatureService implements BaseServiceWithRepository {
   const BaseFeatureService(this.repository);
 
   @override

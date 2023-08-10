@@ -4,35 +4,31 @@ import 'package:example/features/tick_stream/domain/tick_stream_entity.dart';
 import 'package:example/features/tick_stream/presentation/states/tick_stream_cubit.dart';
 
 class ChartCubitExtended extends ChartCubit {
-  ChartCubitExtended(super.service, this.tickStreamStateStream) {
-    tickStreamStateStream.listen(
+  ChartCubitExtended(
+    super.service,
+    super.tickHistoryService,
+    this.activeSymbolStateStream,
+  ) {
+    activeSymbolStateStream.listen(
       (TickStreamState activeSymbolState) {
-        print('TickStreamCubitExtended: $activeSymbolState');
-
         switch (activeSymbolState) {
           case TickStreamLoadedState():
-            _onTicksUpdate(ticks: activeSymbolState.ticks);
-            break;
+            _onTickStreamLoaded(activeSymbol: activeSymbolState.tick);
         }
       },
     );
   }
 
-  final Stream<TickStreamState> tickStreamStateStream;
+  final Stream<TickStreamState> activeSymbolStateStream;
 
-  void _onTicksUpdate({List<TickStreamEntity>? ticks}) {
-    if (ticks != null) {
-      emit(
-        ChartLoadedState(
-          ticks
-              .map(
-                (TickStreamEntity tick) => BasicChartModel(
-                  epoch: tick.epoch,
-                  quote: tick.quote,
-                  pipSize: tick.pipSize,
-                ),
-              )
-              .toList(),
+  void _onTickStreamLoaded({TickStreamEntity? activeSymbol}) {
+    if (activeSymbol != null) {
+      updateChart(
+        BasicChartModel(
+          symbol: activeSymbol.symbol,
+          epoch: activeSymbol.epoch,
+          quote: activeSymbol.quote,
+          pipSize: activeSymbol.pipSize,
         ),
       );
     }

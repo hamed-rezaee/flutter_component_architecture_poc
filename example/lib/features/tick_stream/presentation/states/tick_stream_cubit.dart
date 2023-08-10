@@ -21,37 +21,21 @@ class TickSteamCubit extends Cubit<TickStreamState> {
   ]) async {
     await _tickStreamSubscription?.cancel();
 
-    if (state is TickStreamLoadedState) {
-      final TickStreamLoadedState loadedState = state as TickStreamLoadedState;
-
-      if (loadedState.ticks.isNotEmpty) {
-        service.forgetTickStream(loadedState.ticks.first.id);
-      }
-    }
-
     emit(const TickStreamLoadingState());
 
     try {
       _tickStreamSubscription = service
           .fetchTickStream(symbol.symbol)
-          .listen((TickStreamEntity tick) {
-        final List<TickStreamEntity> ticks = <TickStreamEntity>[];
-
-        if (state is TickStreamLoadedState) {
-          final TickStreamLoadedState loadedState =
-              state as TickStreamLoadedState;
-
-          ticks.addAll(<TickStreamEntity>[...loadedState.ticks, tick]);
-
-          if (ticks.length > maxVisibleTicks) {
-            ticks.removeRange(0, ticks.length - maxVisibleTicks);
-          }
-        }
-
-        emit(TickStreamLoadedState(ticks));
-      });
+          .listen((TickStreamEntity tick) => emit(TickStreamLoadedState(tick)));
     } on Exception catch (e) {
       emit(TickStreamErrorState('$e'));
     }
+  }
+
+  @override
+  Future<void> close() {
+    _tickStreamSubscription?.cancel();
+
+    return super.close();
   }
 }

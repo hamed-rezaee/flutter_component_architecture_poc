@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:example/features/tick_stream/presentation/states/tick_stream_cubit.dart';
 import 'package:example/features/tick_stream/presentation/states/tick_stream_cubit_extended.dart';
-import 'package:example/features/tick_stream/presentation/tick_stream_widget.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:example/features/tick_stream/presentation/widgets/tick_stream_widget.dart';
 
-class TickStreamPage extends StatelessWidget {
-  const TickStreamPage({super.key});
+class TickStream extends StatelessWidget {
+  const TickStream({super.key});
 
   @override
   Widget build(BuildContext context) => Padding(
@@ -15,13 +15,17 @@ class TickStreamPage extends StatelessWidget {
           builder: (BuildContext context, TickStreamState state) {
             if (state is TickStreamInitialState) {
               return const Text('Please select an active symbol.');
-            } else if (state is TickStreamLoadingState) {
+            }
+
+            if (state is TickStreamLoadingState) {
               return const Center(child: CircularProgressIndicator());
-            } else if (state is TickStreamLoadedState) {
-              return state.ticks.length < 2
-                  ? const Center(child: CircularProgressIndicator())
-                  : TickStreamWidget(entity: state.ticks.last);
-            } else if (state is TickStreamErrorState) {
+            }
+
+            if (state is TickStreamLoadedState) {
+              return TickStreamWidget(entity: state.tick);
+            }
+
+            if (state is TickStreamErrorState) {
               return Text(state.message);
             }
 

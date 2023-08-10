@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:example/routes.dart';
+
 import 'package:example/features/active_symbol/Interactor/active_symbol_service.dart';
 import 'package:example/features/active_symbol/data/active_symbol_data_source.dart';
 import 'package:example/features/active_symbol/data/active_symbol_repository.dart';
 import 'package:example/features/active_symbol/data/active_symbol_mapper.dart';
-import 'package:example/features/active_symbol/presentation/active_symbol_page.dart';
 import 'package:example/features/active_symbol/presentation/states/active_symbol_cubit.dart';
 import 'package:example/features/active_symbol/presentation/states/selected_active_symbol_cubit.dart';
 import 'package:example/features/tick_stream/Interactor/tick_stream_service.dart';
@@ -14,7 +15,6 @@ import 'package:example/features/tick_stream/data/tick_stream_data_source.dart';
 import 'package:example/features/tick_stream/data/tick_stream_repository.dart';
 import 'package:example/features/tick_stream/data/tick_stream_mapper.dart';
 import 'package:example/features/tick_stream/presentation/states/tick_stream_cubit_extended.dart';
-import 'package:example/features/tick_stream/presentation/tick_stream_page.dart';
 
 void main() => runApp(const App());
 
@@ -52,25 +52,12 @@ class App extends StatelessWidget {
           create: (BuildContext context) => tickStreamCubitExtended,
         ),
       ],
-      child: MaterialApp(
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        routerConfig: router,
         theme: ThemeData(
           brightness: Brightness.dark,
           primarySwatch: Colors.orange,
-        ),
-        home: Scaffold(
-          appBar: AppBar(
-            elevation: 0,
-            title: const Text('Architecture Demo'),
-          ),
-          body: const Padding(
-            padding: EdgeInsets.all(8),
-            child: Column(
-              children: <Widget>[
-                SizedBox(height: 48, child: ActiveSymbolPage()),
-                Expanded(child: TickStreamPage()),
-              ],
-            ),
-          ),
         ),
       ),
     );

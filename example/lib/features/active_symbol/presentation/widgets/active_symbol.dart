@@ -6,8 +6,8 @@ import 'package:example/features/active_symbol/presentation/states/active_symbol
 import 'package:example/features/active_symbol/presentation/states/selected_active_symbol_cubit.dart';
 import 'package:example/features/active_symbol/presentation/widgets/active_symbol_dropdown.dart';
 
-class ActiveSymbolPage extends StatelessWidget {
-  const ActiveSymbolPage({super.key});
+class ActiveSymbol extends StatelessWidget {
+  const ActiveSymbol({super.key});
   @override
   Widget build(BuildContext context) =>
       BlocBuilder<ActiveSymbolCubit, ActiveSymbolState>(

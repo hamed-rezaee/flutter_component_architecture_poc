@@ -20,7 +20,6 @@ class TickStreamDataSource extends BaseTickStreamDataSource {
     return WebSocketConnection().response.transform(
       StreamTransformer<dynamic, TickStreamModel>.fromHandlers(
         handleData: (dynamic event, EventSink<TickStreamModel> sink) async {
-          print(event);
           if (event['msg_type'] == 'tick') {
             if (event['tick']['symbol'] == symbol) {
               final TickStreamModel model =

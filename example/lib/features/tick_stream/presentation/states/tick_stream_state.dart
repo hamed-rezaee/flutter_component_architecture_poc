@@ -13,11 +13,9 @@ class TickStreamLoadingState extends TickStreamState {
 }
 
 class TickStreamLoadedState extends TickStreamState {
-  const TickStreamLoadedState([
-    this.ticks = const <TickStreamEntity>[],
-  ]);
+  const TickStreamLoadedState(this.tick);
 
-  final List<TickStreamEntity> ticks;
+  final TickStreamEntity tick;
 }
 
 class TickStreamErrorState extends TickStreamState {

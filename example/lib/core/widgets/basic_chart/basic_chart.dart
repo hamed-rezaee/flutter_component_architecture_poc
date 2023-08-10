@@ -14,14 +14,17 @@ class BasicChart extends StatelessWidget {
     required this.data,
     Key? key,
     this.chartColor = Colors.orange,
+    this.size = const Size(300, 300),
   }) : super(key: key);
 
   final List<BasicChartModel> data;
   final Color chartColor;
+  final Size size;
 
   @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(right: 48),
+  Widget build(BuildContext context) => SizedBox(
+        width: size.width,
+        height: size.height,
         child: CustomPaint(
           painter: _BasicChartPainter(data, chartColor),
         ),
@@ -134,9 +137,15 @@ class _BasicChartPainter extends CustomPainter {
     for (int i = 0; i < data.length; i++) {
       final BasicChartModel entity = data[i];
 
-      final double x =
-          width * ((entity.epoch.toDouble() - minX) / (maxX - minX));
-      final double y = height * (1 - ((entity.quote - minY) / (maxY - minY)));
+      final double denominatorX = maxX - minX;
+      final double x = denominatorX == 0
+          ? width
+          : width * ((entity.epoch.toDouble() - minX) / denominatorX);
+
+      final double denominatorY = maxY - minY;
+      final double y = denominatorY == 0
+          ? height
+          : height * (1 - ((entity.quote - minY) / denominatorY));
 
       if (i == 0) {
         path.moveTo(x, y);
@@ -265,8 +274,10 @@ class _BasicChartPainter extends CustomPainter {
 
     const double valuePadding = 4;
 
-    final double currentValueY =
-        height * (1 - ((data.last.quote - minY) / (maxY - minY)));
+    final double denominator = maxY - minY;
+    final double currentValueY = denominator == 0
+        ? height
+        : height * (1 - ((data.last.quote - minY) / denominator));
     final double currentValueX = width - currentPainter.width - valuePadding;
 
     currentPainter.paint(
@@ -291,10 +302,15 @@ class _BasicChartPainter extends CustomPainter {
       ..strokeWidth = 2.0
       ..style = PaintingStyle.fill;
 
-    final double currentPointX =
-        width * ((data.last.epoch.toDouble() - minX) / (maxX - minX));
-    final double currentPointY =
-        height * (1 - ((data.last.quote - minY) / (maxY - minY)));
+    final double denominatorX = maxX - minX;
+    final double currentPointX = denominatorX == 0
+        ? width
+        : width * ((data.last.epoch.toDouble() - minX) / denominatorX);
+
+    final double denominatorY = maxY - minY;
+    final double currentPointY = denominatorY == 0
+        ? height
+        : height * (1 - ((data.last.quote - minY) / denominatorY));
 
     canvas.drawCircle(
       Offset(currentPointX, currentPointY),
