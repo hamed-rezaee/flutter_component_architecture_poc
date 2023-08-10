@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:example/features/active_symbol/domain/active_symbol_entity.dart';
+import 'package:example/features/active_symbol/presentation/widgets/active_symbol_dropdown_items.dart';
 
-class ActiveSymbolWidget extends StatelessWidget {
-  const ActiveSymbolWidget({
+class ActiveSymbolDropdown extends StatelessWidget {
+  const ActiveSymbolDropdown({
     required this.activeSymbols,
     this.selectedActiveSymbol,
     this.onChanged,
@@ -12,6 +13,7 @@ class ActiveSymbolWidget extends StatelessWidget {
 
   final List<ActiveSymbolEntity> activeSymbols;
   final ActiveSymbolEntity? selectedActiveSymbol;
+
   final void Function(ActiveSymbolEntity entity)? onChanged;
 
   @override
@@ -22,28 +24,22 @@ class ActiveSymbolWidget extends StatelessWidget {
         ),
         child: DropdownButton<ActiveSymbolEntity>(
           isExpanded: true,
-          underline: Container(),
           value: selectedActiveSymbol,
-          items: activeSymbols
-              .map(
-                (ActiveSymbolEntity activeSymbol) =>
-                    DropdownMenuItem<ActiveSymbolEntity>(
-                  value: activeSymbol,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Text(
-                      activeSymbol.symbolDisplayName,
-                      style: TextStyle(
-                        fontWeight: _isSelected(activeSymbol)
-                            ? FontWeight.bold
-                            : FontWeight.normal,
-                      ),
-                    ),
-                  ),
-                ),
-              )
-              .toList(),
+          underline: const SizedBox.shrink(),
+          items: _buildItems().toList(),
           onChanged: (ActiveSymbolEntity? entity) => onChanged?.call(entity!),
+        ),
+      );
+
+  Iterable<DropdownMenuItem<ActiveSymbolEntity>> _buildItems() =>
+      activeSymbols.map(
+        (ActiveSymbolEntity activeSymbol) =>
+            DropdownMenuItem<ActiveSymbolEntity>(
+          value: activeSymbol,
+          child: ActiveSymbolDropdownItems(
+            item: activeSymbol,
+            isSelected: _isSelected(activeSymbol),
+          ),
         ),
       );
 

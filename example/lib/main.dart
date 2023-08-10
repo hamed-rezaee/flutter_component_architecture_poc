@@ -60,7 +60,7 @@ class App extends StatelessWidget {
         home: Scaffold(
           appBar: AppBar(
             elevation: 0,
-            title: const Text('App Architecture Demo'),
+            title: const Text('Architecture Demo'),
           ),
           body: const Padding(
             padding: EdgeInsets.all(8),
