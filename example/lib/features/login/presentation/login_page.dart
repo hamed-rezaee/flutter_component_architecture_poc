@@ -9,35 +9,42 @@ class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.all(32),
-          child: BlocConsumer<LoginCubit, LoginState>(listener: (
-            BuildContext context,
-            LoginState state,
-          ) {
-            if (state is LoginLoadingState) {
-              showLoadingDialog(context);
-            } else if (state is LoginLoggedInState) {
-              context.go('/home_page');
-            }
-          }, builder: (
-            BuildContext context,
-            LoginState state,
-          ) {
-            if (state is LoginLoggedOutState || state is LoginLoadingState) {
-              return LoginForm(
-                onLoginPressed: (String token) =>
-                    context.read<LoginCubit>().authorize(token),
-              );
-            }
+  Widget build(BuildContext context) {
+    context
+        .read<LoginCubit>()
+        .isLoggedIn()
+        .then((bool result) => result ? context.push('/home_page') : null);
 
-            if (state is LoginErrorState) {
-              return Center(child: Text(state.message));
-            }
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(32),
+        child: BlocConsumer<LoginCubit, LoginState>(listener: (
+          BuildContext context,
+          LoginState state,
+        ) {
+          if (state is LoginLoadingState) {
+            showLoadingDialog(context);
+          } else if (state is LoginLoggedInState) {
+            context.go('/home_page');
+          }
+        }, builder: (
+          BuildContext context,
+          LoginState state,
+        ) {
+          if (state is LoginLoggedOutState || state is LoginLoadingState) {
+            return LoginForm(
+              onLoginPressed: (String token) =>
+                  context.read<LoginCubit>().authorize(token),
+            );
+          }
 
-            return const Center(child: Text('Unknown State'));
-          }),
-        ),
-      );
+          if (state is LoginErrorState) {
+            return Center(child: Text(state.message));
+          }
+
+          return const Center(child: Text('Unknown State'));
+        }),
+      ),
+    );
+  }
 }

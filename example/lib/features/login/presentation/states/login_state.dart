@@ -9,9 +9,9 @@ class LoginLoadingState extends LoginState {
 }
 
 class LoginLoggedInState extends LoginState {
-  const LoginLoggedInState(this.loginInformation);
+  const LoginLoggedInState(this.loginId);
 
-  final LoginEntity loginInformation;
+  final String loginId;
 }
 
 class LoginLoggedOutState extends LoginState {

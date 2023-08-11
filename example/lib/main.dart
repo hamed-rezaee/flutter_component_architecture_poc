@@ -1,3 +1,4 @@
+import 'package:example/core/persistent_data_service/shared_preferences_sarvice.dart';
 import 'package:example/features/active_symbol/Interactor/active_symbol_service.dart';
 import 'package:example/features/active_symbol/data/active_symbol_data_source.dart';
 import 'package:example/features/active_symbol/data/active_symbol_mapper.dart';
@@ -29,6 +30,7 @@ class App extends StatelessWidget {
       LoginService(
         LoginRepoistory(LoginDataSource(LoginMapper())),
       ),
+      SharedPreferencesService(),
     );
 
     final SelectedActiveSymbolCubit selectedActiveSymbolCubit =

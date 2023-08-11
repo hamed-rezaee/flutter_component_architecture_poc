@@ -1,3 +1,4 @@
+import 'package:example/core/persistent_data_service/base_persistent_data_service.dart';
 import 'package:example/features/login/Interactor/base_login_service.dart';
 import 'package:example/features/login/domain/login_entity.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,19 +6,32 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 part 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
-  LoginCubit(this.service) : super(const LoginLoggedOutState());
+  LoginCubit(this.service, this.persistentDataService)
+      : super(const LoginLoggedOutState());
 
   final BaseLoginService service;
+  final BasePersistentDataService persistentDataService;
 
-  Future<bool> isLoggedIn() async => true;
+  Future<bool> isLoggedIn() async =>
+      await persistentDataService.read<String?>('login_id') != null;
+
+  String get loginId =>
+      state is LoginLoggedInState ? (state as LoginLoggedInState).loginId : '';
 
   Future<void> authorize(String token) async {
     try {
       emit(const LoginLoadingState());
 
-      final LoginEntity login = await service.authorize(token);
+      String? loginId = await persistentDataService.read<String?>('login_id');
 
-      emit(LoginLoggedInState(login));
+      if (loginId == null) {
+        final LoginEntity login = await service.authorize(token);
+
+        loginId = login.loginId;
+        await persistentDataService.write('login_id', login.loginId);
+      }
+
+      emit(LoginLoggedInState(loginId));
     } on Exception catch (e) {
       emit(LoginErrorState('$e'));
     }
@@ -26,6 +40,7 @@ class LoginCubit extends Cubit<LoginState> {
   Future<void> logout() async {
     try {
       await service.logout();
+      await persistentDataService.delete('login_id');
 
       emit(const LoginLoggedOutState());
     } on Exception catch (e) {

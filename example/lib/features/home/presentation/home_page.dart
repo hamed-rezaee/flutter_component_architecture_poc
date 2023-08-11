@@ -1,6 +1,5 @@
 import 'package:example/core/widgets/dialogs.dart';
 import 'package:example/features/active_symbol/presentation/widgets/active_symbol.dart';
-import 'package:example/features/login/domain/login_entity.dart';
 import 'package:example/features/login/presentation/states/login_cubit.dart';
 import 'package:example/features/tick_stream/presentation/states/tick_stream_cubit.dart';
 import 'package:example/features/tick_stream/presentation/states/tick_stream_cubit_extended.dart';
@@ -45,17 +44,12 @@ class HomePage extends StatelessWidget {
         icon: const Icon(Icons.person),
         onPressed: () {
           final LoginCubit loginCubit = context.read<LoginCubit>();
-          final LoginState state = loginCubit.state;
 
-          if (state is LoginLoggedInState) {
-            final LoginEntity user = state.loginInformation;
+          logoutDialog(context, loginCubit.loginId, () {
+            loginCubit.logout();
 
-            logoutDialog(context, user.loginId, () {
-              loginCubit.logout();
-
-              context.go('/login_page');
-            });
-          }
+            context.go('/login_page');
+          });
         },
       );
 }
