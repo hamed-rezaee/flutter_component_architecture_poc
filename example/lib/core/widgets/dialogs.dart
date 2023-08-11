@@ -12,3 +12,23 @@ Future<void> showLoadingDialog(BuildContext context) => showDialog(
             child: const CircularProgressIndicator()),
       ),
     );
+
+Future<void> logoutDialog(
+  BuildContext context,
+  String loginId,
+  VoidCallback onLogout,
+) =>
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text('Logout'),
+        content: Text('Are you sure you want to logout $loginId?'),
+        actions: <Widget>[
+          TextButton(child: const Text('Yes'), onPressed: onLogout),
+          TextButton(
+            child: const Text('No'),
+            onPressed: () => Navigator.of(context).pop(),
+          )
+        ],
+      ),
+    );
