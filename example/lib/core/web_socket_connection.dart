@@ -3,13 +3,17 @@ import 'dart:convert';
 
 import 'package:dart_web_socket_handler/web_socket_handler.dart';
 
+final Uri _endpointUrl = Uri(
+  scheme: 'wss',
+  host: 'qa16.deriv.dev',
+  path: '/websockets/v3',
+  queryParameters: <String, String>{'app_id': '16929'},
+);
+
 class WebSocketConnection {
   factory WebSocketConnection() => _instance;
 
-  WebSocketConnection._internal()
-      : _channel = WebSocket(
-          Uri.parse('wss://ws.binaryws.com/websockets/v3?app_id=1089'),
-        ) {
+  WebSocketConnection._internal() : _channel = WebSocket(_endpointUrl) {
     _channel.messages
         .listen((dynamic event) => streamController.add(jsonDecode(event)));
   }

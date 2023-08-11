@@ -4,6 +4,10 @@ abstract class LoginState {
   const LoginState();
 }
 
+class LoginLoadingState extends LoginState {
+  const LoginLoadingState();
+}
+
 class LoginLoggedInState extends LoginState {
   const LoginLoggedInState(this.loginInformation);
 

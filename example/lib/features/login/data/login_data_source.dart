@@ -15,7 +15,7 @@ class LoginDataSource extends BaseLoginDataSource {
       StreamTransformer<dynamic, LoginModel>.fromHandlers(
         handleData: (dynamic event, EventSink<LoginModel> sink) {
           if (event['msg_type'] == 'authorize') {
-            final LoginModel model = LoginModel.fromJson(event);
+            final LoginModel model = LoginModel.fromJson(event['authorize']);
 
             sink.add(model);
           }

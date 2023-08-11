@@ -5,7 +5,6 @@ import 'package:example/features/login/domain/login_entity.dart';
 class LoginMapper implements BaseMapper<LoginEntity, LoginModel> {
   @override
   LoginEntity toEntity(LoginModel model) => LoginEntity(
-        fullName: model.fullName,
         loginId: model.loginId,
         balance: model.balance,
       );

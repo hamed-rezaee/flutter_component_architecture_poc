@@ -4,6 +4,11 @@ import 'package:example/features/active_symbol/data/active_symbol_mapper.dart';
 import 'package:example/features/active_symbol/data/active_symbol_repository.dart';
 import 'package:example/features/active_symbol/presentation/states/active_symbol_cubit.dart';
 import 'package:example/features/active_symbol/presentation/states/selected_active_symbol_cubit.dart';
+import 'package:example/features/login/Interactor/login_service.dart';
+import 'package:example/features/login/data/login_data_source.dart';
+import 'package:example/features/login/data/login_mapper.dart';
+import 'package:example/features/login/data/login_repository.dart';
+import 'package:example/features/login/presentation/states/login_cubit.dart';
 import 'package:example/features/tick_stream/Interactor/tick_stream_service.dart';
 import 'package:example/features/tick_stream/data/tick_stream_data_source.dart';
 import 'package:example/features/tick_stream/data/tick_stream_mapper.dart';
@@ -20,6 +25,12 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final LoginCubit loginCubit = LoginCubit(
+      LoginService(
+        LoginRepoistory(LoginDataSource(LoginMapper())),
+      ),
+    );
+
     final SelectedActiveSymbolCubit selectedActiveSymbolCubit =
         SelectedActiveSymbolCubit();
 
@@ -39,6 +50,7 @@ class App extends StatelessWidget {
 
     return MultiBlocProvider(
       providers: <BlocProvider<dynamic>>[
+        BlocProvider<LoginCubit>(create: (BuildContext context) => loginCubit),
         BlocProvider<SelectedActiveSymbolCubit>(
           create: (BuildContext context) => selectedActiveSymbolCubit,
         ),

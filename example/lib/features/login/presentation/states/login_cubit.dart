@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'login_state.dart';
 
-class TickSteamCubit extends Cubit<LoginState> {
-  TickSteamCubit(this.service) : super(const LoginLoggedOutState());
+class LoginCubit extends Cubit<LoginState> {
+  LoginCubit(this.service) : super(const LoginLoggedOutState());
 
   final BaseLoginService service;
 
@@ -13,9 +13,11 @@ class TickSteamCubit extends Cubit<LoginState> {
 
   Future<void> authorize(String token) async {
     try {
-      final LoginEntity loginInformation = await service.authorize(token);
+      emit(const LoginLoadingState());
 
-      emit(LoginLoggedInState(loginInformation));
+      final LoginEntity login = await service.authorize(token);
+
+      emit(LoginLoggedInState(login));
     } on Exception catch (e) {
       emit(LoginErrorState('$e'));
     }
