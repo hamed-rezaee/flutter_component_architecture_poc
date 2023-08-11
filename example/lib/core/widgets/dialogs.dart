@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 Future<void> showLoadingDialog(BuildContext context) => showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) => Center(
         child: Container(
             padding: const EdgeInsets.all(16),
@@ -20,6 +21,7 @@ Future<void> logoutDialog(
 ) =>
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) => AlertDialog(
         title: const Text('Logout'),
         content: Text('Are you sure you want to logout $loginId?'),
