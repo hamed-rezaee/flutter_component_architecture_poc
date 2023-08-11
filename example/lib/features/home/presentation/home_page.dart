@@ -42,10 +42,11 @@ class HomePage extends StatelessWidget {
 
   Widget _userButton(BuildContext context) => IconButton(
         icon: const Icon(Icons.person),
-        onPressed: () {
+        onPressed: () async {
           final LoginCubit loginCubit = context.read<LoginCubit>();
+          final String loginId = await loginCubit.loginId;
 
-          logoutDialog(context, loginCubit.loginId, () {
+          await logoutDialog(context, loginId, () {
             loginCubit.logout();
 
             context.go('/login_page');
