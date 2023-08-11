@@ -32,7 +32,7 @@ class LoginCubit extends Cubit<LoginState> {
       }
 
       emit(LoginLoggedInState(loginId));
-    } on Exception catch (e) {
+    } catch (e) {
       emit(LoginErrorState('$e'));
     }
   }
@@ -43,7 +43,7 @@ class LoginCubit extends Cubit<LoginState> {
       await persistentDataService.delete('login_id');
 
       emit(const LoginLoggedOutState());
-    } on Exception catch (e) {
+    } catch (e) {
       emit(LoginErrorState('$e'));
     }
   }

@@ -33,11 +33,9 @@ class WebSocketConnection {
           handleData: (dynamic event, EventSink<dynamic> sink) {
             if (event['error'] != null) {
               sink.addError(event['error']['message']);
-
-              return;
+            } else {
+              sink.add(event);
             }
-
-            sink.add(event);
           },
         ),
       );

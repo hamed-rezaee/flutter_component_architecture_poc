@@ -46,11 +46,13 @@ class HomePage extends StatelessWidget {
           final LoginCubit loginCubit = context.read<LoginCubit>();
           final String loginId = await loginCubit.loginId;
 
-          await logoutDialog(context, loginId, () {
+          LogoutModel logoutModel = LogoutModel(loginId, () {
             loginCubit.logout();
 
             context.go('/login_page');
           });
+
+          context.push('/logout_dialog', extra: logoutModel);
         },
       );
 }

@@ -19,7 +19,7 @@ linter:
     - annotate_overrides
     # - avoid_as # DEPRECATED: This advice is no longer recommended.
     - avoid_bool_literals_in_conditional_expressions
-    - avoid_catches_without_on_clauses
+    # - avoid_catches_without_on_clauses
     - avoid_empty_else
     - avoid_equals_and_hash_code_on_mutable_classes
     - avoid_field_initializers_in_const_classes

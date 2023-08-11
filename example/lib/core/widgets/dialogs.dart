@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-Future<void> showLoadingDialog(BuildContext context) => showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) => Center(
+class LoadingDialog extends StatelessWidget {
+  const LoadingDialog({super.key});
+
+  @override
+  Widget build(BuildContext context) => Center(
         child: Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
@@ -11,26 +12,34 @@ Future<void> showLoadingDialog(BuildContext context) => showDialog(
               color: Colors.grey.shade900,
             ),
             child: const CircularProgressIndicator()),
-      ),
-    );
+      );
+}
 
-Future<void> logoutDialog(
-  BuildContext context,
-  String loginId,
-  VoidCallback onLogout,
-) =>
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) => AlertDialog(
+class LogoutDialog extends StatelessWidget {
+  const LogoutDialog({
+    required this.model,
+    super.key,
+  });
+
+  final LogoutModel model;
+
+  @override
+  Widget build(BuildContext context) => AlertDialog(
         title: const Text('Logout'),
-        content: Text('Are you sure you want to logout $loginId?'),
+        content: Text('Are you sure you want to logout ${model.loginId}?'),
         actions: <Widget>[
-          TextButton(child: const Text('Yes'), onPressed: onLogout),
+          TextButton(child: const Text('Yes'), onPressed: model.onLogout),
           TextButton(
             child: const Text('No'),
             onPressed: () => Navigator.of(context).pop(),
           )
         ],
-      ),
-    );
+      );
+}
+
+class LogoutModel {
+  LogoutModel(this.loginId, this.onLogout);
+
+  final String loginId;
+  final VoidCallback onLogout;
+}

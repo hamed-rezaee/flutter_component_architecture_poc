@@ -23,7 +23,7 @@ class LoginPage extends StatelessWidget {
           LoginState state,
         ) {
           if (state is LoginLoadingState) {
-            showLoadingDialog(context);
+            context.go('/loading_page');
           } else if (state is LoginLoggedInState) {
             context.go('/home_page');
           }
