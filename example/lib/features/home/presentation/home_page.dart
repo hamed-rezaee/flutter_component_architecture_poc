@@ -16,7 +16,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           elevation: 0,
-          title: const Text('Architecture Demo'),
+          title: const Text('Active Symbols'),
           leading: _userButton(context),
           actions: <Widget>[_chartButton()],
         ),
@@ -44,13 +44,14 @@ class HomePage extends StatelessWidget {
   Widget _userButton(BuildContext context) => IconButton(
         icon: const Icon(Icons.person),
         onPressed: () {
-          final LoginState state = context.read<LoginCubit>().state;
-          
+          final LoginCubit loginCubit = context.read<LoginCubit>();
+          final LoginState state = loginCubit.state;
+
           if (state is LoginLoggedInState) {
             final LoginEntity user = state.loginInformation;
 
             logoutDialog(context, user.loginId, () {
-              context.read<LoginCubit>().logout();
+              loginCubit.logout();
 
               context.go('/login_page');
             });
