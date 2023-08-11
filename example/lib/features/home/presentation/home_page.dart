@@ -16,8 +16,8 @@ class HomePage extends StatelessWidget {
         appBar: AppBar(
           elevation: 0,
           title: const Text('Active Symbols'),
-          leading: _userButton(context),
-          actions: <Widget>[_chartButton()],
+          leading: _buildLogoutButton(context),
+          actions: <Widget>[_buildChartButton()],
         ),
         body: const Padding(
           padding: EdgeInsets.all(8),
@@ -30,7 +30,7 @@ class HomePage extends StatelessWidget {
         ),
       );
 
-  Widget _chartButton() =>
+  Widget _buildChartButton() =>
       BlocBuilder<TickStreamCubitExtended, TickStreamState>(
         builder: (BuildContext context, TickStreamState state) => IconButton(
           icon: const Icon(Icons.ssid_chart_rounded),
@@ -40,7 +40,7 @@ class HomePage extends StatelessWidget {
         ),
       );
 
-  Widget _userButton(BuildContext context) => IconButton(
+  Widget _buildLogoutButton(BuildContext context) => IconButton(
         icon: const Icon(Icons.person),
         onPressed: () async {
           final LoginCubit loginCubit = context.read<LoginCubit>();
