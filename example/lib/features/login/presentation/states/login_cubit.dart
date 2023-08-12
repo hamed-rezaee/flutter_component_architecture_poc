@@ -12,15 +12,25 @@ class LoginCubit extends Cubit<LoginState> {
   final BaseLoginService service;
   final BasePersistentDataService persistentDataService;
 
-  Future<bool> isLoggedIn() async =>
-      await persistentDataService.read<String?>('login_id') != null;
-
   Future<String> get loginId async =>
       await persistentDataService.read<String?>('login_id') ?? '';
+
+  Future<void> isLoggedIn() async {
+    emit(const LoginLoadingState());
+
+    final String? loginId =
+        await persistentDataService.read<String?>('login_id');
+
+    emit(loginId == null
+        ? const LoginLoggedOutState()
+        : LoginLoggedInState(loginId));
+  }
 
   Future<void> authorize(String token) async {
     try {
       emit(const LoginLoadingState());
+
+      await Future<void>.delayed(const Duration(seconds: 2));
 
       String? loginId = await persistentDataService.read<String?>('login_id');
 

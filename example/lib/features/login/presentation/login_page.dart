@@ -1,6 +1,6 @@
-import 'package:example/core/widgets/dialogs.dart';
 import 'package:example/features/login/presentation/states/login_cubit.dart';
 import 'package:example/features/login/presentation/widgets/login_form.dart';
+import 'package:example/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -10,10 +10,7 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context
-        .read<LoginCubit>()
-        .isLoggedIn()
-        .then((bool result) => result ? context.push('/home_page') : null);
+    context.read<LoginCubit>().isLoggedIn();
 
     return Scaffold(
       body: Padding(
@@ -23,9 +20,9 @@ class LoginPage extends StatelessWidget {
           LoginState state,
         ) {
           if (state is LoginLoadingState) {
-            context.go('/loading_page');
+            context.push(loadingDialogPath);
           } else if (state is LoginLoggedInState) {
-            context.go('/home_page');
+            context.go(homePagePath);
           }
         }, builder: (
           BuildContext context,
