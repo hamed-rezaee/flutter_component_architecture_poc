@@ -15,11 +15,14 @@ class ChartCubit extends Cubit<ChartState> {
   final BaseTickHistoryService tickHistoryService;
 
   Future<void> updateChart(
-    BasicChartModel model, [
+    BasicChartModel model, {
     int maxVisibleTicks = 50,
-  ]) async {
+    bool reload = false,
+  }) async {
     try {
-      if (state is ChartLoadingState) {
+      if (reload || state is ChartLoadingState) {
+        emit(const ChartLoadingState());
+
         final TickHistoryEntity tickHistory = await tickHistoryService
             .fetchTickHistory(model.symbol, maxVisibleTicks);
 
