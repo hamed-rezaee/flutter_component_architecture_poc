@@ -1,5 +1,1 @@
-enum TickState {
-  up,
-  down,
-  none,
-}
+enum TickState { up, down, none }
