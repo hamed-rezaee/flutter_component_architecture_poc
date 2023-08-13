@@ -25,7 +25,11 @@ DialogPage<void> showLoadingDialog(BuildContext context, [String? message]) =>
                     Column(
                       children: <Widget>[
                         const SizedBox(height: 32),
-                        Text(message),
+                        Text(
+                          message,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
                       ],
                     ),
                 ],

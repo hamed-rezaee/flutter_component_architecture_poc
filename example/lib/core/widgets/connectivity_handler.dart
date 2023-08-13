@@ -4,24 +4,31 @@ import 'package:example/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class ConnectivityHandler extends StatelessWidget {
+class ConnectivityHandler extends StatefulWidget {
   const ConnectivityHandler(this.child, {super.key});
 
   final Widget child;
 
   @override
-  Widget build(BuildContext context) {
-    ConnectivityService().connectivityStatus.listen((ConnectivityStatus event) {
-      if (event == ConnectivityStatus.connected && context.canPop()) {
-        context.pop();
-      } else {
-        context.push(
-          loadingDialogPath,
-          extra: 'No Internet Connection, Try to reconnect...',
-        );
-      }
-    });
+  State<ConnectivityHandler> createState() => _ConnectivityHandlerState();
+}
 
-    return child;
+class _ConnectivityHandlerState extends State<ConnectivityHandler> {
+  @override
+  void initState() {
+    super.initState();
+
+    ConnectivityService().connectivityStatus.listen(_handleConnectivity);
+  }
+
+  @override
+  Widget build(BuildContext context) => widget.child;
+
+  void _handleConnectivity(ConnectivityStatus event) {
+    if (event == ConnectivityStatus.connecting) {
+      context.push(loadingDialogPath, extra: 'Reconnecting...');
+    } else if (context.canPop()) {
+      context.pop();
+    }
   }
 }

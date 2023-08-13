@@ -13,26 +13,17 @@ class ConnectivityService implements BaseConnectivityService {
 
   static final ConnectivityService _instance = ConnectivityService._();
 
-  ConnectivityStatus _connectionState = ConnectivityStatus.connecting;
-
   @override
-  Stream<ConnectivityStatus> get connectivityStatus =>
-      WebSocketConnection().connectionState.transform(
+  Stream<ConnectivityStatus> get connectivityStatus => WebSocketConnection()
+      .connectionState
+      .transform(
         StreamTransformer<ConnectionState, ConnectivityStatus>.fromHandlers(
           handleData: (
             ConnectionState event,
             EventSink<ConnectivityStatus> sink,
-          ) {
-            final ConnectivityStatus status = event.connectivityStatus;
-
-            if (_connectionState == status) {
-              return;
-            }
-
-            _connectionState = status;
-
-            sink.add(status);
-          },
+          ) =>
+              sink.add(event.connectivityStatus),
         ),
-      );
+      )
+      .distinct();
 }
