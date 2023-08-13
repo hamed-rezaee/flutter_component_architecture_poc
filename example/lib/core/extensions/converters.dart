@@ -12,7 +12,7 @@ extension TickHistoryExtension on TickHistoryEntity {
         BasicChartModel(
           symbol: symbol,
           epoch: time,
-          quote: prices[times.indexOf(time)].toDouble(),
+          quote: double.parse('${prices[times.indexOf(time)]}'),
           pipSize: pipSize,
         ),
       );
