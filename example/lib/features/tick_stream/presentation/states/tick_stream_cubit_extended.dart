@@ -6,14 +6,14 @@ class TickStreamCubitExtended extends TickSteamCubit {
   TickStreamCubitExtended(
     super.service,
     this.connectivityStatusStream,
-    this.activeSymbolStateStream,
+    this.selectedActiveSymbolStateStream,
   ) {
     _handleConnectivtyState();
-    _handleActiveSymbolStates();
+    _handleSelectedActiveSymbolStates();
   }
 
   final Stream<ConnectivityStatus> connectivityStatusStream;
-  final Stream<SelectedActiveSymbolState> activeSymbolStateStream;
+  final Stream<SelectedActiveSymbolState> selectedActiveSymbolStateStream;
 
   void _onSelectedActiveSymbolChanged({String? activeSymbol}) {
     fetchTickStream(activeSymbol);
@@ -35,8 +35,8 @@ class TickStreamCubitExtended extends TickSteamCubit {
     );
   }
 
-  void _handleActiveSymbolStates() {
-    activeSymbolStateStream.listen(
+  void _handleSelectedActiveSymbolStates() {
+    selectedActiveSymbolStateStream.listen(
       (SelectedActiveSymbolState activeSymbolState) {
         if (activeSymbolState is SelectedActiveSymbolUpdateState) {
           _onSelectedActiveSymbolChanged(

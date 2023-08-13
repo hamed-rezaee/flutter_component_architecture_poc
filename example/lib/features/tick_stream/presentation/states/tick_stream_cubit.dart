@@ -13,17 +13,21 @@ class TickSteamCubit extends Cubit<TickStreamState> {
 
   StreamSubscription<TickStreamEntity>? _tickStreamSubscription;
 
-  Future<void> reset() async {
-    emit(const TickStreamInitialState());
+  Future<void> reset(String? symbol) async {
+    emit(const TickStreamLoadingState());
 
     await _tickStreamSubscription?.cancel();
+
+    if (symbol == null) {
+      emit(const TickStreamInitialState());
+    }
   }
 
   Future<void> fetchTickStream(
     String? symbol, [
     int maxVisibleTicks = 50,
   ]) async {
-    await reset();
+    await reset(symbol);
 
     if (symbol == null) {
       return;
