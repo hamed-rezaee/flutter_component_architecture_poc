@@ -10,38 +10,36 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<LoginCubit>().isLoggedIn();
+    context.read<LoginCubit>().isLoggedIn;
 
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(32),
-        child: BlocConsumer<LoginCubit, LoginState>(listener: (
-          BuildContext context,
-          LoginState state,
-        ) {
-          if (state is LoginLoadingState) {
-            context.push(loadingDialogPath);
-          } else if (state is LoginLoggedInState) {
-            context.go(homePagePath);
-          }
-        }, builder: (
-          BuildContext context,
-          LoginState state,
-        ) {
-          if (state is LoginLoggedOutState || state is LoginLoadingState) {
-            return LoginForm(
-              onLoginPressed: (String token) =>
-                  context.read<LoginCubit>().authorize(token),
-            );
-          }
+        child: BlocConsumer<LoginCubit, LoginState>(
+          listener: _handleLoginState,
+          builder: (BuildContext context, LoginState state) {
+            if (state is LoginLoggedOutState || state is LoginLoadingState) {
+              return LoginForm(
+                onLoginPressed: context.read<LoginCubit>().authorize,
+              );
+            }
 
-          if (state is LoginErrorState) {
-            return Center(child: Text(state.message));
-          }
+            if (state is LoginErrorState) {
+              return Center(child: Text(state.message));
+            }
 
-          return const Center(child: Text('Unknown State'));
-        }),
+            return const Center(child: Text('Unknown State.'));
+          },
+        ),
       ),
     );
+  }
+
+  void _handleLoginState(BuildContext context, LoginState state) {
+    if (state is LoginLoadingState) {
+      context.push(loadingDialogPath);
+    } else if (state is LoginLoggedInState) {
+      context.go(homePagePath);
+    }
   }
 }

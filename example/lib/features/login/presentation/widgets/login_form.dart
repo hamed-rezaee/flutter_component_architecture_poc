@@ -10,6 +10,7 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
+  // I knew this token is hardcoded, but since this will be invalidate in each qa machine rebuild it's not a problem. :)
   final TextEditingController _controller =
       TextEditingController(text: 'kd4fE1MpTI0UksF');
 
@@ -29,18 +30,13 @@ class _LoginFormState extends State<LoginForm> {
             ),
           ),
           const SizedBox(height: 32),
-          ElevatedButton(
-            child: const Text('Login'),
-            onPressed: _validateInput,
-          )
+          ElevatedButton(child: const Text('Login'), onPressed: _validateInput)
         ],
       );
 
   void _validateInput() {
     if (_controller.value.text.isEmpty) {
-      _errorText = 'Please enter a token.';
-
-      setState(() {});
+      setState(() => _errorText = 'Please enter a token.');
 
       return;
     }

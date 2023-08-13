@@ -9,22 +9,21 @@ class LoginDataSource extends BaseLoginDataSource {
 
   @override
   Future<LoginModel> authorize(String token) {
-    WebSocketConnection().request(<String, dynamic>{'authorize': token});
+    final Map<String, dynamic> request = <String, dynamic>{'authorize': token};
 
-    return WebSocketConnection().response.transform(
-      StreamTransformer<dynamic, LoginModel>.fromHandlers(
-        handleData: (dynamic event, EventSink<LoginModel> sink) {
-          if (event['msg_type'] == 'authorize') {
-            final LoginModel model = LoginModel.fromJson(event['authorize']);
+    WebSocketConnection().request(request);
 
-            sink.add(model);
-          }
-        },
-      ),
-    ).first;
+    return WebSocketConnection()
+        .response
+        .where((dynamic event) => event['msg_type'] == 'authorize')
+        .map((dynamic event) => LoginModel.fromJson(event['authorize']))
+        .first;
   }
 
   @override
-  Future<void> logout() =>
-      WebSocketConnection().request(<String, dynamic>{'logout': 1});
+  Future<void> logout() {
+    final Map<String, dynamic> request = <String, dynamic>{'logout': 1};
+
+    return WebSocketConnection().request(request);
+  }
 }
