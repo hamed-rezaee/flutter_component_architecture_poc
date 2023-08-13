@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:example/features/tick_history/data/base_tick_history_data_source.dart';
-import 'package:example/features/tick_history/data/tick_history_model.dart';
 import 'package:example/features/tick_history/domain/base_tick_history_repository.dart';
 import 'package:example/features/tick_history/domain/tick_history_entity.dart';
 
@@ -15,5 +14,5 @@ class TickHistoryRepoistory implements BaseTickHistoryRepository {
   Future<TickHistoryEntity> fetchTickHistory(String symbol, int count) =>
       dataSource
           .fetchTickHistory(symbol, count)
-          .then((TickHistoryModel model) => dataSource.mapper.toEntity(model));
+          .then(dataSource.mapper.toEntity);
 }

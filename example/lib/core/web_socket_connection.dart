@@ -22,11 +22,13 @@ class WebSocketConnection {
 
   late final WebSocket _channel;
 
-  Future<void> request(Map<String, dynamic> request) async =>
-      _channel.send(jsonEncode(request));
-
   final StreamController<dynamic> streamController =
       StreamController<dynamic>.broadcast();
+
+  Stream<ConnectionState> get connectionState => _channel.connection;
+
+  Future<void> request(Map<String, dynamic> request) async =>
+      _channel.send(jsonEncode(request));
 
   Stream<dynamic> get response => streamController.stream.transform(
         StreamTransformer<dynamic, dynamic>.fromHandlers(
@@ -39,6 +41,4 @@ class WebSocketConnection {
           },
         ),
       );
-
-  Stream<ConnectionState> get connectionState => _channel.connection;
 }

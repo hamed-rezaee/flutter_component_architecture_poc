@@ -16,14 +16,6 @@ class ConnectivityService implements BaseConnectivityService {
   @override
   Stream<ConnectivityStatus> get connectivityStatus => WebSocketConnection()
       .connectionState
-      .transform(
-        StreamTransformer<ConnectionState, ConnectivityStatus>.fromHandlers(
-          handleData: (
-            ConnectionState event,
-            EventSink<ConnectivityStatus> sink,
-          ) =>
-              sink.add(event.connectivityStatus),
-        ),
-      )
+      .map((ConnectionState event) => event.connectivityStatus)
       .distinct();
 }

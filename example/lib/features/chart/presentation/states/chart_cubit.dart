@@ -21,8 +21,6 @@ class ChartCubit extends Cubit<ChartState> {
   }) async {
     try {
       if (reload || state is ChartLoadingState) {
-        emit(const ChartLoadingState());
-
         final TickHistoryEntity tickHistory = await tickHistoryService
             .fetchTickHistory(model.symbol, maxVisibleTicks);
 
