@@ -39,7 +39,7 @@ class ChartCubit extends Cubit<ChartState> {
 
         emit(ChartLoadedState(data));
       }
-    } catch (e) {
+    } on Exception catch (e) {
       emit(ChartErrorState('$e'));
     }
   }

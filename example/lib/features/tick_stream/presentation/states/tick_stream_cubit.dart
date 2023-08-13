@@ -36,8 +36,9 @@ class TickSteamCubit extends Cubit<TickStreamState> {
     try {
       _tickStreamSubscription = service
           .fetchTickStream(symbol)
-          .listen((TickStreamEntity tick) => emit(TickStreamLoadedState(tick)));
-    } catch (e) {
+          .listen((TickStreamEntity tick) => emit(TickStreamLoadedState(tick)))
+        ..onError((Object e) => emit(TickStreamErrorState('$e')));
+    } on Exception catch (e) {
       emit(TickStreamErrorState('$e'));
     }
   }
