@@ -1,3 +1,4 @@
+import 'package:example/core/connectivity_service/connectivity_service.dart';
 import 'package:example/core/widgets/basic_chart/basic_chart.dart';
 import 'package:example/features/chart/Interactor/chart_service.dart';
 import 'package:example/features/chart/presentation/states/chart_cubit.dart';
@@ -27,6 +28,7 @@ class ChartPage extends StatelessWidget {
                 TickHistoryDataSource(TickHistoryMapper()),
               ),
             ),
+            ConnectivityService().connectivityStatus,
             context.read<TickStreamCubitExtended>().stream,
           ),
           builder: (BuildContext context, ChartState state) {
