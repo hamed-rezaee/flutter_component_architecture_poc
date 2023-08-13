@@ -4,14 +4,6 @@ import 'package:example/features/chart/Interactor/base_chart_service.dart';
 class ChartService implements BaseChartService {
   const ChartService();
 
-  List<BasicChartModel> trunkChartData(
-    List<BasicChartModel> data, [
-    int maxVisibleTicks = 50,
-  ]) {
-    if (data.length >= maxVisibleTicks) {
-      data.removeAt(0);
-    }
-
-    return data;
-  }
+  List<BasicChartModel> adjustData(List<BasicChartModel> data, int maxlength) =>
+      data.length > maxlength ? data.sublist(data.length - maxlength) : data;
 }

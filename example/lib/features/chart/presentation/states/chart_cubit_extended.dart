@@ -9,55 +9,47 @@ class ChartCubitExtended extends ChartCubit {
   ChartCubitExtended(
     super.service,
     super.tickHistoryService,
-    this.connectivityStatusStream,
-    this.activeSymbolStateStream,
+    this.connectivityStream,
+    this.symbolStream,
   ) {
     _handleConnectivty();
     _handleActiveSymbolStream();
   }
 
-  final Stream<ConnectivityStatus> connectivityStatusStream;
-  final Stream<TickStreamState> activeSymbolStateStream;
+  final Stream<ConnectivityStatus> connectivityStream;
+  final Stream<TickStreamState> symbolStream;
 
-  void _onTickStreamLoaded({
-    TickStreamEntity? activeSymbol,
-    bool reload = false,
-  }) {
-    if (activeSymbol != null) {
-      updateChart(
-        BasicChartModel(
-          symbol: activeSymbol.symbol,
-          epoch: activeSymbol.epoch,
-          quote: activeSymbol.quote,
-          pipSize: activeSymbol.pipSize,
-        ),
-        reload: reload,
-      );
+  void _onTickStreamLoaded({TickStreamEntity? symbol, bool reload = false}) {
+    if (symbol == null) {
+      return;
     }
-  }
 
-  void _handleConnectivty() {
-    connectivityStatusStream.listen(
-      (ConnectivityStatus connectivityStatus) async {
-        if (connectivityStatus == ConnectivityStatus.connected) {
-          final TickStreamLoadedState tickStreamState =
-              await activeSymbolStateStream
-                  .whereType<TickStreamLoadedState>()
-                  .first;
-
-          _onTickStreamLoaded(activeSymbol: tickStreamState.tick, reload: true);
-        }
-      },
+    updateChart(
+      BasicChartModel(
+        symbol: symbol.symbol,
+        epoch: symbol.epoch,
+        quote: symbol.quote,
+        pipSize: symbol.pipSize,
+      ),
+      reload: reload,
     );
   }
 
-  void _handleActiveSymbolStream() {
-    activeSymbolStateStream.listen(
-      (TickStreamState activeSymbolState) {
-        if (activeSymbolState is TickStreamLoadedState) {
-          _onTickStreamLoaded(activeSymbol: activeSymbolState.tick);
-        }
-      },
-    );
-  }
+  void _handleConnectivty() => connectivityStream
+          .where((ConnectivityStatus status) =>
+              status == ConnectivityStatus.connected)
+          .listen(
+        (_) async {
+          final TickStreamLoadedState tickState =
+              await symbolStream.whereType<TickStreamLoadedState>().first;
+
+          _onTickStreamLoaded(symbol: tickState.tick, reload: true);
+        },
+      );
+
+  void _handleActiveSymbolStream() =>
+      symbolStream.whereType<TickStreamLoadedState>().listen(
+            (TickStreamLoadedState state) =>
+                _onTickStreamLoaded(symbol: state.tick),
+          );
 }

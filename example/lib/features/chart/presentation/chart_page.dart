@@ -16,42 +16,42 @@ class ChartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          title: const Text('Chart'),
-        ),
+        appBar: AppBar(elevation: 0, title: const Text('Chart')),
         body: BlocBuilder<ChartCubitExtended, ChartState>(
-          bloc: ChartCubitExtended(
-            const ChartService(),
-            TickHistoryService(
-              TickHistoryRepoistory(
-                TickHistoryDataSource(TickHistoryMapper()),
-              ),
-            ),
-            ConnectivityService().connectivityStatus,
-            context.read<TickStreamCubitExtended>().stream,
-          ),
+          bloc: _getChartBloc(context),
           builder: (BuildContext context, ChartState state) {
             if (state is ChartLoadingState) {
               return const Center(child: CircularProgressIndicator());
             }
 
             if (state is ChartLoadedState) {
-              return Padding(
-                padding: const EdgeInsets.only(top: 64, left: 32, right: 32),
-                child: BasicChart(
-                  data: state.data,
-                  size: Size(MediaQuery.of(context).size.width * 0.8, 300),
-                ),
-              );
+              return _buildBasicChart(context, state.data);
             }
 
             if (state is ChartErrorState) {
               return Text(state.message);
             }
 
-            return const Text('Unknown State');
+            return const Text('Unknown State.');
           },
+        ),
+      );
+
+  ChartCubitExtended _getChartBloc(BuildContext context) => ChartCubitExtended(
+        const ChartService(),
+        TickHistoryService(
+          TickHistoryRepoistory(TickHistoryDataSource(TickHistoryMapper())),
+        ),
+        ConnectivityService().connectivityStatus,
+        context.read<TickStreamCubitExtended>().stream,
+      );
+
+  Widget _buildBasicChart(BuildContext context, List<BasicChartModel> data) =>
+      Padding(
+        padding: const EdgeInsets.only(top: 64, left: 32, right: 32),
+        child: BasicChart(
+          data: data,
+          size: Size(MediaQuery.of(context).size.width * 0.8, 300),
         ),
       );
 }
