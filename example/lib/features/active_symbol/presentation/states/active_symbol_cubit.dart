@@ -13,7 +13,9 @@ class ActiveSymbolCubit extends Cubit<ActiveSymbolState> {
     emit(const ActiveSymbolLoadingState());
 
     try {
-      emit(ActiveSymbolLoadedState(await service.fetchActiveSymbols()));
+      emit(
+        ActiveSymbolLoadedState((await service.fetchActiveSymbols()).toList()),
+      );
     } on Exception catch (e) {
       emit(ActiveSymbolErrorState('$e'));
     }

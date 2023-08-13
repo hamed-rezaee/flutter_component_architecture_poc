@@ -10,5 +10,5 @@ abstract class BaseActiveSymbolDataSource implements BaseDataSource {
   @override
   final ActiveSymbolMapper mapper;
 
-  Future<List<ActiveSymbolModel>> fetchActiveSymbols();
+  Future<Iterable<ActiveSymbolModel>> fetchActiveSymbols();
 }

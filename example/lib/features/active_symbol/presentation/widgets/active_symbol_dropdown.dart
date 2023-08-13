@@ -12,7 +12,6 @@ class ActiveSymbolDropdown extends StatelessWidget {
 
   final List<ActiveSymbolEntity> activeSymbols;
   final ActiveSymbolEntity? selectedActiveSymbol;
-
   final void Function(ActiveSymbolEntity entity)? onChanged;
 
   @override
@@ -36,7 +35,7 @@ class ActiveSymbolDropdown extends StatelessWidget {
             DropdownMenuItem<ActiveSymbolEntity>(
           value: activeSymbol,
           child: ActiveSymbolDropdownItems(
-            item: activeSymbol,
+            symbolName: activeSymbol.symbolDisplayName,
             isSelected: _isSelected(activeSymbol),
           ),
         ),

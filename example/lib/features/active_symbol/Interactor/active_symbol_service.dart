@@ -11,16 +11,15 @@ class ActiveSymbolService implements BaseActiveSymbolService {
   @override
   Future<List<ActiveSymbolEntity>> fetchActiveSymbols() async {
     final List<ActiveSymbolEntity> result =
-        await repository.fetchActiveSymbols();
-
-    result.insert(
-      0,
-      ActiveSymbolEntity(
-        symbolDisplayName: '',
-        market: '',
-        marketDisplayName: '',
-      ),
-    );
+        (await repository.fetchActiveSymbols()).toList()
+          ..insert(
+            0,
+            ActiveSymbolEntity(
+              symbolDisplayName: '',
+              market: '',
+              marketDisplayName: '',
+            ),
+          );
 
     return result;
   }

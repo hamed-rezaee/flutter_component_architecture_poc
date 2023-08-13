@@ -9,30 +9,23 @@ class ActiveSymbolDataSource extends BaseActiveSymbolDataSource {
 
   @override
   Future<List<ActiveSymbolModel>> fetchActiveSymbols() {
-    WebSocketConnection().request(
-      <String, dynamic>{
-        'active_symbols': 'brief',
-        'product_type': 'basic',
-      },
-    );
+    final Map<String, dynamic> request = <String, dynamic>{
+      'active_symbols': 'brief',
+      'product_type': 'basic',
+    };
 
-    return WebSocketConnection().response.transform(
-      StreamTransformer<dynamic, List<ActiveSymbolModel>>.fromHandlers(
-        handleData: (
-          dynamic event,
-          EventSink<List<ActiveSymbolModel>> sink,
-        ) async {
-          if (event['msg_type'] == 'active_symbols') {
-            final List<ActiveSymbolModel> models = event['active_symbols']
-                .map<ActiveSymbolModel>(
-                  (dynamic item) => ActiveSymbolModel.fromJson(item),
-                )
-                .toList();
+    WebSocketConnection().request(request);
 
-            sink.add(models);
-          }
-        },
-      ),
-    ).first;
+    return WebSocketConnection()
+        .response
+        .where((dynamic event) => event['msg_type'] == 'active_symbols')
+        .map<List<ActiveSymbolModel>>(
+          (dynamic event) => event['active_symbols']
+              .map<ActiveSymbolModel>(
+                (dynamic item) => ActiveSymbolModel.fromJson(item),
+              )
+              .toList(),
+        )
+        .first;
   }
 }

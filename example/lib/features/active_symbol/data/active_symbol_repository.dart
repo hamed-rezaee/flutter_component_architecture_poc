@@ -11,8 +11,6 @@ class ActiveSymbolRepoistory implements BaseActiveSymbolRepository {
   final BaseActiveSymbolDataSource dataSource;
 
   @override
-  Future<List<ActiveSymbolEntity>> fetchActiveSymbols() async =>
-      (await dataSource.fetchActiveSymbols())
-          .map(dataSource.mapper.toEntity)
-          .toList();
+  Future<Iterable<ActiveSymbolEntity>> fetchActiveSymbols() async =>
+      (await dataSource.fetchActiveSymbols()).map(dataSource.mapper.toEntity);
 }

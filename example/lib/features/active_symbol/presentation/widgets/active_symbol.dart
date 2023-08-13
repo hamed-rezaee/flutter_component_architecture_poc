@@ -13,9 +13,12 @@ class ActiveSymbol extends StatelessWidget {
   Widget build(BuildContext context) =>
       BlocBuilder<ActiveSymbolCubit, ActiveSymbolState>(
         bloc: context.read<ActiveSymbolCubit>()..fetchActiveSymbols(),
-        builder: (BuildContext context, ActiveSymbolState activeSymbolState) {
+        builder: (
+          BuildContext context,
+          ActiveSymbolState activeSymbolState,
+        ) {
           if (activeSymbolState is ActiveSymbolInitialState) {
-            return const Center(child: Text('Initial State'));
+            return const Center(child: Text('Initial State...'));
           }
 
           if (activeSymbolState is ActiveSymbolLoadingState) {
@@ -27,14 +30,12 @@ class ActiveSymbol extends StatelessWidget {
                 SelectedActiveSymbolState>(
               builder: (
                 BuildContext context,
-                SelectedActiveSymbolState state,
+                SelectedActiveSymbolState selectedSymbolstate,
               ) =>
-                  ActiveSymbolDropdown(
-                activeSymbols: activeSymbolState.activeSymbols,
-                selectedActiveSymbol: state.activeSymbol,
-                onChanged: (ActiveSymbolEntity symbol) => context
-                    .read<SelectedActiveSymbolCubitExtended>()
-                    .updateActiveSymbol(activeSymbol: symbol),
+                  _buildActiveSymbolDropdown(
+                context,
+                activeSymbolState.activeSymbols,
+                selectedSymbolstate.activeSymbol,
               ),
             );
           }
@@ -46,4 +47,30 @@ class ActiveSymbol extends StatelessWidget {
           return const Center(child: Text('Unknown State'));
         },
       );
+
+  Widget _buildActiveSymbolDropdown(
+    BuildContext context,
+    List<ActiveSymbolEntity> activeSymbols,
+    ActiveSymbolEntity? selectedSymbol,
+  ) =>
+      ActiveSymbolDropdown(
+        activeSymbols: activeSymbols,
+        selectedActiveSymbol: selectedSymbol,
+        onChanged: (ActiveSymbolEntity symbol) =>
+            _handleActiveSymbolChange(context, symbol, selectedSymbol),
+      );
+
+  void _handleActiveSymbolChange(
+    BuildContext context,
+    ActiveSymbolEntity symbol,
+    ActiveSymbolEntity? selectedSymbol,
+  ) {
+    if (symbol == selectedSymbol) {
+      return;
+    }
+
+    context
+        .read<SelectedActiveSymbolCubitExtended>()
+        .updateActiveSymbol(activeSymbol: symbol);
+  }
 }
