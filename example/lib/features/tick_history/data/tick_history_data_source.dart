@@ -9,25 +9,19 @@ class TickHistoryDataSource extends BaseTickSHistoryDataSource {
 
   @override
   Future<TickHistoryModel> fetchTickHistory(String symbol, int count) {
-    WebSocketConnection().request(
-      <String, dynamic>{
-        'ticks_history': symbol,
-        'count': count,
-        'end': 'latest',
-        'style': 'ticks',
-      },
-    );
+    final Map<String, dynamic> request = <String, dynamic>{
+      'ticks_history': symbol,
+      'count': count,
+      'end': 'latest',
+      'style': 'ticks',
+    };
 
-    return WebSocketConnection().response.transform(
-      StreamTransformer<dynamic, TickHistoryModel>.fromHandlers(
-        handleData: (dynamic event, EventSink<TickHistoryModel> sink) {
-          if (event['msg_type'] == 'history') {
-            final TickHistoryModel model = TickHistoryModel.fromJson(event);
+    WebSocketConnection().request(request);
 
-            sink.add(model);
-          }
-        },
-      ),
-    ).first;
+    return WebSocketConnection()
+        .response
+        .where((dynamic event) => event['msg_type'] == 'history')
+        .map((dynamic event) => TickHistoryModel.fromJson(event))
+        .first;
   }
 }
