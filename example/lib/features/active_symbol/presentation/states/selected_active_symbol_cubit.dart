@@ -6,6 +6,6 @@ part 'selected_active_symbol_state.dart';
 class SelectedActiveSymbolCubit extends Cubit<SelectedActiveSymbolState> {
   SelectedActiveSymbolCubit() : super(SelectedActiveSymbolUpdateState());
 
-  void updateActiveSymbol(ActiveSymbolEntity activeSymbol) =>
+  void updateActiveSymbol({ActiveSymbolEntity? activeSymbol}) =>
       emit(SelectedActiveSymbolUpdateState(activeSymbol: activeSymbol));
 }

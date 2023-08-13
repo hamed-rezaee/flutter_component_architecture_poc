@@ -5,7 +5,7 @@ import 'package:example/features/active_symbol/data/active_symbol_data_source.da
 import 'package:example/features/active_symbol/data/active_symbol_mapper.dart';
 import 'package:example/features/active_symbol/data/active_symbol_repository.dart';
 import 'package:example/features/active_symbol/presentation/states/active_symbol_cubit.dart';
-import 'package:example/features/active_symbol/presentation/states/selected_active_symbol_cubit.dart';
+import 'package:example/features/active_symbol/presentation/states/selected_active_symbol_cubit_extended.dart';
 import 'package:example/features/login/Interactor/login_service.dart';
 import 'package:example/features/login/data/login_data_source.dart';
 import 'package:example/features/login/data/login_mapper.dart';
@@ -34,8 +34,8 @@ class App extends StatelessWidget {
       SharedPreferencesService(),
     );
 
-    final SelectedActiveSymbolCubit selectedActiveSymbolCubit =
-        SelectedActiveSymbolCubit();
+    final SelectedActiveSymbolCubitExtended selectedActiveSymbolCubit =
+        SelectedActiveSymbolCubitExtended(loginCubit.stream);
 
     final ActiveSymbolCubit activeSymbolCubit = ActiveSymbolCubit(
       ActiveSymbolService(
@@ -55,7 +55,7 @@ class App extends StatelessWidget {
     return MultiBlocProvider(
       providers: <BlocProvider<dynamic>>[
         BlocProvider<LoginCubit>(create: (BuildContext context) => loginCubit),
-        BlocProvider<SelectedActiveSymbolCubit>(
+        BlocProvider<SelectedActiveSymbolCubitExtended>(
           create: (BuildContext context) => selectedActiveSymbolCubit,
         ),
         BlocProvider<ActiveSymbolCubit>(

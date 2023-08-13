@@ -13,13 +13,10 @@ class TickStreamCubitExtended extends TickSteamCubit {
   }
 
   final Stream<ConnectivityStatus> connectivityStatusStream;
-
   final Stream<SelectedActiveSymbolState> activeSymbolStateStream;
 
   void _onSelectedActiveSymbolChanged({String? activeSymbol}) {
-    if (activeSymbol != null) {
-      fetchTickStream(activeSymbol);
-    }
+    fetchTickStream(activeSymbol);
   }
 
   void _handleConnectivtyState() {

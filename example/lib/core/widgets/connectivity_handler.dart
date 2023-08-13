@@ -12,10 +12,8 @@ class ConnectivityHandler extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ConnectivityService().connectivityStatus.listen((ConnectivityStatus event) {
-      if (event == ConnectivityStatus.connected) {
-        if (context.canPop()) {
-          context.pop();
-        }
+      if (event == ConnectivityStatus.connected && context.canPop()) {
+        context.pop();
       } else {
         context.push(
           loadingDialogPath,
