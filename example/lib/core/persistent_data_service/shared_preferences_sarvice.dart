@@ -20,18 +20,21 @@ class SharedPreferencesService implements BasePersistentDataService {
   Future<void> write<T>(String key, T value) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    if (value is String) {
-      await prefs.setString(key, value);
-    } else if (value is int) {
-      await prefs.setInt(key, value);
-    } else if (value is double) {
-      await prefs.setDouble(key, value);
-    } else if (value is bool) {
-      await prefs.setBool(key, value);
-    } else if (value is List<String>) {
-      await prefs.setStringList(key, value);
-    } else {
-      throw Exception('SharedPreferencesService: Unsupported type.');
+    switch (T) {
+      case String:
+        await prefs.setString(key, value as String);
+        return;
+      case int:
+        await prefs.setInt(key, value as int);
+        return;
+      case double:
+        await prefs.setDouble(key, value as double);
+        return;
+      case bool:
+        await prefs.setBool(key, value as bool);
+        return;
     }
+
+    throw Exception('Type $T is not supported');
   }
 }

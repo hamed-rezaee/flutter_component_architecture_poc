@@ -33,11 +33,9 @@ class WebSocketConnection {
   Stream<dynamic> get response => streamController.stream.transform(
         StreamTransformer<dynamic, dynamic>.fromHandlers(
           handleData: (dynamic event, EventSink<dynamic> sink) {
-            if (event['error'] != null) {
-              sink.addError(event['error']['message']);
-            } else {
-              sink.add(event);
-            }
+            event['error'] != null
+                ? sink.addError(event['error']['message'])
+                : sink.add(event);
           },
         ),
       );
