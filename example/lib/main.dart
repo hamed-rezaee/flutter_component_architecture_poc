@@ -20,51 +20,20 @@ import 'package:example/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-void main() => runApp(const App());
+void main() => runApp(App());
 
 class App extends StatelessWidget {
-  const App({super.key});
+  late final LoginCubit loginCubit;
+  late final SelectedActiveSymbolCubitExtended selectedActiveSymbolCubit;
+  late final ActiveSymbolCubit activeSymbolCubit;
+  late final TickStreamCubitExtended tickStreamCubitExtended;
 
   @override
   Widget build(BuildContext context) {
-    final LoginCubit loginCubit = LoginCubit(
-      LoginService(
-        LoginRepoistory(LoginDataSource(LoginMapper())),
-      ),
-      SharedPreferencesService(),
-    );
-
-    final SelectedActiveSymbolCubitExtended selectedActiveSymbolCubit =
-        SelectedActiveSymbolCubitExtended(loginCubit.stream);
-
-    final ActiveSymbolCubit activeSymbolCubit = ActiveSymbolCubit(
-      ActiveSymbolService(
-        ActiveSymbolRepoistory(ActiveSymbolDataSource(ActiveSymbolMapper())),
-      ),
-    );
-
-    final TickStreamCubitExtended tickStreamCubitExtended =
-        TickStreamCubitExtended(
-      TickStreamService(
-        TickStreamRepoistory(TickStreamDataSource(TickStreamMapper())),
-      ),
-      ConnectivityService().connectivityStatus,
-      selectedActiveSymbolCubit.stream,
-    );
+    _initializeBlocs();
 
     return MultiBlocProvider(
-      providers: <BlocProvider<dynamic>>[
-        BlocProvider<LoginCubit>(create: (BuildContext context) => loginCubit),
-        BlocProvider<SelectedActiveSymbolCubitExtended>(
-          create: (BuildContext context) => selectedActiveSymbolCubit,
-        ),
-        BlocProvider<ActiveSymbolCubit>(
-          create: (BuildContext context) => activeSymbolCubit,
-        ),
-        BlocProvider<TickStreamCubitExtended>(
-          create: (BuildContext context) => tickStreamCubitExtended,
-        ),
-      ],
+      providers: _getBlocProviders(),
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
         routerConfig: router,
@@ -75,4 +44,42 @@ class App extends StatelessWidget {
       ),
     );
   }
+
+  void _initializeBlocs() {
+    loginCubit = LoginCubit(
+      LoginService(LoginRepoistory(LoginDataSource(LoginMapper()))),
+      SharedPreferencesService(),
+    );
+
+    selectedActiveSymbolCubit =
+        SelectedActiveSymbolCubitExtended(loginCubit.stream);
+
+    activeSymbolCubit = ActiveSymbolCubit(
+      ActiveSymbolService(
+        ActiveSymbolRepoistory(ActiveSymbolDataSource(ActiveSymbolMapper())),
+      ),
+    );
+
+    tickStreamCubitExtended = TickStreamCubitExtended(
+      TickStreamService(
+        TickStreamRepoistory(TickStreamDataSource(TickStreamMapper())),
+      ),
+      ConnectivityService().connectivityStatus,
+      selectedActiveSymbolCubit.stream,
+    );
+  }
+
+  List<BlocProvider<BlocBase<Object>>> _getBlocProviders() =>
+      <BlocProvider<BlocBase<Object>>>[
+        BlocProvider<LoginCubit>(create: (BuildContext context) => loginCubit),
+        BlocProvider<SelectedActiveSymbolCubitExtended>(
+          create: (BuildContext context) => selectedActiveSymbolCubit,
+        ),
+        BlocProvider<ActiveSymbolCubit>(
+          create: (BuildContext context) => activeSymbolCubit,
+        ),
+        BlocProvider<TickStreamCubitExtended>(
+          create: (BuildContext context) => tickStreamCubitExtended,
+        ),
+      ];
 }

@@ -4,24 +4,32 @@ import 'package:flutter/material.dart';
 DialogPage<void> showLoadingDialog(BuildContext context, [String? message]) =>
     DialogPage<void>(
       barrierDismissible: false,
-      builder: (BuildContext context) => AlertDialog(
-        content: Row(
+      builder: (BuildContext context) => Material(
+        color: Colors.transparent,
+        child: Row(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const CircularProgressIndicator(),
-                if (message != null)
-                  Column(
-                    children: <Widget>[
-                      const SizedBox(height: 32),
-                      Text(message),
-                    ],
-                  ),
-              ],
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Theme.of(context).dialogBackgroundColor,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const CircularProgressIndicator(),
+                  if (message != null)
+                    Column(
+                      children: <Widget>[
+                        const SizedBox(height: 32),
+                        Text(message),
+                      ],
+                    ),
+                ],
+              ),
             ),
           ],
         ),

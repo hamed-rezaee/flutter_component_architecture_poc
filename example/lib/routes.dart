@@ -22,7 +22,7 @@ String loadingDialogPath = '/$loadingDialogName';
 String logoutDialogPath = '/$logoutDialogName';
 
 GoRouter router = GoRouter(
-  initialLocation: '/',
+  initialLocation: rootPath,
   routes: <RouteBase>[
     ShellRoute(
       builder: (BuildContext context, GoRouterState state, Widget child) =>
