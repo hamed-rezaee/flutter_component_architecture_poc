@@ -54,13 +54,15 @@ class _TickStreamWidgetState extends State<TickStreamWidget> {
       );
 
   void _handlePriceColor(TickStreamWidget oldWidget) {
-    if (oldWidget.entity != widget.entity) {
-      widget.entity.quote == oldWidget.entity.quote
-          ? _status = TickState.none
-          : widget.entity.quote > oldWidget.entity.quote
-              ? _status = TickState.up
-              : _status = TickState.down;
+    if (oldWidget.entity == widget.entity) {
+      return;
     }
+
+    widget.entity.quote == oldWidget.entity.quote
+        ? _status = TickState.none
+        : widget.entity.quote > oldWidget.entity.quote
+            ? _status = TickState.up
+            : _status = TickState.down;
   }
 
   Icon _getIcon() => Icon(

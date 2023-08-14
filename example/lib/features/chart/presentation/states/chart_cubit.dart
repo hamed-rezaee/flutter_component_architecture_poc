@@ -21,11 +21,7 @@ class ChartCubit extends Cubit<ChartState> {
     try {
       if (reload || state is ChartLoadingState) {
         emit(ChartLoadedState(await _initializeData(model.symbol, maxlength)));
-
-        return;
-      }
-
-      if (state is ChartLoadedState) {
+      } else {
         emit(ChartLoadedState(_updateData(model, maxlength)));
       }
     } on Exception catch (e) {

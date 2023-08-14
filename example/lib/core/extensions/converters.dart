@@ -7,12 +7,12 @@ extension TickHistoryExtension on TickHistoryEntity {
   List<BasicChartModel> toBasicChartModel(String symbol) {
     final List<BasicChartModel> models = <BasicChartModel>[];
 
-    for (final int time in times) {
+    for (int i = 0; i < times.length; i++) {
       models.add(
         BasicChartModel(
           symbol: symbol,
-          epoch: time,
-          quote: prices[times.indexOf(time)].toDouble(),
+          epoch: times[i],
+          quote: prices[i],
           pipSize: pipSize,
         ),
       );
