@@ -13,32 +13,34 @@ class ChartCubit extends Cubit<ChartState> {
   final ChartService service;
   final BaseTickHistoryService tickHistoryService;
 
-  Future<void> updateChart(
-    BasicChartModel model, {
-    int maxlength = 50,
-    bool reload = false,
-  }) async {
+  Future<void> initializeChart(String symbol, {int maxlength = 50}) async {
     try {
-      if (reload || state is ChartLoadingState) {
-        emit(ChartLoadedState(await _initializeData(model.symbol, maxlength)));
-      } else {
-        emit(ChartLoadedState(_updateData(model, maxlength)));
-      }
+      emit(const ChartLoadingState());
+
+      final List<BasicChartModel> tickHistory =
+          (await tickHistoryService.fetchTickHistory(symbol, maxlength))
+              .toBasicChartModel(symbol);
+
+      emit(ChartLoadedState(tickHistory));
     } on Exception catch (e) {
       emit(ChartErrorState('$e'));
     }
   }
 
-  Future<List<BasicChartModel>> _initializeData(
-    String symbol,
-    int maxlength,
-  ) async =>
-      (await tickHistoryService.fetchTickHistory(symbol, maxlength))
-          .toBasicChartModel(symbol);
+  Future<void> updateChart(BasicChartModel model, {int maxlength = 50}) async {
+    try {
+      if (state is ChartLoadingState) {
+        return;
+      }
 
-  List<BasicChartModel> _updateData(BasicChartModel model, int maxlength) =>
-      service.adjustData(
+      final List<BasicChartModel> tickHistory = service.adjustData(
         List<BasicChartModel>.from((state as ChartLoadedState).data),
         maxlength,
       )..add(model);
+
+      emit(ChartLoadedState(tickHistory));
+    } on Exception catch (e) {
+      emit(ChartErrorState('$e'));
+    }
+  }
 }
