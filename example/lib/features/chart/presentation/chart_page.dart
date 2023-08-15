@@ -1,9 +1,9 @@
 import 'package:example/core/connectivity_service/connectivity_service.dart';
 import 'package:example/core/widgets/basic_chart/basic_chart.dart';
-import 'package:example/features/chart/Interactor/chart_service.dart';
+import 'package:example/features/chart/interactor/chart_service.dart';
 import 'package:example/features/chart/presentation/states/chart_cubit.dart';
 import 'package:example/features/chart/presentation/states/chart_cubit_extended.dart';
-import 'package:example/features/tick_history/Interactor/tick_history_service.dart';
+import 'package:example/features/tick_history/interactor/tick_history_service.dart';
 import 'package:example/features/tick_history/data/tick_history_data_source.dart';
 import 'package:example/features/tick_history/data/tick_history_mapper.dart';
 import 'package:example/features/tick_history/data/tick_history_repository.dart';

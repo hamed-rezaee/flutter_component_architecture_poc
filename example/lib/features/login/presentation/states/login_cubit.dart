@@ -1,5 +1,5 @@
 import 'package:example/core/persistent_data_service/base_persistent_data_service.dart';
-import 'package:example/features/login/Interactor/base_login_service.dart';
+import 'package:example/features/login/interactor/base_login_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'login_state.dart';

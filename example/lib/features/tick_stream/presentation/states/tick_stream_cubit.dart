@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:example/features/tick_stream/Interactor/base_tick_stream_service.dart';
+import 'package:example/features/tick_stream/interactor/base_tick_stream_service.dart';
 import 'package:example/features/tick_stream/domain/tick_stream_entity.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

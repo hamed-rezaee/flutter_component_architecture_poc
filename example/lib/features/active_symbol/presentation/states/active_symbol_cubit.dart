@@ -1,4 +1,4 @@
-import 'package:example/features/active_symbol/Interactor/base_active_symbol_service.dart';
+import 'package:example/features/active_symbol/interactor/base_active_symbol_service.dart';
 import 'package:example/features/active_symbol/domain/active_symbol_entity.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

@@ -1,4 +1,4 @@
-import 'package:example/features/login/Interactor/base_login_service.dart';
+import 'package:example/features/login/interactor/base_login_service.dart';
 import 'package:example/features/login/domain/base_login_repository.dart';
 import 'package:example/features/login/domain/login_entity.dart';
 

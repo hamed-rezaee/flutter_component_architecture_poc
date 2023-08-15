@@ -1,7 +1,7 @@
 import 'package:example/core/extensions/converters.dart';
 import 'package:example/core/widgets/basic_chart/basic_chart.dart';
-import 'package:example/features/chart/Interactor/chart_service.dart';
-import 'package:example/features/tick_history/Interactor/base_tick_history_service.dart';
+import 'package:example/features/chart/interactor/chart_service.dart';
+import 'package:example/features/tick_history/interactor/base_tick_history_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'chart_state.dart';
