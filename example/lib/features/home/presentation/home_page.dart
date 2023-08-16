@@ -51,7 +51,7 @@ class HomePage extends StatelessWidget {
             loginId,
             () {
               loginCubit.logout();
-              context.go(rootPath);
+              context.go(loginPagePath);
             },
           );
 

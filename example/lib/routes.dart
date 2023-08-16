@@ -17,7 +17,7 @@ String messageDialogName = 'message_dialog';
 String logoutDialogName = 'logout_dialog';
 
 String rootPath = '/';
-String loginPagePath = '/$loginPageName';
+String loginPagePath = '/';
 String homePagePath = '/$homePageName';
 String chartPagePath = '/$chartPageName';
 String loadingDialogPath = '/$loadingDialogName';
@@ -51,7 +51,7 @@ GoRouter router = GoRouter(
         ),
         GoRoute(
           name: loginPageName,
-          path: rootPath,
+          path: loginPagePath,
           builder: (BuildContext context, GoRouterState state) =>
               const LoginPage(),
         ),
