@@ -17,29 +17,27 @@ class LoginPage extends StatelessWidget {
         padding: const EdgeInsets.all(32),
         child: BlocConsumer<LoginCubit, LoginState>(
           listener: _handleLoginState,
-          builder: (BuildContext context, LoginState state) {
-            if (state is LoginLoggedOutState || state is LoginLoadingState) {
-              return LoginForm(
-                onLoginPressed: context.read<LoginCubit>().authorize,
-              );
-            }
-
-            if (state is LoginErrorState) {
-              return Center(child: Text(state.message));
-            }
-
-            return const Center(child: Text('Unknown State.'));
-          },
+          builder: (BuildContext context, LoginState state) => LoginForm(
+            onLoginPressed: context.read<LoginCubit>().authorize,
+          ),
         ),
       ),
     );
   }
 
   void _handleLoginState(BuildContext context, LoginState state) {
-    if (state is LoginLoadingState) {
-      context.push(loadingDialogPath);
-    } else if (state is LoginLoggedInState) {
-      context.go(homePagePath);
+    switch (state) {
+      case LoginLoadingState():
+        context.push(loadingDialogPath);
+        break;
+      case LoginLoggedInState():
+        context.go(homePagePath);
+        break;
+      case LoginErrorState():
+        if (context.canPop()) {
+          context.pop();
+        }
+        context.push(messageDialogPath, extra: state.message);
     }
   }
 }

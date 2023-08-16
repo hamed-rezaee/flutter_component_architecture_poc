@@ -1,6 +1,7 @@
 import 'package:example/core/widgets/connectivity_handler.dart';
 import 'package:example/core/widgets/dialogs/loading_dialog.dart';
 import 'package:example/core/widgets/dialogs/logout_dialog.dart';
+import 'package:example/core/widgets/dialogs/message_dialog.dart';
 import 'package:example/features/chart/presentation/chart_page.dart';
 import 'package:example/features/home/presentation/home_page.dart';
 import 'package:example/features/login/presentation/login_page.dart';
@@ -12,6 +13,7 @@ String loginPageName = 'login_page';
 String homePageName = 'home_page';
 String chartPageName = 'chart_page';
 String loadingDialogName = 'loading_dialog';
+String messageDialogName = 'message_dialog';
 String logoutDialogName = 'logout_dialog';
 
 String rootPath = '/';
@@ -19,6 +21,7 @@ String loginPagePath = '/$loginPageName';
 String homePagePath = '/$homePageName';
 String chartPagePath = '/$chartPageName';
 String loadingDialogPath = '/$loadingDialogName';
+String messageDialogPath = '/$messageDialogName';
 String logoutDialogPath = '/$logoutDialogName';
 
 GoRouter router = GoRouter(
@@ -33,6 +36,12 @@ GoRouter router = GoRouter(
           path: loadingDialogPath,
           pageBuilder: (BuildContext context, GoRouterState state) =>
               showLoadingDialog(context, state.extra as String?),
+        ),
+        GoRoute(
+          name: messageDialogName,
+          path: messageDialogPath,
+          pageBuilder: (BuildContext context, GoRouterState state) =>
+              showMessageDialog(context, state.extra as String),
         ),
         GoRoute(
           name: logoutDialogName,
