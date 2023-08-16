@@ -12,7 +12,7 @@ class LoginForm extends StatefulWidget {
 class _LoginFormState extends State<LoginForm> {
   // I knew this token is hardcoded, but since this will be invalidate in each qa machine rebuild it's not a problem. :)
   final TextEditingController _controller =
-      TextEditingController(text: 'kd4fE1MpTI0UksF');
+      TextEditingController(text: 'hdtJoHxLuCVhGpp');
 
   String? _errorText;
 

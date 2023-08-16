@@ -37,7 +37,9 @@ class LoginPage extends StatelessWidget {
         if (context.canPop()) {
           context.pop();
         }
-        context.push(messageDialogPath, extra: state.message);
+
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(state.message)));
     }
   }
 }

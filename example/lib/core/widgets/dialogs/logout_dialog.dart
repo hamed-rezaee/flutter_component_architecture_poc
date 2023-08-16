@@ -1,5 +1,6 @@
 import 'package:example/core/widgets/dialogs/dialog_page.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 DialogPage<void> showLogoutDialog(
   BuildContext context,
@@ -15,7 +16,7 @@ DialogPage<void> showLogoutDialog(
           TextButton(child: const Text('Yes'), onPressed: logoutModel.onLogout),
           TextButton(
             child: const Text('No'),
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () => context.pop(),
           )
         ],
       ),
