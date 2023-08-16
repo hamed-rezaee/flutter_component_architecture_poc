@@ -25,8 +25,10 @@ class _ConnectivityHandlerState extends State<ConnectivityHandler> {
   Widget build(BuildContext context) => widget.child;
 
   void _handleConnectivity(ConnectivityStatus event) {
+    print('### ConnectivityHandler: $event');
+
     if (event == ConnectivityStatus.connecting) {
-      context.push(loadingDialogPath, extra: 'Reconnecting...');
+      context.push(loadingDialogPath, extra: 'Connecting...');
     } else if (context.canPop()) {
       context.pop();
     }
