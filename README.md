@@ -24,6 +24,8 @@ Design patterns are reusable solutions to common software design problems. They 
 
 **Abstraction Level**: Design patterns operate at a lower level of abstraction than architecture. They focus on recurring design problems and offer guidelines for structuring code within components.
 
+**Goals**: Design patterns contribute to modular code, enhanced reusability, and improved code maintainability. They aim to simplify complex design decisions, foster code consistency, and encourage collaboration among developers working on different parts of the system.
+
 ## Key Goals of Effective Software Architecture
 
 Crafting a successful software architecture involves aiming for specific objectives that collectively contribute to the creation of a reliable, adaptable, and user-centric system. The following are the core goals that guide the development of effective software architecture:
