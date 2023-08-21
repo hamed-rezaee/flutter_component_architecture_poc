@@ -1,8 +1,8 @@
 # What is software architecture?
 
-Software architecture is the conceptual foundation and strategic framework for a software system. It encompasses the fundamental design decisions that shape the system's structure, behavior, and interactions. Like the architectural plan for a building, software architecture defines the arrangement of components, the pathways of data, and the mechanisms for achieving desired qualities such as performance, scalability, and maintainability. It serves as a blueprint that guides developers in creating a cohesive, reliable, and adaptable software solution that aligns with the project's objectives and user needs.
+Software architecture is the conceptual foundation and strategic framework for a software system. It encompasses the fundamental design decisions that shape the system's structure, behavior, and interactions. Like the architectural plan for a building, software architecture defines the arrangement of components, the pathways of data, and the mechanisms for achieving desired qualities such as performance, scalability, and maintainability. It serves as a blueprint that guides developers in creating a cohesive, reliable, and adaptable software solution that aligns with the project's objectives and user requirments.
 
-# Difference Between Software Architecture and Design Patterns?
+## Difference Between Software Architecture and Design Patterns?
 
 Software architecture and design patterns are both crucial concepts in software development, but they serve distinct purposes and operate at different levels of abstraction. Let's delve into the differences between these two concepts:
 
@@ -30,8 +30,6 @@ _**Goals:**_ Design patterns contribute to modular code, enhanced reusability, a
 
 Crafting a successful software architecture involves aiming for specific objectives that collectively contribute to the creation of a reliable, adaptable, and user-centric system. The following are the core goals that guide the development of effective software architecture:
 
-_**Functionality:**_ The architecture should provide the necessary features and capabilities to meet the intended requirements and fulfill user needs effectively.
-
 _**Scalability:**_ The architecture should support handling increased demands by adding resources or components and maintaining performance and responsiveness.
 
 _**Maintainability:**_ The architecture should make it easy to identify, fix, and update issues or enhancements, minimizing the cost and effort of ongoing maintenance.
@@ -58,7 +56,7 @@ _**Features Repositories:**_ These repositories utilize the BinaryApiWrapper to 
 
 _**Feature Cubits:**_ Cubits are a part of the Bloc pattern architecture, commonly used with Flutter apps. They manage the state of the UI related to specific features. Each feature cubit extends the BaseCubit class, which includes states like initState, LoadingState, LoadedState, and ErrorState.
 
-### Problems
+### Challenges
 
 _**Dependency Inversion and Component Replacement:**_ The architecture lacks proper dependency inversion, making it challenging to replace components without affecting the entire system.
 This can lead to difficulties in swapping out components, such as changing the data source or replacing UI elements, potentially leading to tight coupling and inflexibility.
@@ -88,7 +86,7 @@ _**Future Cubits:**_ Cubits are used to manage the state of the UI related to sp
 
 _**Bloc Manager:**_ This component employs the observer pattern to manage dependencies between different feature cubits. It emits states to dependent cubits based on state changes.
 
-### Problems
+### Challenges
 
 _**Direct Data Source Connection by Services:**_ Connecting to the data source (API) is managed directly by the services, potentially leading to tight coupling between the services and the API.
 This can make the code less flexible and harder to adapt to changes in the API or data source. It might also lead to difficulties in swapping out the data source if needed.
