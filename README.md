@@ -10,37 +10,37 @@ Software architecture and design patterns are both crucial concepts in software 
 
 Software architecture refers to the high-level structure and organization of a software system. It outlines the major components, their interactions, data flows, and the overall design decisions that shape the system.
 
-**Scope:** Architecture provides the fundamental framework for the entire software application. It defines the system's major building blocks, their relationships, and the principles that guide their interactions.
+_**Scope:**_ Architecture provides the fundamental framework for the entire software application. It defines the system's major building blocks, their relationships, and the principles that guide their interactions.
 
-**Abstraction Level:** Architecture operates at a higher level of abstraction, focusing on the system as a whole. It addresses questions like how components collaborate, how data moves, and how non-functional requirements are met.
+_**Abstraction Level:**_ Architecture operates at a higher level of abstraction, focusing on the system as a whole. It addresses questions like how components collaborate, how data moves, and how non-functional requirements are met.
 
-**Goals:** Architecture addresses key system-wide concerns such as scalability, performance, security, and maintainability. It sets the strategic direction and lays the groundwork for the entire project.
+_**Goals:**_ Architecture addresses key system-wide concerns such as scalability, performance, security, and maintainability. It sets the strategic direction and lays the groundwork for the entire project.
 
 ### Design Patterns
 
 Design patterns are reusable solutions to common software design problems. They provide templates for solving specific design challenges and promoting best practices.
 
-**Scope:** Design patterns are smaller-scale solutions that target specific design problems within components or interactions. They help improve the design quality of individual parts of the system.
+_**Scope:**_ Design patterns are smaller-scale solutions that target specific design problems within components or interactions. They help improve the design quality of individual parts of the system.
 
-**Abstraction Level:** Design patterns operate at a lower level of abstraction than architecture. They focus on recurring design problems and offer guidelines for structuring code within components.
+_**Abstraction Level:**_ Design patterns operate at a lower level of abstraction than architecture. They focus on recurring design problems and offer guidelines for structuring code within components.
 
-**Goals:** Design patterns contribute to modular code, enhanced reusability, and improved code maintainability. They aim to simplify complex design decisions, foster code consistency, and encourage collaboration among developers working on different parts of the system.
+_**Goals:**_ Design patterns contribute to modular code, enhanced reusability, and improved code maintainability. They aim to simplify complex design decisions, foster code consistency, and encourage collaboration among developers working on different parts of the system.
 
 ## Key Goals of Effective Software Architecture
 
 Crafting a successful software architecture involves aiming for specific objectives that collectively contribute to the creation of a reliable, adaptable, and user-centric system. The following are the core goals that guide the development of effective software architecture:
 
-**Functionality:** The architecture should provide the necessary features and capabilities to meet the intended requirements and fulfill user needs effectively.
+_**Functionality:**_ The architecture should provide the necessary features and capabilities to meet the intended requirements and fulfill user needs effectively.
 
-**Scalability:** The architecture should support handling increased demands by adding resources or components and maintaining performance and responsiveness.
+_**Scalability:**_ The architecture should support handling increased demands by adding resources or components and maintaining performance and responsiveness.
 
-**Maintainability:** The architecture should make it easy to identify, fix, and update issues or enhancements, minimizing the cost and effort of ongoing maintenance.
+_**Maintainability:**_ The architecture should make it easy to identify, fix, and update issues or enhancements, minimizing the cost and effort of ongoing maintenance.
 
-**Modularity:** Components should be organized into discrete, cohesive modules that can be developed, tested, and maintained independently, promoting reusability and ease of updates.
+_**Modularity:**_ Components should be organized into discrete, cohesive modules that can be developed, tested, and maintained independently, promoting reusability and ease of updates.
 
-**Reusability:** Design decisions should facilitate the reuse of components or patterns across different parts of the system or in future projects.
+_**Reusability:**_ Design decisions should facilitate the reuse of components or patterns across different parts of the system or in future projects.
 
-**Testability:** Designing the architecture to facilitate comprehensive testing, enabling efficient validation of the system's functionality, performance, and reliability.
+_**Testability:**_ Designing the architecture to facilitate comprehensive testing, enabling efficient validation of the system's functionality, performance, and reliability.
 
 # Current Mobile Team Architectures
 
@@ -50,26 +50,26 @@ Crafting a successful software architecture involves aiming for specific objecti
 
 ### Architecture Components
 
-**BinaryApiWrapper:** This component is responsible for connecting to the Flutter Deriv API. In fact We need this component to make Flutter Deriv API compatible with P2P app.
+_**BinaryApiWrapper:**_ This component is responsible for connecting to the Flutter Deriv API. In fact We need this component to make Flutter Deriv API compatible with P2P app.
 
-**BaseAPIRepository:** This is a base class that provides common methods and functionalities for repositories that interact with APIs.
+_**BaseAPIRepository:**_ This is a base class that provides common methods and functionalities for repositories that interact with APIs.
 
-**Features Repositories:** These repositories utilize the BinaryApiWrapper to interact with the Deriv API and provide data to the feature cubits.
+_**Features Repositories:**_ These repositories utilize the BinaryApiWrapper to interact with the Deriv API and provide data to the feature cubits.
 
-**Feature Cubits:** Cubits are a part of the Bloc pattern architecture, commonly used with Flutter apps. They manage the state of the UI related to specific features. Each feature cubit extends the BaseCubit class, which includes states like initState, LoadingState, LoadedState, and ErrorState.
+_**Feature Cubits:**_ Cubits are a part of the Bloc pattern architecture, commonly used with Flutter apps. They manage the state of the UI related to specific features. Each feature cubit extends the BaseCubit class, which includes states like initState, LoadingState, LoadedState, and ErrorState.
 
 ### Problems
 
-**Dependency Inversion and Component Replacement:** The architecture lacks proper dependency inversion, making it challenging to replace components without affecting the entire system.
+_**Dependency Inversion and Component Replacement:**_ The architecture lacks proper dependency inversion, making it challenging to replace components without affecting the entire system.
 This can lead to difficulties in swapping out components, such as changing the data source or replacing UI elements, potentially leading to tight coupling and inflexibility.
 
-**Testing Complexity:** The intricate dependency flow and the tight coupling between cubits, repositories, and UI elements can complicate testing.
+_**Testing Complexity:**_ The intricate dependency flow and the tight coupling between cubits, repositories, and UI elements can complicate testing.
 Testing becomes more complex due to the interwoven nature of components, potentially resulting in less effective unit testing and a higher likelihood of integration issues.
 
-**Limited Base State and Flexibility:** The architecture's base state is limited to a specific set of states, which might not cover all possible scenarios.
+_**Limited Base State and Flexibility:**_ The architecture's base state is limited to a specific set of states, which might not cover all possible scenarios.
 This limitation can restrict the flexibility to handle a wider range of UI states and can lead to less adaptable and more rigid user interfaces.
 
-**Lack of DataSource Layer:** The architecture doesn't seem to incorporate a dedicated DataSource layer for handling data retrieval and API communication.
+_**Lack of DataSource Layer:**_ The architecture doesn't seem to incorporate a dedicated DataSource layer for handling data retrieval and API communication.
 This omission can result in difficulties when trying to change the way the application connects to APIs or external data sources, hindering the ability to adapt to changing requirements or technology advancements.
 
 ## Deriv GO Architecture
@@ -78,25 +78,25 @@ This omission can result in difficulties when trying to change the way the appli
 
 ### Architecture Components
 
-**Flutter Deriv API (Data Source):** This component serves as the data source for the application, providing access to the Deriv API. It abstracts the API communication details and data retrieval logic.
+_**Flutter Deriv API (Data Source):**_ This component serves as the data source for the application, providing access to the Deriv API. It abstracts the API communication details and data retrieval logic.
 
-**Base Feature Service:** Each service has its own base feature service that provides common methods and functionalities for that specific feature.
+_**Base Feature Service:**_ Each service has its own base feature service that provides common methods and functionalities for that specific feature.
 
-**Future Services:** These services are responsible for interacting with the Flutter Deriv API. Each service corresponds to a specific feature or domain within the app.
+_**Future Services:**_ These services are responsible for interacting with the Flutter Deriv API. Each service corresponds to a specific feature or domain within the app.
 
-**Future Cubits:** Cubits are used to manage the state of the UI related to specific features. Each cubit is associated with a specific feature and contains the logic for managing UI states.
+_**Future Cubits:**_ Cubits are used to manage the state of the UI related to specific features. Each cubit is associated with a specific feature and contains the logic for managing UI states.
 
-**Bloc Manager:** This component employs the observer pattern to manage dependencies between different feature cubits. It emits states to dependent cubits based on state changes.
+_**Bloc Manager:**_ This component employs the observer pattern to manage dependencies between different feature cubits. It emits states to dependent cubits based on state changes.
 
 ### Problems
 
-**Direct Data Source Connection by Services:** Connecting to the data source (API) is managed directly by the services, potentially leading to tight coupling between the services and the API.
+_**Direct Data Source Connection by Services:**_ Connecting to the data source (API) is managed directly by the services, potentially leading to tight coupling between the services and the API.
 This can make the code less flexible and harder to adapt to changes in the API or data source. It might also lead to difficulties in swapping out the data source if needed.
 
-**Complexity of State Dependency Management by Bloc Manager:** The complexity of managing state dependencies using the Bloc Manager could lead to intricate relationships between different feature cubits.
+_**Complexity of State Dependency Management by Bloc Manager:**_ The complexity of managing state dependencies using the Bloc Manager could lead to intricate relationships between different feature cubits.
 This complexity might make the application harder to understand, debug, and maintain. It could also lead to challenges in writing effective unit tests for the interactions between cubits.
 
-**Unclear Component Responsibilities:** The architecture might not provide clear and well-defined responsibilities for each component, making it challenging to determine where specific logic should reside.
+_**Unclear Component Responsibilities:**_ The architecture might not provide clear and well-defined responsibilities for each component, making it challenging to determine where specific logic should reside.
 This lack of clarity can lead to confusion among developers, code that's difficult to maintain, and potential overlaps or gaps in functionality.
 
 # Proposed Architecture
@@ -105,26 +105,100 @@ In the dynamic landscape of modern software development, a robust and adaptable 
 
 At the heart of the proposed architecture lies a dedication to fundamental design principles that foster maintainability, flexibility, and growth. We aim to improve how our applications are developed and maintained. The architecture rests on five pivotal pillars that shape its core essence:
 
-**Composition over Inheritance**
+_**Composition over Inheritance**_
 
 In a world where software systems are growing increasingly complex, the principle of composition over inheritance gains even greater significance. This approach advocates building functionalities by composing smaller, more manageable components rather than relying heavily on complex inheritance hierarchies. By embracing composition, our architecture promotes flexibility, maintainability, and easier adaptability to changing business needs.
 
-**Single Responsibility**
+_**Single Responsibility**_
 
 The principle of single responsibility underscores the importance of assigning a singular purpose to each module or component. By adhering to this principle, our architecture fosters clarity in design, isolates potential points of failure, and facilitates ease of maintenance. Modules dedicated to a specific task reduce interdependencies, enhancing the overall stability of the system.
 
-**Separation of Concerns**
+_**Separation of Concerns**_
 
 Clear boundaries between different aspects of the software are achieved through the principle of separation of concerns. By modularizing functionalities based on their distinct responsibilities, our architecture promotes comprehensibility, ease of debugging, and promotes a streamlined development process. This separation also simplifies the integration of new features or changes without causing ripple effects across the entire codebase.
 
-**Open-Closed Principle**
+_**Open-Closed Principle**_
 
 The Open-Closed Principle advocates that software entities should be open for extension but closed for modification. By adhering to this principle, our architecture ensures that new functionalities can be added without altering existing code, thereby reducing the risk of introducing unintended side effects. This promotes a smoother development workflow, reducing regression risks and enhancing code stability.
 
-**Dependency Inversion**
+_**Dependency Inversion**_
 
 The Dependency Inversion Principle encourages the decoupling of high-level modules from low-level implementation details, promoting a more adaptable and interchangeable architecture. By reversing traditional dependency flows, our architecture mitigates the risks associated with tight coupling, making it easier to substitute components and manage changes without cascading impacts throughout the system.
 
 ## Architecture Components
 
 ### Core
+
+![Core Architecture Overview](core.drawio.png)
+
+Core part is primarily focused on defining contracts and interfaces that features must implement. This is a form of contract-driven design, where you're establishing a set of rules and guidelines that each feature should follow. This approach can provide clear boundaries and consistency across application architecture. Here's how each component fits into this contract-based architecture:
+
+_**BaseDataSource**_
+
+This class serves as a contract that defines the methods and structure that feature-specific data sources must implement. It sets the guidelines for how data should be accessed and manipulated.
+
+_**Base Model**_
+
+Base Model is more about setting a guideline for what properties or methods each feature-specific model should have. It can also be used to define common properties that should exist in each feature-specific model.
+
+_**Base Entity Class**_
+
+Similarly, the base entity class can provide guidelines for common fields that should exist in each feature-specific entity. It can also be used to define common methods that should be implemented in each feature-specific entity.
+
+_**Abstract Mapper**_
+
+The abstract mapper class defines the contract for mapping data between different layers. Each feature would implement its own mapper that adheres to this common contract, ensuring a consistent approach to data transformation.
+
+_**Base Repository**_
+
+The base repository class establishes the contract for data manipulation methods that should be present in feature-specific repositories. This ensures consistency in how data is handled.
+
+_**Base Service**_
+
+The base service classes define the contract for services that features can use. Depending on whether a feature needs to interact with the data layer through the repository or not, the appropriate base service can be chosen.
+
+For example, if a feature needs to interact with the data layer through the repository, then it can use the `BaseServiceWithRepository`. If a feature doesn't need to interact with the data layer through the repository, then it can use the `BaseService` class.
+
+### Feature
+
+![Feature Architecture Overview](architecture.drawio.png)
+
+The feature architecture follows a modular and structured approach, facilitating the development of individual components. By dividing each feature into distinct layers, including Data, Domain, Interactor, and Presentation, we establish clear boundaries and responsibilities.
+
+The Data layer encompasses data models, mappers, repositories, and data sources, ensuring consistent data access and manipulation.
+
+The Domain layer focuses on core business entities and feature-specific repository contracts.
+
+The Interactor layer hosts feature services, housing business logic and communication with repositories.
+
+Finally, the Presentation layer handles UI state management and interaction, enhancing user experience through effective widget composition. This organized architecture promotes reusability, maintainability, and scalability while fostering efficient collaboration within development teams.
+
+### Data Layer
+
+_**Feature Model:**_ This represents the data structure specific to the feature. It only contains the properties that are relevant to the feature.
+
+_**Feature Mapper:**_ This is responsible for mapping data between the feature model and other layers of architecture.
+
+_**Implementation of Base Feature Repository:**_ This is where you implement the methods defined by the base feature repository contract in domain layer. It provides actual data manipulation functionality for the feature.
+
+_**Feature DataSource Abstraction and Implementations:**_ The feature-specific data source classes provide the means to access data for the feature. The abstraction ensures a consistent contract for data access methods, and the implementations interact with actual data sources like APIs, databases, etc.
+
+### Domain Layer
+
+_**Entity:**_ The entities within the domain layer represent core business objects that the feature deals with. These might mirror the structure of data retrieved from the data source.
+
+_**Feature Repository Interface:**_ This defines the contract for interacting with the feature's data. It specifies the methods that should be available for data manipulation and retrieval.
+
+### Interactor Layer
+
+_**Base Feature Service:**_ This abstract class defines the structure and methods for feature-specific services. It might include business logic, data processing, and interaction with repositories.
+
+_**Service Implementation:**_ Each feature implements its own service class that extends the base feature service. This is where you implement the specific logic and operations related to the feature.
+
+### Presentation Layer
+
+_**State Management Solution:**_ This is where you implement the state management solution for the feature.
+
+_**Extended State Management Solution:**_ This class extends the state management solution class and acts as a bridge for interactions between different feature state management instances. It helps maintain a centralized point for communication between different UI components within the feature also keeps State Management Solution class clean.
+
+_**Page and Widgets:**_ This is where you implement the UI for the feature. It includes the page and widgets that make up the feature's UI.
