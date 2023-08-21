@@ -86,8 +86,67 @@ Crafting a successful software architecture involves aiming for specific objecti
 
   Cubits are a part of the Bloc pattern architecture, commonly used with Flutter apps. They manage the state of the UI related to specific features. Each feature cubit extends the BaseCubit class, which includes states like initState, LoadingState, LoadedState, and ErrorState.
 
+  #### Problems
+
+  - Dependency Inversion and Component Replacement
+
+    The architecture lacks proper dependency inversion, making it challenging to replace components without affecting the entire system.
+    This can lead to difficulties in swapping out components, such as changing the data source or replacing UI elements, potentially leading to tight coupling and inflexibility.
+
+  - Testing Complexity
+
+    The intricate dependency flow and the tight coupling between cubits, repositories, and UI elements can complicate testing.
+    Testing becomes more complex due to the interwoven nature of components, potentially resulting in less effective unit testing and a higher likelihood of integration issues.
+
+  - Limited Base State and Flexibility
+
+    The architecture's base state is limited to a specific set of states, which might not cover all possible scenarios.
+    This limitation can restrict the flexibility to handle a wider range of UI states and can lead to less adaptable and more rigid user interfaces.
+
+  - Lack of DataSource Layer
+
+    The architecture doesn't seem to incorporate a dedicated DataSource layer for handling data retrieval and API communication.
+    This omission can result in difficulties when trying to change the way the application connects to APIs or external data sources, hindering the ability to adapt to changing requirements or technology advancements.
+
 ### Deriv GO Architecture
 
 ![Deriv Go Architecture Overview](go_architecture.drawio.png)
 
 #### Main Architecture Components
+
+- Flutter Deriv API (Data Source)
+
+  This component serves as the data source for the application, providing access to the Deriv API. It abstracts the API communication details and data retrieval logic.
+
+- Base Feature Service
+
+  Each service has its own base feature service that provides common methods and functionalities for that specific feature.
+
+- Future Services
+
+  These services are responsible for interacting with the Flutter Deriv API. Each service corresponds to a specific feature or domain within the app.
+
+- Future Cubits
+
+  Cubits are used to manage the state of the UI related to specific features. Each cubit is associated with a specific feature and contains the logic for managing UI states.
+
+- Bloc Manager
+
+  This component employs the observer pattern to manage dependencies between different feature cubits. It emits states to dependent cubits based on state changes.
+
+#### Problems
+
+- Direct Data Source Connection by Services
+
+  Connecting to the data source (API) is managed directly by the services, potentially leading to tight coupling between the services and the API.
+  This can make the code less flexible and harder to adapt to changes in the API or data source. It might also lead to difficulties in swapping out the data source if needed.
+
+- Complexity of State Dependency Management by Bloc Manager:
+
+  The complexity of managing state dependencies using the Bloc Manager could lead to intricate relationships between different feature cubits.
+  This complexity might make the application harder to understand, debug, and maintain. It could also lead to challenges in writing effective unit tests for the interactions between cubits.
+
+- Unclear Component Responsibilities
+
+  The architecture might not provide clear and well-defined responsibilities for each component, making it challenging to determine where specific logic should reside.
+  This lack of clarity can lead to confusion among developers, code that's difficult to maintain, and potential overlaps or gaps in functionality.
