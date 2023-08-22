@@ -131,7 +131,7 @@ The `Dependency Inversion` encourages the decoupling of high-level modules from 
 
 Core part is primarily focused on defining contracts and interfaces that features _must_ implement. This is a form of _contract-driven design_, where you're establishing a set of rules and guidelines that each feature should follow. This approach can provide clear boundaries and consistency across application architecture.
 
-_**BaseDataSource**_
+_**Base Data Source**_
 
 This class serves as a contract that defines the methods and structure that feature-specific data sources must implement. It sets the guidelines for how data should be accessed and manipulated.
 
