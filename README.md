@@ -173,6 +173,8 @@ Finally, the Presentation layer handles UI state management and interaction, enh
 
 ### Data Layer
 
+![Data Layer Architecture Overview](data_layer.drawio.png)
+
 _**Feature Model:**_ This represents the data structure specific to the feature. It only contains the properties that are relevant to the feature.
 
 _**Feature Mapper:**_ This is responsible for mapping data between the feature model and other layers of architecture.
@@ -183,11 +185,15 @@ _**Feature DataSource Abstraction and Implementations:**_ The feature-specific d
 
 ### Domain Layer
 
+![Domain Layer Architecture Overview](domain_layer.drawio.png)
+
 _**Entity:**_ The entities within the domain layer represent core business objects that the feature deals with. These might mirror the structure of data retrieved from the data source.
 
 _**Feature Repository Interface:**_ This defines the contract for interacting with the feature's data. It specifies the methods that should be available for data manipulation and retrieval.
 
 ### Interactor Layer
+
+![Interactor Layer Architecture Overview](interactor_layer.drawio.png)
 
 _**Base Feature Service:**_ This abstract class defines the structure and methods for feature-specific services. It might include business logic, data processing, and interaction with repositories.
 
@@ -195,9 +201,11 @@ _**Service Implementation:**_ Each feature implements its own service class that
 
 ### Presentation Layer
 
-_**State Management Solution:**_ This is where you implement the state management solution for the feature.
+![Presentation Layer Architecture Overview](presentation_layer.drawio.png)
 
-_**Extended State Management Solution:**_ This class extends the state management solution class and acts as a bridge for interactions between different feature state management instances. It helps maintain a centralized point for communication between different UI components within the feature and also keeps the State Management Solution class clean.
+_**State Management:**_ This is where you implement the state management solution for the feature.
+
+_**Extended State Management:**_ This class extends the state management class and acts as a bridge for interactions between different feature state management instances. It helps maintain a centralized point for communication between different UI components within the feature and also keeps the State Management Solution class clean.
 
 _**Page and Widgets:**_ This is where you implement the UI for the feature. It includes the page and widgets that make up the feature's UI.
 
