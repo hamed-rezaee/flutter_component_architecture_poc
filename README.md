@@ -1,4 +1,4 @@
-# What is `Software Architecture`?
+# What is Software Architecture?
 
 Software Architecture is the conceptual foundation and strategic framework for a software system. It encompasses the `fundamental design decisions` that shape the system's `structure`, `behavior`, and `interactions`. Like the architectural plan for a building, software architecture defines the `arrangement of components`, the `pathways of data`, and the mechanisms for achieving desired qualities such as `performance`, `scalability`, and `maintainability`. It serves as a blueprint that guides developers in creating a `cohesive`, `reliable`, and `adaptable` software solution that aligns with the project's objectives and user requirements.
 
