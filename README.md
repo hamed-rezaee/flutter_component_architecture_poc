@@ -1,3 +1,27 @@
+### Table of Contents
+
+1. [What is Software Architecture?](#what-is-software-architecture)
+2. [Difference Between Software Architecture and Design Patterns?](#difference-between-software-architecture-and-design-patterns)
+   - [Software Architecture](#software-architecture)
+   - [Design Patterns](#design-patterns)
+3. [Key Goals of Effective Software Architecture](#key-goals-of-effective-software-architecture)
+4. [Current Mobile Team Architectures](#current-mobile-team-architectures)
+   - [Deriv P2P Architecture](#deriv-p2p-architecture)
+     - [Architecture Components](#architecture-components)
+     - [Challenges](#challenges)
+   - [Deriv GO Architecture](#deriv-go-architecture)
+     - [Architecture Components](#architecture-components-1)
+     - [Challenges](#challenges-1)
+5. [Proposed Architecture](#proposed-architecture)
+   - [Architecture Components](#architecture-components-2)
+     - [Core](#core)
+     - [Feature](#feature)
+       - [Data Layer](#data-layer)
+       - [Domain Layer](#domain-layer)
+       - [Interactor Layer](#interactor-layer)
+       - [Presentation Layer](#presentation-layer)
+   - [Example](#example)
+
 # What is Software Architecture?
 
 Software Architecture is the conceptual foundation and strategic framework for a software system. It encompasses the `fundamental design decisions` that shape the system's `structure`, `behavior`, and `interactions`. Like the architectural plan for a building, software architecture defines the `arrangement of components`, the `pathways of data`, and the mechanisms for achieving desired qualities such as `performance`, `scalability`, and `maintainability`. It serves as a blueprint that guides developers in creating a `cohesive`, `reliable`, and `adaptable` software solution that aligns with the project's objectives and user requirements.
@@ -191,7 +215,7 @@ _**Entity:**_ The entities within the domain layer represent core business objec
 
 _**Feature Repository Interface:**_ This defines the contract for interacting with the feature's data. It specifies the methods that should be available for data manipulation and retrieval.
 
-### Interactor Layer
+#### Interactor Layer
 
 ![Interactor Layer Architecture Overview](interactor_layer.drawio.png)
 
@@ -199,7 +223,7 @@ _**Base Feature Service:**_ This abstract class defines the structure and method
 
 _**Service Implementation:**_ Each feature implements its own service class that extends the base feature service. This is where you implement the specific logic and operations related to the feature.
 
-### Presentation Layer
+#### Presentation Layer
 
 ![Presentation Layer Architecture Overview](presentation_layer.drawio.png)
 
