@@ -7,15 +7,6 @@ set namespaceSeparator ::
 
 left to right direction
 
-class "core::enums::ConnectivityStatus" {
-  +int index
-  {static} +List values
-  {static} +ConnectivityStatus connected
-  {static} +ConnectivityStatus connecting
-}
-
-"core::enums::ConnectivityStatus" o-- "core::enums::ConnectivityStatus"
-
 abstract class "core::contracts::data::base_mapper::BaseMapper" {
   +E toEntity()
 }
@@ -74,58 +65,7 @@ abstract class "core::connectivity_service::base_connectivity_service::BaseConne
   +Stream connectivityStatus
 }
 
-class "core::web_socket_connection::WebSocketConnection" {
-  {static} -WebSocketConnection _instance
-  -WebSocket _channel
-  +StreamController streamController
-  +Stream connectionState
-  +Stream response
-  +dynamic request()
-}
-
-"core::web_socket_connection::WebSocketConnection" o-- "core::web_socket_connection::WebSocketConnection"
-"core::web_socket_connection::WebSocketConnection" o-- "dart_web_socket_handler::web_socket::web_socket::WebSocket"
-
-class "core::widgets::connectivity_handler::ConnectivityHandler" {
-  +Widget child
-  +State createState()
-}
-
-class "core::widgets::connectivity_handler::_ConnectivityHandlerState" {
-  +void initState()
-  +Widget build()
-  -void _handleConnectivity()
-}
-
-class "core::widgets::basic_chart::basic_chart::BasicChart" {
-  +List data
-  +Color chartColor
-  +Size size
-  +Widget build()
-}
-
-class "core::widgets::basic_chart::basic_chart::_BasicChartPainter" {
-  +List data
-  +Color chartColor
-  +void paint()
-  -void _drawAxes()
-  -void _drawGrids()
-  -void _drawChart()
-  -void _drawLabels()
-  -void _drawCurrentValue()
-  -void _drawCurrentPoint()
-  +bool shouldRepaint()
-}
-
-class "core::widgets::basic_chart::basic_chart::BasicChartModel" {
-  +String symbol
-  +int epoch
-  +double quote
-  +int pipSize
-}
-
 class "features::home::presentation::home_page::HomePage" {
-  +Widget build()
   -Widget _buildChartButton()
   -Widget _buildLogoutButton()
 }
@@ -237,7 +177,6 @@ class "features::active_symbol::presentation::states::selected_active_symbol_cub
 "features::active_symbol::presentation::states::selected_active_symbol_cubit::SelectedActiveSymbolState" <|-- "features::active_symbol::presentation::states::selected_active_symbol_cubit::SelectedActiveSymbolUpdateState"
 
 class "features::active_symbol::presentation::widgets::active_symbol::ActiveSymbol" {
-  +Widget build()
   -Widget _buildActiveSymbolDropdown()
   -void _handleActiveSymbolChange()
 }
@@ -245,14 +184,12 @@ class "features::active_symbol::presentation::widgets::active_symbol::ActiveSymb
 class "features::active_symbol::presentation::widgets::active_symbol_dropdown_items::ActiveSymbolDropdownItems" {
   +String symbolName
   +bool isSelected
-  +Widget build()
 }
 
 class "features::active_symbol::presentation::widgets::active_symbol_dropdown::ActiveSymbolDropdown" {
   +List activeSymbols
   +ActiveSymbolEntity selectedActiveSymbol
   +void Function(ActiveSymbolEntity) onChanged
-  +Widget build()
   -Iterable> _buildItems()
   -bool _isSelected()
 }
@@ -398,8 +335,6 @@ class "features::tick_stream::presentation::widgets::tick_stream_widget::TickStr
 
 class "features::tick_stream::presentation::widgets::tick_stream_widget::_TickStreamWidgetState" {
   -TickState _status
-  +void didUpdateWidget()
-  +Widget build()
   -Widget _buildPrice()
   -void _handlePriceColor()
   -Icon _getIcon()
@@ -410,11 +345,9 @@ class "features::tick_stream::presentation::widgets::tick_stream_widget::_TickSt
 class "features::tick_stream::presentation::widgets::tick_stream_row::TickStreamRow" {
   +String title
   +String content
-  +Widget build()
 }
 
 class "features::tick_stream::presentation::widgets::tick_stream::TickStream" {
-  +Widget build()
 }
 
 class "features::tick_stream::interactor::tick_stream_service::TickStreamService" {
@@ -474,7 +407,6 @@ class "features::chart::presentation::states::chart_cubit_extended::ChartCubitEx
 "features::chart::presentation::states::chart_cubit::ChartCubit" <|-- "features::chart::presentation::states::chart_cubit_extended::ChartCubitExtended"
 
 class "features::chart::presentation::chart_page::ChartPage" {
-  +Widget build()
   -ChartCubitExtended _getChartBloc()
   -Widget _buildBasicChart()
 }
@@ -619,7 +551,6 @@ class "features::login::domain::login_entity::LoginEntity" {
 "core::contracts::domain::base_entity::BaseEntity" <|-- "features::login::domain::login_entity::LoginEntity"
 
 class "features::login::presentation::login_page::LoginPage" {
-  +Widget build()
   -void _handleLoginState()
 }
 
@@ -670,9 +601,7 @@ class "features::login::presentation::widgets::login_form::LoginForm" {
 class "features::login::presentation::widgets::login_form::_LoginFormState" {
   -TextEditingController _controller
   -String _errorText
-  +Widget build()
   -void _validateInput()
-  +void dispose()
 }
 
 abstract class "features::login::interactor::base_login_service::BaseLoginService" {
