@@ -7,138 +7,688 @@ set namespaceSeparator ::
 
 left to right direction
 
-abstract class "core::interactor.dart::BaseService" {
-  +BaseRepository repository
+class "core::enums::ConnectivityStatus" {
+  +int index
+  {static} +List values
+  {static} +ConnectivityStatus connected
+  {static} +ConnectivityStatus connecting
 }
 
-"core::interactor.dart::BaseService" o-- "core::domain.dart::BaseRepository"
+"core::enums::ConnectivityStatus" o-- "core::enums::ConnectivityStatus"
 
-abstract class "core::data.dart::BaseDataSource" {
-  +BaseMapper<BaseEntity, BaseModel>? mapper
-}
-
-"core::data.dart::BaseDataSource" o-- "core::data.dart::BaseMapper<BaseEntity, BaseModel>"
-
-abstract class "core::data.dart::BaseModel" {
-}
-
-abstract class "core::data.dart::BaseDataSources" {
-}
-
-abstract class "core::data.dart::BaseMapper" {
+abstract class "core::contracts::data::base_mapper::BaseMapper" {
   +E toEntity()
-  +M toModel()
 }
 
-abstract class "core::domain.dart::BaseEntity" {
+abstract class "core::contracts::data::base_model::BaseModel" {
 }
 
-abstract class "core::domain.dart::BaseRepository" {
-  +BaseDataSource? dataSource
+abstract class "core::contracts::data::base_data_source::BaseDataSource" {
+  +BaseMapper mapper
 }
 
-"core::domain.dart::BaseRepository" o-- "core::data.dart::BaseDataSource"
+"core::contracts::data::base_data_source::BaseDataSource" o-- "core::contracts::data::base_mapper::BaseMapper"
 
-abstract class "core::bloc_manager.dart::BaseStateListener" {
-}
-
-class "core::bloc_manager.dart::StateListener" {
-  +void onChangeState()
-}
-
-"core::bloc_manager.dart::BaseStateListener" <|-- "core::bloc_manager.dart::StateListener"
-
-class "feature::domain_layer.dart::FeatureEntity" {
-}
-
-"core::domain.dart::BaseEntity" <|-- "feature::domain_layer.dart::FeatureEntity"
-
-abstract class "feature::domain_layer.dart::BaseFeatureRepository" {
+abstract class "core::contracts::domain::base_repository::BaseRepository" {
   +BaseDataSource dataSource
 }
 
-"feature::domain_layer.dart::BaseFeatureRepository" o-- "core::data.dart::BaseDataSource"
-"core::domain.dart::BaseRepository" <|-- "feature::domain_layer.dart::BaseFeatureRepository"
+"core::contracts::domain::base_repository::BaseRepository" o-- "core::contracts::data::base_data_source::BaseDataSource"
 
-abstract class "feature::interactor_layer.dart::BaseFeatureService" {
-  +BaseFeatureRepository repository
-  +dynamic getData()
+abstract class "core::contracts::domain::base_entity::BaseEntity" {
 }
 
-"feature::interactor_layer.dart::BaseFeatureService" o-- "feature::domain_layer.dart::BaseFeatureRepository"
-"core::interactor.dart::BaseService" <|-- "feature::interactor_layer.dart::BaseFeatureService"
-
-class "feature::interactor_layer.dart::FeatureService" {
-  +BaseFeatureRepository repository
-  +dynamic getData()
+abstract class "core::contracts::interactor::base_service_with_repository::BaseServiceWithRepository" {
+  +BaseRepository repository
 }
 
-"feature::interactor_layer.dart::FeatureService" o-- "feature::domain_layer.dart::BaseFeatureRepository"
-"feature::interactor_layer.dart::BaseFeatureService" <|-- "feature::interactor_layer.dart::FeatureService"
+"core::contracts::interactor::base_service_with_repository::BaseServiceWithRepository" o-- "core::contracts::domain::base_repository::BaseRepository"
+"core::contracts::interactor::base_service::BaseService" <|-- "core::contracts::interactor::base_service_with_repository::BaseServiceWithRepository"
 
-class "feature::data_layer.dart::FeatureModel" {
+abstract class "core::contracts::interactor::base_service::BaseService" {
 }
 
-"core::data.dart::BaseModel" <|-- "feature::data_layer.dart::FeatureModel"
-
-abstract class "feature::data_layer.dart::BaseFeatureDataSource" {
-  +dynamic getData()
+abstract class "core::persistent_data_service::base_persistent_data_service::BasePersistentDataService" {
+  +dynamic delete()
+  +dynamic read()
+  +dynamic write()
 }
 
-"core::data.dart::BaseDataSource" <|-- "feature::data_layer.dart::BaseFeatureDataSource"
-
-class "feature::data_layer.dart::RemoteFeatureDataSource" {
-  +BaseMapper<BaseEntity, BaseModel>? mapper
-  +dynamic getData()
+class "core::persistent_data_service::shared_preferences_sarvice::SharedPreferencesService" {
+  +dynamic delete()
+  +dynamic read()
+  +dynamic write()
 }
 
-"feature::data_layer.dart::RemoteFeatureDataSource" o-- "core::data.dart::BaseMapper<BaseEntity, BaseModel>"
-"feature::data_layer.dart::BaseFeatureDataSource" <|-- "feature::data_layer.dart::RemoteFeatureDataSource"
+"core::persistent_data_service::base_persistent_data_service::BasePersistentDataService" <|-- "core::persistent_data_service::shared_preferences_sarvice::SharedPreferencesService"
 
-class "feature::data_layer.dart::LocalFeatureDataSource" {
-  +BaseMapper<BaseEntity, BaseModel>? mapper
-  +dynamic getData()
+class "core::connectivity_service::connectivity_service::ConnectivityService" {
+  {static} -ConnectivityService _instance
+  +Stream connectivityStatus
 }
 
-"feature::data_layer.dart::LocalFeatureDataSource" o-- "core::data.dart::BaseMapper<BaseEntity, BaseModel>"
-"feature::data_layer.dart::BaseFeatureDataSource" <|-- "feature::data_layer.dart::LocalFeatureDataSource"
+"core::connectivity_service::connectivity_service::ConnectivityService" o-- "core::connectivity_service::connectivity_service::ConnectivityService"
+"core::connectivity_service::base_connectivity_service::BaseConnectivityService" <|-- "core::connectivity_service::connectivity_service::ConnectivityService"
 
-class "feature::data_layer.dart::FeatureRepository" {
-  +BaseFeatureDataSource dataSource
+abstract class "core::connectivity_service::base_connectivity_service::BaseConnectivityService" {
+  +Stream connectivityStatus
 }
 
-"feature::data_layer.dart::FeatureRepository" o-- "feature::data_layer.dart::BaseFeatureDataSource"
-"feature::domain_layer.dart::BaseFeatureRepository" <|-- "feature::data_layer.dart::FeatureRepository"
-
-class "feature::data_layer.dart::FeatureMapper" {
-  +BaseModel toModel()
-  +BaseEntity toEntity()
+class "core::web_socket_connection::WebSocketConnection" {
+  {static} -WebSocketConnection _instance
+  -WebSocket _channel
+  +StreamController streamController
+  +Stream connectionState
+  +Stream response
+  +dynamic request()
 }
 
-"core::data.dart::BaseMapper" <|-- "feature::data_layer.dart::FeatureMapper"
+"core::web_socket_connection::WebSocketConnection" o-- "core::web_socket_connection::WebSocketConnection"
+"core::web_socket_connection::WebSocketConnection" o-- "dart_web_socket_handler::web_socket::web_socket::WebSocket"
 
-class "feature::presentation_layer.dart::ExtendedBloc" {
-  +dynamic getData()
-  +void onChangeState()
+class "core::widgets::connectivity_handler::ConnectivityHandler" {
+  +Widget child
+  +State createState()
 }
 
-"feature::presentation_layer.dart::Bloc" <|-- "feature::presentation_layer.dart::ExtendedBloc"
-"core::bloc_manager.dart::StateListener" <|-- "feature::presentation_layer.dart::ExtendedBloc"
-
-class "feature::presentation_layer.dart::Bloc" {
-  +BaseFeatureService service
+class "core::widgets::connectivity_handler::_ConnectivityHandlerState" {
+  +void initState()
+  +Widget build()
+  -void _handleConnectivity()
 }
 
-"feature::presentation_layer.dart::Bloc" o-- "feature::interactor_layer.dart::BaseFeatureService"
-
-class "feature::presentation_layer.dart::Widget" {
+class "core::widgets::basic_chart::basic_chart::BasicChart" {
+  +List data
+  +Color chartColor
+  +Size size
+  +Widget build()
 }
 
-class "feature::presentation_layer.dart::Page" {
-  +ExtendedBloc bloc
-  +List<Widget> widgets
+class "core::widgets::basic_chart::basic_chart::_BasicChartPainter" {
+  +List data
+  +Color chartColor
+  +void paint()
+  -void _drawAxes()
+  -void _drawGrids()
+  -void _drawChart()
+  -void _drawLabels()
+  -void _drawCurrentValue()
+  -void _drawCurrentPoint()
+  +bool shouldRepaint()
 }
 
-"feature::presentation_layer.dart::Page" o-- "feature::presentation_layer.dart::ExtendedBloc"
+class "core::widgets::basic_chart::basic_chart::BasicChartModel" {
+  +String symbol
+  +int epoch
+  +double quote
+  +int pipSize
+}
+
+class "features::home::presentation::home_page::HomePage" {
+  +Widget build()
+  -Widget _buildChartButton()
+  -Widget _buildLogoutButton()
+}
+
+abstract class "features::active_symbol::data::base_active_symbol_data_source::BaseActiveSymbolDataSource" {
+  +ActiveSymbolMapper mapper
+  +dynamic fetchActiveSymbols()
+}
+
+"features::active_symbol::data::base_active_symbol_data_source::BaseActiveSymbolDataSource" o-- "features::active_symbol::data::active_symbol_mapper::ActiveSymbolMapper"
+"core::contracts::data::base_data_source::BaseDataSource" <|-- "features::active_symbol::data::base_active_symbol_data_source::BaseActiveSymbolDataSource"
+
+class "features::active_symbol::data::active_symbol_model::ActiveSymbolModel" {
+  +String symbol
+  +String symbolDisplayName
+  +String market
+  +String marketDisplayName
+}
+
+"core::contracts::data::base_model::BaseModel" <|-- "features::active_symbol::data::active_symbol_model::ActiveSymbolModel"
+
+class "features::active_symbol::data::active_symbol_data_source::ActiveSymbolDataSource" {
+  +dynamic fetchActiveSymbols()
+}
+
+"features::active_symbol::data::base_active_symbol_data_source::BaseActiveSymbolDataSource" <|-- "features::active_symbol::data::active_symbol_data_source::ActiveSymbolDataSource"
+
+class "features::active_symbol::data::active_symbol_repository::ActiveSymbolRepoistory" {
+  +BaseActiveSymbolDataSource dataSource
+  +dynamic fetchActiveSymbols()
+}
+
+"features::active_symbol::data::active_symbol_repository::ActiveSymbolRepoistory" o-- "features::active_symbol::data::base_active_symbol_data_source::BaseActiveSymbolDataSource"
+"features::active_symbol::domain::base_active_symbol_repository::BaseActiveSymbolRepository" <|-- "features::active_symbol::data::active_symbol_repository::ActiveSymbolRepoistory"
+
+class "features::active_symbol::data::active_symbol_mapper::ActiveSymbolMapper" {
+  +ActiveSymbolEntity toEntity()
+}
+
+"core::contracts::data::base_mapper::BaseMapper" <|-- "features::active_symbol::data::active_symbol_mapper::ActiveSymbolMapper"
+
+class "features::active_symbol::domain::active_symbol_entity::ActiveSymbolEntity" {
+  +String symbol
+  +String symbolDisplayName
+  +String market
+  +String marketDisplayName
+}
+
+"core::contracts::domain::base_entity::BaseEntity" <|-- "features::active_symbol::domain::active_symbol_entity::ActiveSymbolEntity"
+
+abstract class "features::active_symbol::domain::base_active_symbol_repository::BaseActiveSymbolRepository" {
+  +dynamic fetchActiveSymbols()
+}
+
+"core::contracts::domain::base_repository::BaseRepository" <|-- "features::active_symbol::domain::base_active_symbol_repository::BaseActiveSymbolRepository"
+
+class "features::active_symbol::presentation::states::selected_active_symbol_cubit_extended::SelectedActiveSymbolCubitExtended" {
+  +Stream loginStateStream
+  -void _handleLogout()
+}
+
+"features::active_symbol::presentation::states::selected_active_symbol_cubit::SelectedActiveSymbolCubit" <|-- "features::active_symbol::presentation::states::selected_active_symbol_cubit_extended::SelectedActiveSymbolCubitExtended"
+
+class "features::active_symbol::presentation::states::active_symbol_cubit::ActiveSymbolCubit" {
+  +BaseActiveSymbolService service
+  +dynamic fetchActiveSymbols()
+}
+
+"features::active_symbol::presentation::states::active_symbol_cubit::ActiveSymbolCubit" o-- "features::active_symbol::interactor::base_active_symbol_service::BaseActiveSymbolService"
+
+abstract class "features::active_symbol::presentation::states::active_symbol_cubit::ActiveSymbolState" {
+}
+
+class "features::active_symbol::presentation::states::active_symbol_cubit::ActiveSymbolInitialState" {
+}
+
+"features::active_symbol::presentation::states::active_symbol_cubit::ActiveSymbolState" <|-- "features::active_symbol::presentation::states::active_symbol_cubit::ActiveSymbolInitialState"
+
+class "features::active_symbol::presentation::states::active_symbol_cubit::ActiveSymbolLoadingState" {
+}
+
+"features::active_symbol::presentation::states::active_symbol_cubit::ActiveSymbolState" <|-- "features::active_symbol::presentation::states::active_symbol_cubit::ActiveSymbolLoadingState"
+
+class "features::active_symbol::presentation::states::active_symbol_cubit::ActiveSymbolLoadedState" {
+  +List activeSymbols
+}
+
+"features::active_symbol::presentation::states::active_symbol_cubit::ActiveSymbolState" <|-- "features::active_symbol::presentation::states::active_symbol_cubit::ActiveSymbolLoadedState"
+
+class "features::active_symbol::presentation::states::active_symbol_cubit::ActiveSymbolErrorState" {
+  +String message
+}
+
+"features::active_symbol::presentation::states::active_symbol_cubit::ActiveSymbolState" <|-- "features::active_symbol::presentation::states::active_symbol_cubit::ActiveSymbolErrorState"
+
+class "features::active_symbol::presentation::states::selected_active_symbol_cubit::SelectedActiveSymbolCubit" {
+  +void updateActiveSymbol()
+}
+
+abstract class "features::active_symbol::presentation::states::selected_active_symbol_cubit::SelectedActiveSymbolState" {
+  +ActiveSymbolEntity activeSymbol
+}
+
+"features::active_symbol::presentation::states::selected_active_symbol_cubit::SelectedActiveSymbolState" o-- "features::active_symbol::domain::active_symbol_entity::ActiveSymbolEntity"
+
+class "features::active_symbol::presentation::states::selected_active_symbol_cubit::SelectedActiveSymbolUpdateState" {
+}
+
+"features::active_symbol::presentation::states::selected_active_symbol_cubit::SelectedActiveSymbolState" <|-- "features::active_symbol::presentation::states::selected_active_symbol_cubit::SelectedActiveSymbolUpdateState"
+
+class "features::active_symbol::presentation::widgets::active_symbol::ActiveSymbol" {
+  +Widget build()
+  -Widget _buildActiveSymbolDropdown()
+  -void _handleActiveSymbolChange()
+}
+
+class "features::active_symbol::presentation::widgets::active_symbol_dropdown_items::ActiveSymbolDropdownItems" {
+  +String symbolName
+  +bool isSelected
+  +Widget build()
+}
+
+class "features::active_symbol::presentation::widgets::active_symbol_dropdown::ActiveSymbolDropdown" {
+  +List activeSymbols
+  +ActiveSymbolEntity selectedActiveSymbol
+  +void Function(ActiveSymbolEntity) onChanged
+  +Widget build()
+  -Iterable> _buildItems()
+  -bool _isSelected()
+}
+
+"features::active_symbol::presentation::widgets::active_symbol_dropdown::ActiveSymbolDropdown" o-- "features::active_symbol::domain::active_symbol_entity::ActiveSymbolEntity"
+
+abstract class "features::active_symbol::interactor::base_active_symbol_service::BaseActiveSymbolService" {
+  +dynamic fetchActiveSymbols()
+}
+
+"core::contracts::interactor::base_service_with_repository::BaseServiceWithRepository" <|-- "features::active_symbol::interactor::base_active_symbol_service::BaseActiveSymbolService"
+
+class "features::active_symbol::interactor::active_symbol_service::ActiveSymbolService" {
+  +BaseActiveSymbolRepository repository
+  +dynamic fetchActiveSymbols()
+}
+
+"features::active_symbol::interactor::active_symbol_service::ActiveSymbolService" o-- "features::active_symbol::domain::base_active_symbol_repository::BaseActiveSymbolRepository"
+"features::active_symbol::interactor::base_active_symbol_service::BaseActiveSymbolService" <|-- "features::active_symbol::interactor::active_symbol_service::ActiveSymbolService"
+
+class "features::tick_stream::data::tick_stream_repository::TickStreamRepoistory" {
+  +BaseTickStreamDataSource dataSource
+  +void forgetTickStream()
+  +Stream fetchTickStream()
+}
+
+"features::tick_stream::data::tick_stream_repository::TickStreamRepoistory" o-- "features::tick_stream::data::base_tick_stream_data_source::BaseTickStreamDataSource"
+"features::tick_stream::domain::base_tick_stream_repository::BaseTickStreamRepository" <|-- "features::tick_stream::data::tick_stream_repository::TickStreamRepoistory"
+
+class "features::tick_stream::data::tick_stream_model::TickStreamModel" {
+  +double ask
+  +double bid
+  +int epoch
+  +String id
+  +int pipSize
+  +double quote
+  +String symbol
+}
+
+"core::contracts::data::base_model::BaseModel" <|-- "features::tick_stream::data::tick_stream_model::TickStreamModel"
+
+class "features::tick_stream::data::tick_stream_mapper::TickStreamMapper" {
+  +TickStreamEntity toEntity()
+}
+
+"core::contracts::data::base_mapper::BaseMapper" <|-- "features::tick_stream::data::tick_stream_mapper::TickStreamMapper"
+
+abstract class "features::tick_stream::data::base_tick_stream_data_source::BaseTickStreamDataSource" {
+  +TickStreamMapper mapper
+  +void forgetTickStream()
+  +Stream fetchTickStream()
+}
+
+"features::tick_stream::data::base_tick_stream_data_source::BaseTickStreamDataSource" o-- "features::tick_stream::data::tick_stream_mapper::TickStreamMapper"
+"core::contracts::data::base_data_source::BaseDataSource" <|-- "features::tick_stream::data::base_tick_stream_data_source::BaseTickStreamDataSource"
+
+class "features::tick_stream::data::tick_stream_data_source::TickStreamDataSource" {
+  +void forgetTickStream()
+  +Stream fetchTickStream()
+}
+
+"features::tick_stream::data::base_tick_stream_data_source::BaseTickStreamDataSource" <|-- "features::tick_stream::data::tick_stream_data_source::TickStreamDataSource"
+
+class "features::tick_stream::domain::tick_stream_entity::TickStreamEntity" {
+  +int epoch
+  +double quote
+  +String symbol
+  +int pipSize
+  +String id
+}
+
+"core::contracts::domain::base_entity::BaseEntity" <|-- "features::tick_stream::domain::tick_stream_entity::TickStreamEntity"
+
+abstract class "features::tick_stream::domain::base_tick_stream_repository::BaseTickStreamRepository" {
+  +void forgetTickStream()
+  +Stream fetchTickStream()
+}
+
+"core::contracts::domain::base_repository::BaseRepository" <|-- "features::tick_stream::domain::base_tick_stream_repository::BaseTickStreamRepository"
+
+class "features::tick_stream::presentation::enums::tick_state::TickState" {
+  +int index
+  {static} +List values
+  {static} +TickState up
+  {static} +TickState down
+  {static} +TickState none
+}
+
+"features::tick_stream::presentation::enums::tick_state::TickState" o-- "features::tick_stream::presentation::enums::tick_state::TickState"
+
+class "features::tick_stream::presentation::states::tick_stream_cubit_extended::TickStreamCubitExtended" {
+  +Stream connectivityStream
+  +Stream selectedSymbolStream
+  -void _onSelectedSymbolChanged()
+  -void _handleConnectivty()
+  -void _handleSelectedSymbol()
+}
+
+"features::tick_stream::presentation::states::tick_stream_cubit::TickSteamCubit" <|-- "features::tick_stream::presentation::states::tick_stream_cubit_extended::TickStreamCubitExtended"
+
+class "features::tick_stream::presentation::states::tick_stream_cubit::TickSteamCubit" {
+  +BaseTickStreamService service
+  -StreamSubscription _tickStreamSubscription
+  +dynamic fetchTickStream()
+  -dynamic _initializeTickStream()
+  +dynamic close()
+}
+
+"features::tick_stream::presentation::states::tick_stream_cubit::TickSteamCubit" o-- "features::tick_stream::interactor::base_tick_stream_service::BaseTickStreamService"
+
+abstract class "features::tick_stream::presentation::states::tick_stream_cubit::TickStreamState" {
+}
+
+class "features::tick_stream::presentation::states::tick_stream_cubit::TickStreamInitialState" {
+}
+
+"features::tick_stream::presentation::states::tick_stream_cubit::TickStreamState" <|-- "features::tick_stream::presentation::states::tick_stream_cubit::TickStreamInitialState"
+
+class "features::tick_stream::presentation::states::tick_stream_cubit::TickStreamLoadingState" {
+}
+
+"features::tick_stream::presentation::states::tick_stream_cubit::TickStreamState" <|-- "features::tick_stream::presentation::states::tick_stream_cubit::TickStreamLoadingState"
+
+class "features::tick_stream::presentation::states::tick_stream_cubit::TickStreamLoadedState" {
+  +TickStreamEntity tick
+}
+
+"features::tick_stream::presentation::states::tick_stream_cubit::TickStreamLoadedState" o-- "features::tick_stream::domain::tick_stream_entity::TickStreamEntity"
+"features::tick_stream::presentation::states::tick_stream_cubit::TickStreamState" <|-- "features::tick_stream::presentation::states::tick_stream_cubit::TickStreamLoadedState"
+
+class "features::tick_stream::presentation::states::tick_stream_cubit::TickStreamErrorState" {
+  +String message
+}
+
+"features::tick_stream::presentation::states::tick_stream_cubit::TickStreamState" <|-- "features::tick_stream::presentation::states::tick_stream_cubit::TickStreamErrorState"
+
+class "features::tick_stream::presentation::widgets::tick_stream_widget::TickStreamWidget" {
+  +TickStreamEntity entity
+  +State createState()
+}
+
+"features::tick_stream::presentation::widgets::tick_stream_widget::TickStreamWidget" o-- "features::tick_stream::domain::tick_stream_entity::TickStreamEntity"
+
+class "features::tick_stream::presentation::widgets::tick_stream_widget::_TickStreamWidgetState" {
+  -TickState _status
+  +void didUpdateWidget()
+  +Widget build()
+  -Widget _buildPrice()
+  -void _handlePriceColor()
+  -Icon _getIcon()
+}
+
+"features::tick_stream::presentation::widgets::tick_stream_widget::_TickStreamWidgetState" o-- "features::tick_stream::presentation::enums::tick_state::TickState"
+
+class "features::tick_stream::presentation::widgets::tick_stream_row::TickStreamRow" {
+  +String title
+  +String content
+  +Widget build()
+}
+
+class "features::tick_stream::presentation::widgets::tick_stream::TickStream" {
+  +Widget build()
+}
+
+class "features::tick_stream::interactor::tick_stream_service::TickStreamService" {
+  +BaseTickStreamRepository repository
+  +void forgetTickStream()
+  +Stream fetchTickStream()
+}
+
+"features::tick_stream::interactor::tick_stream_service::TickStreamService" o-- "features::tick_stream::domain::base_tick_stream_repository::BaseTickStreamRepository"
+"features::tick_stream::interactor::base_tick_stream_service::BaseTickStreamService" <|-- "features::tick_stream::interactor::tick_stream_service::TickStreamService"
+
+abstract class "features::tick_stream::interactor::base_tick_stream_service::BaseTickStreamService" {
+  +void forgetTickStream()
+  +Stream fetchTickStream()
+}
+
+"core::contracts::interactor::base_service_with_repository::BaseServiceWithRepository" <|-- "features::tick_stream::interactor::base_tick_stream_service::BaseTickStreamService"
+
+class "features::chart::presentation::states::chart_cubit::ChartCubit" {
+  +ChartService service
+  +BaseTickHistoryService tickHistoryService
+  +dynamic initializeChart()
+  +dynamic updateChart()
+}
+
+"features::chart::presentation::states::chart_cubit::ChartCubit" o-- "features::chart::interactor::chart_service::ChartService"
+"features::chart::presentation::states::chart_cubit::ChartCubit" o-- "features::tick_history::interactor::base_tick_history_service::BaseTickHistoryService"
+
+abstract class "features::chart::presentation::states::chart_cubit::ChartState" {
+}
+
+class "features::chart::presentation::states::chart_cubit::ChartLoadingState" {
+}
+
+"features::chart::presentation::states::chart_cubit::ChartState" <|-- "features::chart::presentation::states::chart_cubit::ChartLoadingState"
+
+class "features::chart::presentation::states::chart_cubit::ChartLoadedState" {
+  +List data
+}
+
+"features::chart::presentation::states::chart_cubit::ChartState" <|-- "features::chart::presentation::states::chart_cubit::ChartLoadedState"
+
+class "features::chart::presentation::states::chart_cubit::ChartErrorState" {
+  +String message
+}
+
+"features::chart::presentation::states::chart_cubit::ChartState" <|-- "features::chart::presentation::states::chart_cubit::ChartErrorState"
+
+class "features::chart::presentation::states::chart_cubit_extended::ChartCubitExtended" {
+  +Stream connectivityStream
+  +Stream symbolStream
+  -void _handleConnectivty()
+  -void _handleActiveSymbolStream()
+  -void _onTickStreamUpdate()
+}
+
+"features::chart::presentation::states::chart_cubit::ChartCubit" <|-- "features::chart::presentation::states::chart_cubit_extended::ChartCubitExtended"
+
+class "features::chart::presentation::chart_page::ChartPage" {
+  +Widget build()
+  -ChartCubitExtended _getChartBloc()
+  -Widget _buildBasicChart()
+}
+
+abstract class "features::chart::interactor::base_chart_service::BaseChartService" {
+}
+
+"core::contracts::interactor::base_service::BaseService" <|-- "features::chart::interactor::base_chart_service::BaseChartService"
+
+class "features::chart::interactor::chart_service::ChartService" {
+  +List adjustData()
+}
+
+"features::chart::interactor::base_chart_service::BaseChartService" <|-- "features::chart::interactor::chart_service::ChartService"
+
+class "features::tick_history::data::tick_stream_model::TickStreamModel" {
+  +double ask
+  +double bid
+  +int epoch
+  +String id
+  +int pipSize
+  +double quote
+  +String symbol
+}
+
+"core::contracts::data::base_model::BaseModel" <|-- "features::tick_history::data::tick_stream_model::TickStreamModel"
+
+abstract class "features::tick_history::data::base_tick_history_data_source::BaseTickSHistoryDataSource" {
+  +TickHistoryMapper mapper
+  +dynamic fetchTickHistory()
+}
+
+"features::tick_history::data::base_tick_history_data_source::BaseTickSHistoryDataSource" o-- "features::tick_history::data::tick_history_mapper::TickHistoryMapper"
+"core::contracts::data::base_data_source::BaseDataSource" <|-- "features::tick_history::data::base_tick_history_data_source::BaseTickSHistoryDataSource"
+
+class "features::tick_history::data::tick_history_data_source::TickHistoryDataSource" {
+  +dynamic fetchTickHistory()
+}
+
+"features::tick_history::data::base_tick_history_data_source::BaseTickSHistoryDataSource" <|-- "features::tick_history::data::tick_history_data_source::TickHistoryDataSource"
+
+class "features::tick_history::data::tick_history_mapper::TickHistoryMapper" {
+  +TickHistoryEntity toEntity()
+}
+
+"core::contracts::data::base_mapper::BaseMapper" <|-- "features::tick_history::data::tick_history_mapper::TickHistoryMapper"
+
+class "features::tick_history::data::tick_history_model::TickHistoryModel" {
+  +List prices
+  +List times
+  +int pipSize
+}
+
+"core::contracts::data::base_model::BaseModel" <|-- "features::tick_history::data::tick_history_model::TickHistoryModel"
+
+class "features::tick_history::data::tick_history_repository::TickHistoryRepoistory" {
+  +BaseTickSHistoryDataSource dataSource
+  +dynamic fetchTickHistory()
+}
+
+"features::tick_history::data::tick_history_repository::TickHistoryRepoistory" o-- "features::tick_history::data::base_tick_history_data_source::BaseTickSHistoryDataSource"
+"features::tick_history::domain::base_tick_history_repository::BaseTickHistoryRepository" <|-- "features::tick_history::data::tick_history_repository::TickHistoryRepoistory"
+
+class "features::tick_history::domain::tick_history_entity::TickHistoryEntity" {
+  +List prices
+  +List times
+  +int pipSize
+}
+
+"core::contracts::domain::base_entity::BaseEntity" <|-- "features::tick_history::domain::tick_history_entity::TickHistoryEntity"
+
+abstract class "features::tick_history::domain::base_tick_history_repository::BaseTickHistoryRepository" {
+  +dynamic fetchTickHistory()
+}
+
+"core::contracts::domain::base_repository::BaseRepository" <|-- "features::tick_history::domain::base_tick_history_repository::BaseTickHistoryRepository"
+
+abstract class "features::tick_history::interactor::base_tick_history_service::BaseTickHistoryService" {
+  +dynamic fetchTickHistory()
+}
+
+"core::contracts::interactor::base_service_with_repository::BaseServiceWithRepository" <|-- "features::tick_history::interactor::base_tick_history_service::BaseTickHistoryService"
+
+class "features::tick_history::interactor::tick_history_service::TickHistoryService" {
+  +BaseTickHistoryRepository repository
+  +dynamic fetchTickHistory()
+}
+
+"features::tick_history::interactor::tick_history_service::TickHistoryService" o-- "features::tick_history::domain::base_tick_history_repository::BaseTickHistoryRepository"
+"features::tick_history::interactor::base_tick_history_service::BaseTickHistoryService" <|-- "features::tick_history::interactor::tick_history_service::TickHistoryService"
+
+class "features::login::data::login_repository::LoginRepoistory" {
+  +BaseLoginDataSource dataSource
+  +dynamic authorize()
+  +dynamic logout()
+}
+
+"features::login::data::login_repository::LoginRepoistory" o-- "features::login::data::base_login_data_source::BaseLoginDataSource"
+"features::login::domain::base_login_repository::BaseLoginRepository" <|-- "features::login::data::login_repository::LoginRepoistory"
+
+class "features::login::data::login_data_source::LoginDataSource" {
+  +dynamic authorize()
+  +dynamic logout()
+}
+
+"features::login::data::base_login_data_source::BaseLoginDataSource" <|-- "features::login::data::login_data_source::LoginDataSource"
+
+class "features::login::data::login_mapper::LoginMapper" {
+  +LoginEntity toEntity()
+}
+
+"core::contracts::data::base_mapper::BaseMapper" <|-- "features::login::data::login_mapper::LoginMapper"
+
+abstract class "features::login::data::base_login_data_source::BaseLoginDataSource" {
+  +LoginMapper mapper
+  +dynamic authorize()
+  +dynamic logout()
+}
+
+"features::login::data::base_login_data_source::BaseLoginDataSource" o-- "features::login::data::login_mapper::LoginMapper"
+"core::contracts::data::base_data_source::BaseDataSource" <|-- "features::login::data::base_login_data_source::BaseLoginDataSource"
+
+class "features::login::data::login_model::LoginModel" {
+  +String loginId
+  +double balance
+}
+
+"core::contracts::data::base_model::BaseModel" <|-- "features::login::data::login_model::LoginModel"
+
+abstract class "features::login::domain::base_login_repository::BaseLoginRepository" {
+  +dynamic authorize()
+  +dynamic logout()
+}
+
+"core::contracts::domain::base_repository::BaseRepository" <|-- "features::login::domain::base_login_repository::BaseLoginRepository"
+
+class "features::login::domain::login_entity::LoginEntity" {
+  +String loginId
+  +double balance
+}
+
+"core::contracts::domain::base_entity::BaseEntity" <|-- "features::login::domain::login_entity::LoginEntity"
+
+class "features::login::presentation::login_page::LoginPage" {
+  +Widget build()
+  -void _handleLoginState()
+}
+
+class "features::login::presentation::states::login_cubit::LoginCubit" {
+  +BaseLoginService service
+  +BasePersistentDataService persistentDataService
+  +String loginIdKey
+  +dynamic loginId
+  +dynamic isLoggedIn
+  +dynamic authorize()
+  +dynamic logout()
+  -dynamic _getLoginId()
+}
+
+"features::login::presentation::states::login_cubit::LoginCubit" o-- "features::login::interactor::base_login_service::BaseLoginService"
+"features::login::presentation::states::login_cubit::LoginCubit" o-- "core::persistent_data_service::base_persistent_data_service::BasePersistentDataService"
+
+abstract class "features::login::presentation::states::login_cubit::LoginState" {
+}
+
+class "features::login::presentation::states::login_cubit::LoginLoadingState" {
+}
+
+"features::login::presentation::states::login_cubit::LoginState" <|-- "features::login::presentation::states::login_cubit::LoginLoadingState"
+
+class "features::login::presentation::states::login_cubit::LoginLoggedInState" {
+  +String loginId
+}
+
+"features::login::presentation::states::login_cubit::LoginState" <|-- "features::login::presentation::states::login_cubit::LoginLoggedInState"
+
+class "features::login::presentation::states::login_cubit::LoginLoggedOutState" {
+}
+
+"features::login::presentation::states::login_cubit::LoginState" <|-- "features::login::presentation::states::login_cubit::LoginLoggedOutState"
+
+class "features::login::presentation::states::login_cubit::LoginErrorState" {
+  +String message
+}
+
+"features::login::presentation::states::login_cubit::LoginState" <|-- "features::login::presentation::states::login_cubit::LoginErrorState"
+
+class "features::login::presentation::widgets::login_form::LoginForm" {
+  +void Function(String) onLoginPressed
+  +State createState()
+}
+
+class "features::login::presentation::widgets::login_form::_LoginFormState" {
+  -TextEditingController _controller
+  -String _errorText
+  +Widget build()
+  -void _validateInput()
+  +void dispose()
+}
+
+abstract class "features::login::interactor::base_login_service::BaseLoginService" {
+  +dynamic authorize()
+  +dynamic logout()
+}
+
+"core::contracts::interactor::base_service_with_repository::BaseServiceWithRepository" <|-- "features::login::interactor::base_login_service::BaseLoginService"
+
+class "features::login::interactor::login_service::LoginService" {
+  +BaseLoginRepository repository
+  +dynamic authorize()
+  +dynamic logout()
+}
+
+"features::login::interactor::login_service::LoginService" o-- "features::login::domain::base_login_repository::BaseLoginRepository"
+"features::login::interactor::base_login_service::BaseLoginService" <|-- "features::login::interactor::login_service::LoginService"
 
 @enduml

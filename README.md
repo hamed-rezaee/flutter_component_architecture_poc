@@ -236,3 +236,5 @@ _**Page and Widgets:**_ This is where you implement the UI for the feature. It i
 ## Example
 
 Example of how to use this architecture can be found in the [example](example) folder.
+
+![Example Overview](diagram.svg)
