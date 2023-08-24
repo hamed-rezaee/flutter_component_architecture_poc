@@ -7,36 +7,36 @@ set namespaceSeparator ::
 
 left to right direction
 
-abstract class "core::contracts::data::base_mapper::BaseMapper" {
+abstract class "architecture_contracts::data::base_mapper::BaseMapper" {
   +E toEntity()
 }
 
-abstract class "core::contracts::data::base_model::BaseModel" {
+abstract class "architecture_contracts::data::base_model::BaseModel" {
 }
 
-abstract class "core::contracts::data::base_data_source::BaseDataSource" {
+abstract class "architecture_contracts::data::base_data_source::BaseDataSource" {
   +BaseMapper mapper
 }
 
-"core::contracts::data::base_data_source::BaseDataSource" o-- "core::contracts::data::base_mapper::BaseMapper"
+"architecture_contracts::data::base_data_source::BaseDataSource" o-- "architecture_contracts::data::base_mapper::BaseMapper"
 
-abstract class "core::contracts::domain::base_repository::BaseRepository" {
+abstract class "architecture_contracts::domain::base_repository::BaseRepository" {
   +BaseDataSource dataSource
 }
 
-"core::contracts::domain::base_repository::BaseRepository" o-- "core::contracts::data::base_data_source::BaseDataSource"
+"architecture_contracts::domain::base_repository::BaseRepository" o-- "architecture_contracts::data::base_data_source::BaseDataSource"
 
-abstract class "core::contracts::domain::base_entity::BaseEntity" {
+abstract class "architecture_contracts::domain::base_entity::BaseEntity" {
 }
 
-abstract class "core::contracts::interactor::base_service_with_repository::BaseServiceWithRepository" {
+abstract class "architecture_contracts::interactor::base_service_with_repository::BaseServiceWithRepository" {
   +BaseRepository repository
 }
 
-"core::contracts::interactor::base_service_with_repository::BaseServiceWithRepository" o-- "core::contracts::domain::base_repository::BaseRepository"
-"core::contracts::interactor::base_service::BaseService" <|-- "core::contracts::interactor::base_service_with_repository::BaseServiceWithRepository"
+"architecture_contracts::interactor::base_service_with_repository::BaseServiceWithRepository" o-- "architecture_contracts::domain::base_repository::BaseRepository"
+"architecture_contracts::interactor::base_service::BaseService" <|-- "architecture_contracts::interactor::base_service_with_repository::BaseServiceWithRepository"
 
-abstract class "core::contracts::interactor::base_service::BaseService" {
+abstract class "architecture_contracts::interactor::base_service::BaseService" {
 }
 
 abstract class "core::persistent_data_service::base_persistent_data_service::BasePersistentDataService" {
