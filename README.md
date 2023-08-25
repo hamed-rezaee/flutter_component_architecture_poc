@@ -247,7 +247,7 @@ _**Page and Widgets:**_ This is where you implement the UI for the feature. It i
   When you need to access or receive updates about the state of a feature from within a different feature, you should inject the necessary state into the extended state management class. This extended state management class would likely handle state updates for multiple features, allowing them to communicate with each other by sharing state information.
   States could be shared between features using the following approaches:
 
-  - Using a simple `stream of states` or any intermediate model.
+  - Using a simple `stream` of `states` or an `intermediate model`.
   - Using a design pattern like `Observer Pattern` or `Mediator Pattern`.
   - Any other approach that makes sense for the specific use case.
 
