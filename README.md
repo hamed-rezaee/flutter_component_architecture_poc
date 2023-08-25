@@ -20,6 +20,7 @@
        - [Domain Layer](#domain-layer)
        - [Interactor Layer](#interactor-layer)
        - [Presentation Layer](#presentation-layer)
+       - [Cross Feature Communication](#cross-feature-communication)
    - [Example](#example)
 
 # What is Software Architecture?
@@ -232,6 +233,23 @@ _**State Management:**_ This is where you implement the state management solutio
 _**Extended State Management:**_ This class extends the state management class and acts as a bridge for interactions between different feature state management instances. It helps maintain a centralized point for communication between different UI components within the feature and also keeps the State Management Solution class clean.
 
 _**Page and Widgets:**_ This is where you implement the UI for the feature. It includes the page and widgets that make up the feature's UI.
+
+### Cross Feature Communication
+
+![Cross Feature Communication Architecture Overview](cross_feature_communication.drawio.png)
+
+- **Using Services from Another Feature**
+
+  If you have a service defined in one feature (`Feature A`) that you want to utilize in another feature (`Feature B`), you can achieve this by injecting the service into state management class of `Feature B`. This means that the state management class acts as a central hub for providing access to various services across different features.
+
+- **Sharing State Updates**
+
+  When you need to access or receive updates about the state of a feature from within a different feature, you should inject the necessary state into the extended state management class. This extended state management class would likely handle state updates for multiple features, allowing them to communicate with each other by sharing state information.
+  States could be shared between features using the following approaches:
+
+  - Using a simple `stream of states` or any intermediate model.
+  - Using a design pattern like `Observer Pattern` or `Mediator Pattern`.
+  - Any other approach that makes sense for the specific use case.
 
 ## Example
 
