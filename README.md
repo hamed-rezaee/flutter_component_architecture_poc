@@ -132,6 +132,10 @@ _**Composition over Inheritance**_
 
 In a world where software systems are growing increasingly complex, the principle of `Composition over Inheritance` gains even greater significance. This approach advocates building functionalities by composing smaller, more manageable components rather than relying heavily on complex inheritance hierarchies. By embracing composition, our architecture promotes flexibility, maintainability, and easier adaptability to changing business needs.
 
+_**Program to Interfaces**_
+
+The principle of `Program to Interfaces` encourages the use of interfaces to define contracts for components. This approach promotes loose coupling and reduces dependencies, making it easier to swap out components without affecting the entire system. By following this principle, our architecture fosters flexibility and adaptability, enabling developers to make changes without causing ripple effects throughout the codebase.
+
 _**Single Responsibility (SR)**_
 
 The principle of `Single Responsibility` underscores the importance of assigning a singular purpose to each module or component. By adhering to this principle, our architecture fosters clarity in design, isolates potential points of failure, and facilitates ease of maintenance. Modules dedicated to a specific task reduce interdependencies, enhancing the overall stability of the system.
